@@ -13,7 +13,7 @@
       </aside>
 
       <!-- 메인 콘텐츠 -->
-      <main class="flex-1 ml-64 bg-gray-50">
+      <main class="flex-1 ml-75 bg-gray-50">
         <router-view />
       </main>
     </div>
