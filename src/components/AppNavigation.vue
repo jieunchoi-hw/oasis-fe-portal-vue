@@ -1,166 +1,126 @@
 <template>
-  <div class="h-full flex flex-col bg-white">
-    <!-- 네비게이션 메뉴 -->
-    <nav class="flex-1 px-4 py-6">
-      <!-- AI 솔루션팀 섹션 -->
-      <div class="mb-6">
-        <div
-          class="flex items-center space-x-2 px-3 py-2 text-sm font-medium text-gray-900 bg-blue-50 rounded-lg"
-        >
-          <div
-            class="w-6 h-6 bg-purple-500 rounded flex items-center justify-center"
-          >
-            <span class="text-white text-xs font-bold">AI</span>
-          </div>
-          <span>AI 솔루션팀</span>
-        </div>
-      </div>
+  <div
+    class="h-full flex flex-col bg-white shadow-lg relative"
+    style="width: 299px"
+  >
+    <!-- 사이드바 토글 버튼 -->
+    <!-- <button
+      class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center absolute"
+      style="top: 24px; left: 233px"
+    >
+      <img
+        src="@/assets/icons/sidebar-toggle.svg"
+        alt="사이드바 토글"
+        class="w-4 h-4"
+      />
+    </button> -->
 
-      <!-- 메뉴 항목들 -->
-      <div class="space-y-1">
-        <router-link
-          v-for="item in navigationItems"
-          :key="item.name"
-          :to="item.to"
-          class="group flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors duration-200"
-          :class="[
-            $route.path === item.to
-              ? 'bg-blue-50 text-blue-700 border-r-2 border-blue-500'
-              : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900',
-          ]"
+    <!-- 팀 섹션들 -->
+    <div class="px-5 space-y-2 mt-6">
+      <!-- AI 솔루션팀 -->
+      <div class="flex items-center gap-1.5 px-0 h-11">
+        <div
+          class="w-6 h-6 bg-gray-100 rounded-full flex items-center justify-center p-1"
         >
-          <component
-            :is="item.icon"
-            class="mr-3 h-5 w-5 flex-shrink-0"
-            :class="[
-              $route.path === item.to
-                ? 'text-blue-500'
-                : 'text-gray-400 group-hover:text-gray-500',
-            ]"
+          <img
+            src="@/assets/icons/bookmark-icon.svg"
+            alt="북마크"
+            class="w-3.5 h-3.5"
           />
-          {{ item.title }}
-        </router-link>
-      </div>
-
-      <!-- 하위 메뉴 - 한국어만 저장 -->
-      <div class="mt-6 space-y-1">
-        <div
-          class="px-3 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wider"
+        </div>
+        <span class="text-base font-medium text-gray-700 flex-1"
+          >AI 솔루션팀</span
         >
-          한국어만 저장 (D)
+        <button
+          class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center"
+        >
+          <img
+            src="@/assets/icons/sidebar-toggle.svg"
+            alt="사이드바 토글"
+            class="w-4 h-4"
+          />
+        </button>
+      </div>
+
+      <!-- 한화시스템/ICT -->
+      <div class="flex items-center gap-1.5 px-0 h-11">
+        <div
+          class="w-6 h-6 bg-gray-100 rounded-full flex items-center justify-center p-1"
+        >
+          <img
+            src="@/assets/icons/folder-icon.svg"
+            alt="폴더"
+            class="w-4 h-4"
+          />
         </div>
-        <div class="space-y-1">
-          <router-link
-            to="/korean-storage"
-            class="group flex items-center px-3 py-2 text-sm text-gray-600 rounded-lg hover:bg-gray-50 hover:text-gray-900"
-          >
-            <svg
-              class="mr-3 h-4 w-4 text-gray-400 group-hover:text-gray-500"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-              />
-            </svg>
-            한국어만 저장하기
-          </router-link>
+        <span class="text-base font-medium text-gray-700 flex-1"
+          >한화시스템/ICT</span
+        >
+      </div>
+    </div>
 
-          <router-link
-            to="/ai-chat"
-            class="group flex items-center px-3 py-2 text-sm text-gray-600 rounded-lg hover:bg-gray-50 hover:text-gray-900"
-          >
-            <svg
-              class="mr-3 h-4 w-4 text-gray-400 group-hover:text-gray-500"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
-              />
-            </svg>
-            AI와 채팅하기
-          </router-link>
+    <!-- 즐겨찾는 문서 저장소 섹션 -->
+    <div class="mt-6 px-5">
+      <!-- 섹션 헤더 -->
+      <div class="flex items-center gap-1.5 px-0 h-11 mb-0">
+        <div
+          class="w-6 h-6 bg-gray-100 rounded-full flex items-center justify-center p-1"
+        >
+          <img
+            src="@/assets/icons/message-icon.svg"
+            alt="메시지"
+            class="w-6 h-6"
+          />
+        </div>
+        <span class="text-base font-medium text-gray-700 flex-1"
+          >즐겨찾는 문서 저장소 (5)</span
+        >
+        <img
+          src="@/assets/icons/dropdown-arrow.svg"
+          alt="드롭다운"
+          class="w-3.5 h-3.5"
+        />
+      </div>
 
-          <router-link
-            to="/memo-app"
-            class="group flex items-center px-3 py-2 text-sm text-gray-600 rounded-lg hover:bg-gray-50 hover:text-gray-900"
-          >
-            <svg
-              class="mr-3 h-4 w-4 text-gray-400 group-hover:text-gray-500"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-              />
-            </svg>
-            메모 앱 기능
-          </router-link>
-
-          <router-link
-            to="/naver-search"
-            class="group flex items-center px-3 py-2 text-sm text-gray-600 rounded-lg hover:bg-gray-50 hover:text-gray-900"
-          >
-            <svg
-              class="mr-3 h-4 w-4 text-gray-400 group-hover:text-gray-500"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-              />
-            </svg>
-            네이버 웹 검색하기
-          </router-link>
+      <!-- 문서 목록 -->
+      <div class="space-y-0">
+        <div
+          v-for="document in favoriteDocuments"
+          :key="document.id"
+          class="flex items-center pl-8 pr-6 text-sm text-gray-700 hover:bg-gray-50 cursor-pointer"
+          style="height: 42px"
+        >
+          {{ document.title }}
         </div>
       </div>
-    </nav>
+    </div>
   </div>
 </template>
 
 <script setup>
-import { computed } from "vue";
-import {
-  HomeIcon,
-  RocketLaunchIcon,
-  FolderIcon,
-} from "@heroicons/vue/24/outline";
+import { ref } from "vue";
 
-const navigationItems = computed(() => [
+// 즐겨찾는 문서 목록
+const favoriteDocuments = ref([
   {
-    name: "home",
-    title: "AI 서비",
-    icon: HomeIcon,
-    to: "/",
+    id: 1,
+    title: "구매업무 관련 문서",
   },
   {
-    name: "ai-assistant",
-    title: "한국어만 입출력",
-    icon: RocketLaunchIcon,
-    to: "/ai-assistant",
+    id: 2,
+    title: "신규 입사자 가이드",
   },
   {
-    name: "document-storage",
-    title: "한국어만 대조하기",
-    icon: FolderIcon,
-    to: "/document-storage",
+    id: 3,
+    title: "내부 보안 점검 규정집",
+  },
+  {
+    id: 4,
+    title: "고정자산 관리 규정",
+  },
+  {
+    id: 5,
+    title: "맥북 세팅 관련 가이드",
   },
 ]);
 </script>
