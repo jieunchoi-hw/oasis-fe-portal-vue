@@ -10,6 +10,10 @@ import NotFound from "@/views/NotFound.vue";
 const routes = [
   {
     path: "/",
+    redirect: "/document-storage"
+  },
+  {
+    path: "/home",
     name: "Home",
     component: Home,
     meta: {
