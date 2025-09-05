@@ -13,13 +13,11 @@
       style="width: 1048px; max-width: 90vw"
     >
       <!-- 모달 헤더 -->
-      <div class="flex items-center justify-between px-10 pt-8 pb-6">
-        <div class="flex-1 flex justify-center">
-          <h2 class="text-xl font-semibold text-gray-900">박스 만들기</h2>
-        </div>
+      <div class="relative flex items-center justify-center px-10 py-8">
+        <h2 class="text-xl font-semibold text-gray-900">박스 만들기</h2>
         <button
           @click="closeModal"
-          class="p-2.5 hover:bg-gray-100 rounded-lg transition-colors"
+          class="absolute right-10 top-8 p-2.5 hover:bg-gray-100 rounded-lg transition-colors"
         >
           <img
             src="@/assets/icons/close-modal-icon.svg"
@@ -30,7 +28,7 @@
       </div>
 
       <!-- 모달 컨텐츠 -->
-      <div class="px-10 pb-8">
+      <div class="px-10 max-h-140 overflow-y-auto">
         <!-- 구분선 -->
         <div class="w-full h-px bg-gray-200"></div>
         <div class="flex gap-8">
@@ -132,6 +130,36 @@
           <div class="flex-1 py-8">
             <h3 class="text-base font-semibold text-gray-900 mb-8">고급정보</h3>
 
+            <!-- 텍스트 분할/중첩 크기 -->
+            <div class="flex gap-3 mb-6">
+              <div class="flex-1">
+                <label
+                  class="block text-sm font-medium text-gray-900 mb-2 px-1"
+                >
+                  텍스트 분할 크기
+                </label>
+                <input
+                  v-model="formData.textSplitSize"
+                  type="text"
+                  placeholder="텍스트 분할 크기"
+                  class="w-full h-12 px-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-400 text-sm"
+                />
+              </div>
+              <div class="flex-1">
+                <label
+                  class="block text-sm font-medium text-gray-900 mb-2 px-1"
+                >
+                  텍스트 중첩 크기
+                </label>
+                <input
+                  v-model="formData.textOverlapSize"
+                  type="text"
+                  placeholder="텍스트 중첩 크기"
+                  class="w-full h-12 px-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-400 text-sm"
+                />
+              </div>
+            </div>
+
             <!-- 단어 대치 -->
             <div class="mb-6">
               <label class="block text-sm font-medium text-gray-900 mb-2 px-1">
@@ -141,23 +169,25 @@
                 <div
                   v-for="(item, index) in wordReplacements"
                   :key="index"
-                  class="flex items-center gap-2"
+                  class="flex items-start gap-2"
                 >
-                  <input
-                    v-model="item.from"
-                    type="text"
-                    placeholder="From"
-                    class="flex-1 h-12 px-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-400 text-sm"
-                  />
-                  <input
-                    v-model="item.to"
-                    type="text"
-                    placeholder="To"
-                    class="flex-1 h-12 px-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-400 text-sm"
-                  />
+                  <div class="flex-1 flex justify-center items-center gap-2">
+                    <input
+                      v-model="item.from"
+                      type="text"
+                      placeholder="From"
+                      class="flex-1 h-12 px-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-400 text-sm"
+                    />
+                    <input
+                      v-model="item.to"
+                      type="text"
+                      placeholder="To"
+                      class="flex-1 h-12 px-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-400 text-sm"
+                    />
+                  </div>
                   <button
                     @click="removeWordReplacement(index)"
-                    class="w-5 h-5 flex items-center justify-center"
+                    class="w-5 h-5 flex items-center justify-center mt-3"
                   >
                     <img
                       src="@/assets/icons/delete-icon.svg"
@@ -168,7 +198,7 @@
                 </div>
                 <button
                   @click="addWordReplacement"
-                  class="flex items-center gap-2 px-4 py-2 border border-gray-200 rounded text-sm font-semibold text-gray-900 hover:bg-gray-50 transition-colors"
+                  class="w-full flex items-center justify-center gap-2 px-4 py-2 border border-gray-200 rounded-lg text-sm font-semibold text-gray-900 hover:bg-gray-50 transition-colors"
                 >
                   <img
                     src="@/assets/icons/plus-button-icon.svg"
@@ -210,12 +240,12 @@
                 </div>
                 <button
                   @click="addForbiddenWord"
-                  class="flex items-center gap-2 px-4 py-2 border border-gray-200 rounded text-sm font-semibold text-gray-900 hover:bg-gray-50 transition-colors"
+                  class="w-full flex items-center justify-center gap-2 px-4 py-3 border border-gray-200 rounded-lg text-sm font-semibold text-gray-900 hover:bg-gray-50 transition-colors"
                 >
                   <img
                     src="@/assets/icons/plus-button-icon-2.svg"
                     alt="추가"
-                    class="w-3 h-3"
+                    class="w-4 h-4"
                   />
                   추가
                 </button>
@@ -246,39 +276,12 @@
                 />
               </div>
             </div>
-
-            <!-- 텍스트 분할/중첩 크기 -->
-            <div class="flex gap-3">
-              <div class="flex-1">
-                <label
-                  class="block text-sm font-medium text-gray-900 mb-2 px-1"
-                >
-                  텍스트 분할 크기
-                </label>
-                <input
-                  v-model="formData.textSplitSize"
-                  type="text"
-                  placeholder="텍스트 분할 크기"
-                  class="w-full h-12 px-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-400 text-sm"
-                />
-              </div>
-              <div class="flex-1">
-                <label
-                  class="block text-sm font-medium text-gray-900 mb-2 px-1"
-                >
-                  텍스트 중첩 크기
-                </label>
-                <input
-                  v-model="formData.textOverlapSize"
-                  type="text"
-                  placeholder="텍스트 중첩 크기"
-                  class="w-full h-12 px-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-400 text-sm"
-                />
-              </div>
-            </div>
           </div>
         </div>
+      </div>
 
+      <!-- 확인 버튼 -->
+      <div class="px-10 pb-8">
         <!-- 구분선 -->
         <div class="w-full h-px bg-gray-200 mb-8"></div>
 
@@ -286,7 +289,7 @@
         <div class="flex justify-center">
           <button
             @click="handleSubmit"
-            class="bg-blue-600 text-white font-semibold px-44 py-4.5 rounded-xl hover:bg-blue-700 transition-colors"
+            class="w-full bg-blue-600 text-white font-semibold px-44 py-4.5 rounded-xl hover:bg-blue-700 transition-colors"
           >
             확인
           </button>
@@ -320,10 +323,10 @@ const formData = reactive({
 });
 
 // 단어 대치 배열
-const wordReplacements = ref([]);
+const wordReplacements = ref([{ from: "", to: "" }]);
 
 // 금칙어 배열
-const forbiddenWords = ref([]);
+const forbiddenWords = ref([""]);
 
 // 단어 대치 추가
 const addWordReplacement = () => {
