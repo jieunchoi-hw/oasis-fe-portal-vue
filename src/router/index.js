@@ -5,6 +5,7 @@ import Home from "@/views/Home.vue";
 import AiAssistant from "@/views/AiAssistant.vue";
 import DocumentStorage from "@/views/DocumentStorage.vue";
 import DocumentStorageDetail from "@/views/DocumentStorageDetail.vue";
+import FileDetail from "@/views/FileDetail.vue";
 import NotFound from "@/views/NotFound.vue";
 
 const routes = [
@@ -45,6 +46,15 @@ const routes = [
     component: DocumentStorageDetail,
     meta: {
       title: "문서 상세보기",
+      requiresAuth: false,
+    },
+  },
+  {
+    path: "/document-storage/:id/file/:fileId",
+    name: "FileDetail",
+    component: FileDetail,
+    meta: {
+      title: "파일 상세보기",
       requiresAuth: false,
     },
   },

@@ -113,6 +113,7 @@
     <!-- 하단 버튼 -->
     <div class="absolute bottom-0 left-0 right-0 bg-white button-container">
       <button
+        @click="handleDetailView"
         class="w-full bg-primary-normal text-white font-semibold py-4 rounded-xl hover:bg-primary-strong transition-color text-base h-14"
       >
         상세보기
@@ -123,11 +124,15 @@
 
 <script setup>
 import { computed } from "vue";
+import { useRoute, useRouter } from "vue-router";
 // 파일 타입별 아이콘 import
 import documentIcon from "@/assets/icons/document-icon.svg"; //임시 변경예정
 import pdfIcon from "@/assets/icons/pdf-icon.svg";
 import wordIcon from "@/assets/icons/word-icon.svg";
 import excelIcon from "@/assets/icons/excel-icon.svg";
+
+const route = useRoute();
+const router = useRouter();
 
 // Props
 const props = defineProps({
@@ -153,6 +158,20 @@ const getFileTypeIcon = (fileType) => {
     excel: excelIcon,
   };
   return iconMap[fileType] || "@/assets/icons/document-icon.svg";
+};
+
+// 상세보기 버튼 클릭 핸들러
+const handleDetailView = () => {
+  if (props.fileData?.id && route.params.id) {
+    // 현재 문서 저장소 ID와 파일 ID를 사용하여 파일 상세 페이지로 이동
+    router.push({
+      name: "FileDetail",
+      params: {
+        id: route.params.id,
+        fileId: props.fileData.id,
+      },
+    });
+  }
 };
 </script>
 
