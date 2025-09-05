@@ -74,6 +74,7 @@
 
           <!-- 새로운 폴더 버튼 -->
           <button
+            @click="openCreateFolderModal"
             class="flex items-center justify-center gap-1 h-10 px-3 text-white rounded-full hover:opacity-90 transition-opacity"
             style="background-color: #658aef; padding: 10px 16px 10px 12px"
           >
@@ -181,6 +182,13 @@
       :fileData="selectedFileData"
       @close="closeDetailPanel"
     />
+
+    <!-- 폴더 생성 모달 -->
+    <CreateFolderModal
+      :isOpen="isCreateFolderModalOpen"
+      @close="closeCreateFolderModal"
+      @create="handleCreateFolder"
+    />
   </div>
 </template>
 
@@ -196,6 +204,7 @@ import {
 } from "@tanstack/vue-table";
 import ContextMenu from "@/components/ContextMenu.vue";
 import FileDetailPanel from "@/components/FileDetailPanel.vue";
+import CreateFolderModal from "@/components/CreateFolderModal.vue";
 
 // 파일 타입별 아이콘 import
 import documentIcon from "@/assets/icons/document-icon.svg"; //임시 변경예정
@@ -232,6 +241,23 @@ const selectedFileData = ref(null);
 const closeDetailPanel = () => {
   isDetailPanelVisible.value = false;
   selectedFileData.value = null;
+};
+
+// 폴더 생성 모달 상태 관리
+const isCreateFolderModalOpen = ref(false);
+
+const openCreateFolderModal = () => {
+  isCreateFolderModalOpen.value = true;
+};
+
+const closeCreateFolderModal = () => {
+  isCreateFolderModalOpen.value = false;
+};
+
+const handleCreateFolder = (folderName) => {
+  console.log("새 폴더 생성:", folderName);
+  // 여기에 폴더 생성 로직 추가
+  // 예: API 호출, 데이터 업데이트 등
 };
 
 // 샘플 데이터
