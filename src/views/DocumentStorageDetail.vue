@@ -174,6 +174,13 @@
         </tbody>
       </table>
     </div>
+
+    <!-- 파일 상세 패널 -->
+    <FileDetailPanel
+      :isVisible="isDetailPanelVisible"
+      :fileData="selectedFileData"
+      @close="closeDetailPanel"
+    />
   </div>
 </template>
 
@@ -188,8 +195,10 @@ import {
   getSortedRowModel,
 } from "@tanstack/vue-table";
 import ContextMenu from "@/components/ContextMenu.vue";
+import FileDetailPanel from "@/components/FileDetailPanel.vue";
 
 // 파일 타입별 아이콘 import
+import documentIcon from "@/assets/icons/document-icon.svg"; //임시 변경예정
 import pdfIcon from "@/assets/icons/pdf-icon.svg";
 import wordIcon from "@/assets/icons/word-icon.svg";
 import excelIcon from "@/assets/icons/excel-icon.svg";
@@ -202,6 +211,7 @@ const documentId = computed(() => route.params.id);
 // 파일 타입별 아이콘 매핑 함수
 const getFileTypeIcon = (fileType) => {
   const iconMap = {
+    document: documentIcon,
     pdf: pdfIcon,
     word: wordIcon,
     excel: excelIcon,
@@ -209,25 +219,42 @@ const getFileTypeIcon = (fileType) => {
   return iconMap[fileType] || pdfIcon; // 기본값으로 pdf 아이콘 사용
 };
 
+const handleFileNameClick = (fileData) => {
+  console.log("파일 클릭됨:", fileData);
+  selectedFileData.value = fileData;
+  isDetailPanelVisible.value = true;
+};
+
+// 패널 상태 관리
+const isDetailPanelVisible = ref(false);
+const selectedFileData = ref(null);
+
+const closeDetailPanel = () => {
+  isDetailPanelVisible.value = false;
+  selectedFileData.value = null;
+};
+
 // 샘플 데이터
 const data = ref([
   {
     id: 1,
     name: "ISO 심사 규정 모음집",
-    fileType: "pdf",
+    fileType: "document",
     modifiedDate: "2025.08.10",
     modifiedBy: "김종성(Jongsung Kim)",
     fileSize: "0개 항목",
     sharing: "비공개",
+    isFolder: true,
   },
   {
     id: 2,
     name: "하도급법 관련 규정 모음집",
-    fileType: "pdf",
+    fileType: "document",
     modifiedDate: "2025.08.10",
     modifiedBy: "김종성(Jongsung Kim)",
     fileSize: "0개 항목",
     sharing: "비공개",
+    isFolder: true,
   },
   {
     id: 3,
@@ -333,6 +360,7 @@ const columns = [
             {
               class:
                 "text-gray-900 font-medium group-hover:text-blue-500 group-hover:underline group-hover:font-semibold cursor-pointer",
+              onClick: () => handleFileNameClick(row),
             },
             info.getValue()
           ),
