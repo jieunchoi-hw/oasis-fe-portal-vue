@@ -4,7 +4,7 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: color-mix(in srgb, var(--gray-300) 10%, transparent);
+  background: transparent;
   border-radius: 3px;
 }
 
@@ -24,7 +24,7 @@ html::-webkit-scrollbar {
 }
 
 html::-webkit-scrollbar-track {
-  background: color-mix(in srgb, var(--gray-300) 10%, transparent);
+  background: transparent;
   border-radius: 4px;
 }
 
@@ -39,7 +39,7 @@ html::-webkit-scrollbar-thumb:hover {
 
 /* 다크모드 지원 */
 .dark ::-webkit-scrollbar-track {
-  background: color-mix(in srgb, var(--gray-400) 15%, transparent);
+  background: transparent;
 }
 
 .dark ::-webkit-scrollbar-thumb {
@@ -51,7 +51,7 @@ html::-webkit-scrollbar-thumb:hover {
 }
 
 .dark html::-webkit-scrollbar-track {
-  background: color-mix(in srgb, var(--gray-400) 15%, transparent);
+  background: transparent;
 }
 
 .dark html::-webkit-scrollbar-thumb {
@@ -65,13 +65,11 @@ html::-webkit-scrollbar-thumb:hover {
 /* Firefox 지원 */
 * {
   scrollbar-width: thin;
-  scrollbar-color: color-mix(in srgb, var(--gray-500) 20%, transparent)
-    color-mix(in srgb, var(--gray-300) 10%, transparent);
+  scrollbar-color: color-mix(in srgb, var(--gray-500) 20%, transparent) transparent;
 }
 
 .dark * {
-  scrollbar-color: color-mix(in srgb, var(--gray-300) 25%, transparent)
-    color-mix(in srgb, var(--gray-400) 15%, transparent);
+  scrollbar-color: color-mix(in srgb, var(--gray-300) 25%, transparent) transparent;
 }
 
 /* 스크롤바 모서리 스타일 */

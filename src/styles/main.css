@@ -2,6 +2,18 @@
 @import "./scrollbar.css";
 @custom-variant dark (&:where(.dark, .dark *));
 
+@layer base {
+  /* 버튼 기본 스타일 */
+  button {
+    @apply cursor-pointer;
+  }
+  
+  /* 비활성화된 버튼은 제외 */
+  button:disabled {
+    @apply cursor-not-allowed;
+  }
+}
+
 @font-face {
   font-family: "Pretendard Variable";
   font-weight: 45 920;

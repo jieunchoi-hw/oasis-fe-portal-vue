@@ -13,7 +13,7 @@
       style="width: 1048px; max-width: 90vw"
     >
       <!-- 모달 헤더 -->
-      <div class="relative flex items-center justify-center px-10 py-8">
+      <div class="relative flex items-center justify-center px-10 py-10">
         <h2 class="text-xl font-semibold text-gray-900">박스 만들기</h2>
         <button
           @click="closeModal"
@@ -28,7 +28,7 @@
       </div>
 
       <!-- 모달 컨텐츠 -->
-      <div class="px-10 max-h-140 overflow-y-auto">
+      <div class="px-10 max-h-[34rem] overflow-y-auto">
         <!-- 구분선 -->
         <div class="w-full h-px bg-gray-200"></div>
         <div class="flex gap-8">
@@ -38,7 +38,7 @@
             <h3 class="text-base font-semibold text-gray-900 mb-8">기본정보</h3>
 
             <!-- 아바타 및 색상 선택기 -->
-            <div class="flex items-center justify-start gap-14 mb-8">
+            <div class="flex items-center justify-start gap-14 mb-12">
               <div
                 class="relative w-30 h-30 rounded-full flex items-center justify-center"
                 style="background-color: #f2f5fa"
@@ -240,12 +240,12 @@
                 </div>
                 <button
                   @click="addForbiddenWord"
-                  class="w-full flex items-center justify-center gap-2 px-4 py-3 border border-gray-200 rounded-lg text-sm font-semibold text-gray-900 hover:bg-gray-50 transition-colors"
+                  class="w-full flex items-center justify-center gap-2 px-4 py-2 border border-gray-200 rounded-lg text-sm font-semibold text-gray-900 hover:bg-gray-50 transition-colors"
                 >
                   <img
                     src="@/assets/icons/plus-button-icon-2.svg"
                     alt="추가"
-                    class="w-4 h-4"
+                    class="w-3 h-3"
                   />
                   추가
                 </button>
@@ -363,45 +363,3 @@ const handleSubmit = () => {
   emit("submit", submitData);
 };
 </script>
-
-<style scoped>
-.w-30 {
-  width: 120px;
-}
-
-.h-30 {
-  height: 120px;
-}
-
-.w-5\.5 {
-  width: 22px;
-}
-
-.h-5\.5 {
-  height: 22px;
-}
-
-.py-4\.5 {
-  padding-top: 18px;
-  padding-bottom: 18px;
-}
-
-/* 스크롤바 스타일링 */
-::-webkit-scrollbar {
-  width: 6px;
-}
-
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-radius: 3px;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #c1c1c1;
-  border-radius: 3px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #a1a1a1;
-}
-</style>

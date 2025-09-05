@@ -41,7 +41,7 @@
         <!-- 새로운 박스 버튼 -->
         <button
           @click="openModal"
-          class="flex items-center justify-center gap-1 h-10 text-white rounded-full hover:opacity-90 transition-opacity"
+          class="flex items-center justify-center gap-1 h-10 text-white rounded-full hover:opacity-90 transition-opacity cursor-pointer"
           style="background-color: #658aef; padding: 10px 14px 10px 8px"
         >
           <div class="flex items-center justify-center w-6 h-6 px-1.5 py-1">
