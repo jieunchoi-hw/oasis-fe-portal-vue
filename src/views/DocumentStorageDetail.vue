@@ -90,10 +90,7 @@
       </div>
     </div>
     <!-- 테이블 컨테이너 -->
-    <div
-      class="mx-8 bg-white rounded-xl overflow-hidden"
-      style="border-radius: 12px"
-    >
+    <div class="mx-8 bg-white rounded-xl overflow-hidden">
       <table class="w-full">
         <!-- 테이블 헤더 -->
         <thead>
@@ -156,12 +153,7 @@
           <tr
             v-for="row in table.getRowModel().rows"
             :key="row.id"
-            class="border-b last:border-b-0 transition-colors duration-150"
-            :class="{
-              'bg-blue-50': row.original.isHighlighted,
-              'hover:bg-gray-50': !row.original.isHighlighted,
-              'hover:bg-blue-100': row.original.isHighlighted,
-            }"
+            class="group border-b last:border-b-0 transition-colors duration-150 hover:bg-gray-50"
             :style="{ borderColor: '#EFEFEF' }"
           >
             <td
@@ -195,7 +187,7 @@ import {
   createColumnHelper,
   getSortedRowModel,
 } from "@tanstack/vue-table";
-import moreOptionsIcon from "@/assets/icons/more-options.svg";
+import ContextMenu from "@/components/ContextMenu.vue";
 
 // 파일 타입별 아이콘 import
 import pdfIcon from "@/assets/icons/pdf-icon.svg";
@@ -236,7 +228,6 @@ const data = ref([
     modifiedBy: "김종성(Jongsung Kim)",
     fileSize: "0개 항목",
     sharing: "비공개",
-    isHighlighted: true,
   },
   {
     id: 3,
@@ -330,19 +321,47 @@ const columns = [
     size: 400,
     cell: (info) => {
       const row = info.row.original;
-      return h("div", { class: "flex items-center gap-4" }, [
-        h("img", {
-          src: getFileTypeIcon(row.fileType),
-          alt: `${row.fileType} 파일`,
-          class: "w-6 h-6",
-        }),
-        h(
-          "span",
-          {
-            class: `text-gray-900 ${row.isHighlighted ? "font-semibold text-blue-600" : "font-medium"}`,
+      return h("div", { class: "flex items-center justify-between gap-4" }, [
+        h("div", { class: "flex items-center gap-4" }, [
+          h("img", {
+            src: getFileTypeIcon(row.fileType),
+            alt: `${row.fileType} 파일`,
+            class: "w-6 h-6",
+          }),
+          h(
+            "span",
+            {
+              class:
+                "text-gray-900 font-medium group-hover:text-blue-500 group-hover:underline group-hover:font-semibold cursor-pointer",
+            },
+            info.getValue()
+          ),
+        ]),
+        h(ContextMenu, {
+          menuItems: [
+            {
+              label: "이름바꾸기",
+              action: () => {
+                console.log("이름바꾸기", info.row.original);
+              },
+              activeClass: "bg-neutral-50",
+            },
+            {
+              label: "삭제",
+              action: () => {
+                console.log("삭제", info.row.original);
+              },
+              activeClass: "bg-blue-50",
+            },
+          ],
+          buttonClass:
+            "opacity-0 group-hover:opacity-100 p-1 hover:bg-gray-100 rounded transition-all",
+          iconClass: "w-4 h-4",
+          menuPosition: "left",
+          onItemClick: (item) => {
+            console.log("Table menu item clicked:", item.label);
           },
-          info.getValue()
-        ),
+        }),
       ]);
     },
     enableSorting: true,
@@ -372,16 +391,7 @@ const columns = [
     header: () => "공유",
     size: 218,
     cell: (info) => {
-      return h("div", { class: "flex items-center justify-between" }, [
-        h("span", { class: "text-gray-900 font-normal" }, info.getValue()),
-        h("button", { class: "p-1 hover:bg-gray-100 rounded" }, [
-          h("img", {
-            src: moreOptionsIcon,
-            alt: "더보기",
-            class: "w-4 h-4",
-          }),
-        ]),
-      ]);
+      return h("span", { class: "text-gray-900 font-normal" }, info.getValue());
     },
     enableSorting: false,
   }),
