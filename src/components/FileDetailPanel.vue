@@ -111,13 +111,9 @@
     </div>
 
     <!-- 하단 버튼 -->
-    <div
-      class="absolute bottom-0 left-0 right-0 bg-white"
-      style="padding: 26px 34px"
-    >
+    <div class="absolute bottom-0 left-0 right-0 bg-white button-container">
       <button
-        class="w-full text-white font-semibold py-4 rounded-xl hover:opacity-90 transition-opacity text-base h-14"
-        style="background-color: #376af6"
+        class="w-full bg-primary-normal text-white font-semibold py-4 rounded-xl hover:bg-primary-strong transition-color text-base h-14"
       >
         상세보기
       </button>
@@ -161,6 +157,11 @@ const getFileTypeIcon = (fileType) => {
 </script>
 
 <style scoped>
+/* 하단 버튼 컨테이너 */
+.button-container {
+  padding: 26px 34px;
+}
+
 /* 스크롤바 스타일링 */
 div::-webkit-scrollbar {
   width: 4px;
