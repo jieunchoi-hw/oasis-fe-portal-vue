@@ -17,7 +17,7 @@
         <!-- 액션 버튼들 -->
         <div class="flex items-center gap-1">
           <button
-            class="w-6.5 h-6.5 border border-neutral-300 rounded-lg flex items-center justify-center hover:bg-neutral-50 transition-colors cursor-pointer"
+            class="w-6.5 h-6.5 border border-neutral-300 rounded-lg flex items-center justify-center hover:bg-neutral-50 transition-colors"
           >
             <img
               src="@/assets/icons/more-options.svg"
@@ -26,7 +26,7 @@
             />
           </button>
           <button
-            class="w-6.5 h-6.5 border border-neutral-300 rounded-lg flex items-center justify-center hover:bg-neutral-50 transition-colors cursor-pointer"
+            class="w-6.5 h-6.5 border border-neutral-300 rounded-lg flex items-center justify-center hover:bg-neutral-50 transition-colors"
           >
             <img
               src="@/assets/icons/pin-icon.svg"

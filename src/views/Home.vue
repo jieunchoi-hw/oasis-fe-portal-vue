@@ -40,6 +40,7 @@
 
         <!-- 새로운 박스 버튼 -->
         <button
+          @click="openModal"
           class="flex items-center justify-center gap-1 h-10 text-white rounded-full hover:opacity-90 transition-opacity"
           style="background-color: #658aef; padding: 10px 14px 10px 8px"
         >
@@ -80,15 +81,43 @@
         );
       "
     ></div>
+
+    <!-- 모달 -->
+    <CreateBoxModal
+      :is-open="isModalOpen"
+      @close="closeModal"
+      @submit="handleModalSubmit"
+    />
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted, onUnmounted } from "vue";
 import DocumentCard from "@/components/DocumentCard.vue";
+import CreateBoxModal from "@/components/CreateBoxModal.vue";
 
 // 오버레이 ref
 const overlay = ref(null);
+
+// 모달 상태
+const isModalOpen = ref(false);
+
+// 모달 열기
+const openModal = () => {
+  isModalOpen.value = true;
+};
+
+// 모달 닫기
+const closeModal = () => {
+  isModalOpen.value = false;
+};
+
+// 모달 제출 핸들러
+const handleModalSubmit = (formData) => {
+  console.log("박스 생성 데이터:", formData);
+  // 여기에 API 호출 로직 추가
+  closeModal();
+};
 
 // 스크롤 이벤트 핸들러
 const handleScroll = () => {
