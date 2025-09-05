@@ -4,16 +4,19 @@
     <AppHeader />
 
     <!-- 메인 컨테이너 -->
-    <div class="flex flex-1 pt-16">
+    <div 
+      class="grid h-screen pt-16 transition-all duration-300"
+      :style="{ 
+        gridTemplateColumns: isSidebarCollapsed ? '64px 1fr' : '299px 1fr' 
+      }"
+    >
       <!-- 왼쪽 네비게이션 -->
-      <aside
-        class="w-64 bg-white border-r border-gray-200 fixed left-0 top-16 bottom-0 z-40"
-      >
-        <AppNavigation />
+      <aside class="bg-white border-r border-gray-200 overflow-hidden">
+        <AppNavigation @toggle-sidebar="handleSidebarToggle" />
       </aside>
 
       <!-- 메인 콘텐츠 -->
-      <main class="flex-1 ml-75 bg-gray-50">
+      <main class="bg-gray-50 overflow-auto">
         <router-view />
       </main>
     </div>
@@ -21,8 +24,17 @@
 </template>
 
 <script setup>
+import { ref } from "vue";
 import AppNavigation from "@/components/AppNavigation.vue";
 import AppHeader from "@/components/AppHeader.vue";
+
+// 사이드바 접힘 상태 관리
+const isSidebarCollapsed = ref(false);
+
+// 사이드바 토글 핸들러
+const handleSidebarToggle = (collapsed) => {
+  isSidebarCollapsed.value = collapsed;
+};
 </script>
 
 <style scoped>
