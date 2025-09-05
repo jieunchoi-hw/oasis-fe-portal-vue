@@ -51,39 +51,235 @@
         </button>
       </div>
     </div>
+    <!-- 테이블 컨테이너 -->
+    <div
+      class="mx-8 bg-white rounded-xl overflow-hidden"
+      style="border-radius: 12px"
+    >
+      <table class="w-full">
+        <!-- 테이블 헤더 -->
+        <thead>
+          <tr
+            v-for="headerGroup in table.getHeaderGroups()"
+            :key="headerGroup.id"
+          >
+            <th
+              v-for="header in headerGroup.headers"
+              :key="header.id"
+              class="text-left border-b px-4 py-4 text-sm font-semibold text-gray-600 bg-white relative"
+              :style="{
+                width: header.getSize() + 'px',
+                borderColor: '#EFEFEF',
+              }"
+            >
+              <div class="flex items-center gap-3">
+                <FlexRender
+                  :render="header.column.columnDef.header"
+                  :props="header.getContext()"
+                />
+                <!-- 정렬 아이콘 -->
+                <div
+                  v-if="header.column.getCanSort()"
+                  class="cursor-pointer flex items-center ml-3"
+                  @click="() => header.column.toggleSorting()"
+                >
+                  <img
+                    v-if="header.column.getIsSorted() === 'asc'"
+                    src="@/assets/icons/arrow-up.svg"
+                    alt="정렬 오름차순"
+                    class="w-3.5 h-3.5"
+                  />
+                  <img
+                    v-else-if="header.column.getIsSorted() === 'desc'"
+                    src="@/assets/icons/arrow-down.svg"
+                    alt="정렬 내림차순"
+                    class="w-3.5 h-3.5"
+                  />
+                  <img
+                    v-else
+                    src="@/assets/icons/arrow-up-down.svg"
+                    alt="정렬 가능"
+                    class="w-3.5 h-3.5"
+                  />
+                </div>
+              </div>
+              <!-- 컬럼 구분선 -->
+              <div
+                v-if="!header.isLast"
+                class="absolute right-0 top-4 bottom-4 w-px bg-gray-200"
+                style="background-color: #efefef"
+              ></div>
+            </th>
+          </tr>
+        </thead>
+
+        <!-- 테이블 바디 -->
+        <tbody>
+          <tr
+            v-for="row in table.getRowModel().rows"
+            :key="row.id"
+            class="border-b last:border-b-0 transition-colors duration-150"
+            :class="{
+              'bg-blue-50': row.original.isHighlighted,
+              'hover:bg-gray-50': !row.original.isHighlighted,
+              'hover:bg-blue-100': row.original.isHighlighted,
+            }"
+            :style="{ borderColor: '#EFEFEF' }"
+          >
+            <td
+              v-for="cell in row.getVisibleCells()"
+              :key="cell.id"
+              class="text-sm"
+              :class="{
+                'px-4 py-4': cell.column.id !== 'name',
+                'px-8 py-4': cell.column.id === 'name',
+              }"
+            >
+              <FlexRender
+                :render="cell.column.columnDef.cell"
+                :props="cell.getContext()"
+              />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </template>
 
 <script setup>
-import { computed, ref } from "vue";
+import { computed, ref, h } from "vue";
 import { useRoute } from "vue-router";
 import {
   useVueTable,
   FlexRender,
   getCoreRowModel,
   createColumnHelper,
+  getSortedRowModel,
 } from "@tanstack/vue-table";
+import moreOptionsIcon from "@/assets/icons/more-options.svg";
+
+// 파일 타입별 아이콘 import
+import pdfIcon from "@/assets/icons/pdf-icon.svg";
+import wordIcon from "@/assets/icons/word-icon.svg";
+import excelIcon from "@/assets/icons/excel-icon.svg";
 
 const route = useRoute();
 
 // Document ID from route params
 const documentId = computed(() => route.params.id);
 
+// 파일 타입별 아이콘 매핑 함수
+const getFileTypeIcon = (fileType) => {
+  const iconMap = {
+    pdf: pdfIcon,
+    word: wordIcon,
+    excel: excelIcon,
+  };
+  return iconMap[fileType] || pdfIcon; // 기본값으로 pdf 아이콘 사용
+};
+
 // 샘플 데이터
 const data = ref([
   {
     id: 1,
-    name: "문서1.pdf",
-    type: "PDF",
-    size: "2.1MB",
-    date: "2024-01-15",
+    name: "ISO 심사 규정 모음집",
+    fileType: "pdf",
+    modifiedDate: "2025.08.10",
+    modifiedBy: "김종성(Jongsung Kim)",
+    fileSize: "0개 항목",
+    sharing: "비공개",
   },
   {
     id: 2,
-    name: "문서2.docx",
-    type: "Word",
-    size: "1.5MB",
-    date: "2024-01-16",
+    name: "하도급법 관련 규정 모음집",
+    fileType: "pdf",
+    modifiedDate: "2025.08.10",
+    modifiedBy: "김종성(Jongsung Kim)",
+    fileSize: "0개 항목",
+    sharing: "비공개",
+    isHighlighted: true,
+  },
+  {
+    id: 3,
+    name: "구매업무 관련 문서.word",
+    fileType: "word",
+    modifiedDate: "2025.08.10",
+    modifiedBy: "김종성(Jongsung Kim)",
+    fileSize: "0개 항목",
+    sharing: "비공개",
+  },
+  {
+    id: 4,
+    name: "AI 솔루션팀 업무 분장표 (2025년).excel",
+    fileType: "excel",
+    modifiedDate: "2025.08.10",
+    modifiedBy: "김종성(Jongsung Kim)",
+    fileSize: "0개 항목",
+    sharing: "비공개",
+  },
+  {
+    id: 5,
+    name: "AI 솔루션팀 업무 분장표 (2025년).excel",
+    fileType: "excel",
+    modifiedDate: "2025.08.10",
+    modifiedBy: "김종성(Jongsung Kim)",
+    fileSize: "0개 항목",
+    sharing: "비공개",
+  },
+  {
+    id: 6,
+    name: "구매업무 관련 문서.word",
+    fileType: "word",
+    modifiedDate: "2025.08.10",
+    modifiedBy: "김종성(Jongsung Kim)",
+    fileSize: "0개 항목",
+    sharing: "비공개",
+  },
+  {
+    id: 7,
+    name: "구매업무 관련 문서.word",
+    fileType: "word",
+    modifiedDate: "2025.08.10",
+    modifiedBy: "김종성(Jongsung Kim)",
+    fileSize: "0개 항목",
+    sharing: "비공개",
+  },
+  {
+    id: 8,
+    name: "AI 솔루션팀 업무 분장표 (2025년).excel",
+    fileType: "excel",
+    modifiedDate: "2025.08.10",
+    modifiedBy: "김종성(Jongsung Kim)",
+    fileSize: "0개 항목",
+    sharing: "비공개",
+  },
+  {
+    id: 9,
+    name: "AI 솔루션팀 업무 분장표 (2025년).excel",
+    fileType: "excel",
+    modifiedDate: "2025.08.10",
+    modifiedBy: "김종성(Jongsung Kim)",
+    fileSize: "0개 항목",
+    sharing: "비공개",
+  },
+  {
+    id: 10,
+    name: "AI 솔루션팀 업무 분장표 (2025년).excel",
+    fileType: "excel",
+    modifiedDate: "2025.08.10",
+    modifiedBy: "김종성(Jongsung Kim)",
+    fileSize: "0개 항목",
+    sharing: "비공개",
+  },
+  {
+    id: 11,
+    name: "AI 솔루션팀 업무 분장표 (2025년).excel",
+    fileType: "excel",
+    modifiedDate: "2025.08.10",
+    modifiedBy: "김종성(Jongsung Kim)",
+    fileSize: "0개 항목",
+    sharing: "비공개",
   },
 ]);
 
@@ -92,20 +288,64 @@ const columnHelper = createColumnHelper();
 
 const columns = [
   columnHelper.accessor("name", {
-    header: () => "파일명",
-    cell: (info) => info.getValue(),
+    header: () => "이름",
+    size: 400,
+    cell: (info) => {
+      const row = info.row.original;
+      return h("div", { class: "flex items-center gap-4" }, [
+        h("img", {
+          src: getFileTypeIcon(row.fileType),
+          alt: `${row.fileType} 파일`,
+          class: "w-6 h-6",
+        }),
+        h(
+          "span",
+          {
+            class: `text-gray-900 ${row.isHighlighted ? "font-semibold text-blue-600" : "font-medium"}`,
+          },
+          info.getValue()
+        ),
+      ]);
+    },
+    enableSorting: true,
   }),
-  columnHelper.accessor("type", {
-    header: () => "타입",
-    cell: (info) => info.getValue(),
+  columnHelper.accessor("modifiedDate", {
+    header: () => "수정된 날짜",
+    size: 240,
+    cell: (info) =>
+      h("span", { class: "text-gray-900 font-normal" }, info.getValue()),
+    enableSorting: true,
   }),
-  columnHelper.accessor("size", {
-    header: () => "크기",
-    cell: (info) => info.getValue(),
+  columnHelper.accessor("modifiedBy", {
+    header: () => "수정한 사람",
+    size: 240,
+    cell: (info) =>
+      h("span", { class: "text-gray-900 font-normal" }, info.getValue()),
+    enableSorting: true,
   }),
-  columnHelper.accessor("date", {
-    header: () => "수정일",
-    cell: (info) => info.getValue(),
+  columnHelper.accessor("fileSize", {
+    header: () => "파일 크기",
+    size: 218,
+    cell: (info) =>
+      h("span", { class: "text-gray-600 font-normal" }, info.getValue()),
+    enableSorting: false,
+  }),
+  columnHelper.accessor("sharing", {
+    header: () => "공유",
+    size: 218,
+    cell: (info) => {
+      return h("div", { class: "flex items-center justify-between" }, [
+        h("span", { class: "text-gray-900 font-normal" }, info.getValue()),
+        h("button", { class: "p-1 hover:bg-gray-100 rounded" }, [
+          h("img", {
+            src: moreOptionsIcon,
+            alt: "더보기",
+            class: "w-4 h-4",
+          }),
+        ]),
+      ]);
+    },
+    enableSorting: false,
   }),
 ];
 
@@ -116,6 +356,8 @@ const table = useVueTable({
   },
   columns,
   getCoreRowModel: getCoreRowModel(),
+  getSortedRowModel: getSortedRowModel(),
+  enableSorting: true,
 });
 </script>
 
