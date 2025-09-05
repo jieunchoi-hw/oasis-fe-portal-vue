@@ -43,7 +43,7 @@
         class="flex items-center gap-2 px-4 py-2 border border-neutral-200 rounded-full cursor-pointer hover:bg-neutral-50 transition-colors h-9"
       >
         <div
-          class="w-5 h-5 rounded-full flex items-center justify-center bg-primary-500"
+          class="w-5 h-5 rounded-full flex items-center justify-center bg-primary-neutral"
         >
           <span class="text-white text-xs font-semibold">A</span>
         </div>
@@ -65,7 +65,7 @@
           />
           <!-- 알림 배지 -->
           <span
-            class="absolute -top-2 -right-2 text-white text-xs font-bold rounded-full w-4 h-4 flex items-center justify-center bg-primary-400"
+            class="absolute -top-2 -right-2 text-white text-xs font-bold rounded-full w-4 h-4 flex items-center justify-center bg-primary-neutral"
           >
             6
           </span>
