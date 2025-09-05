@@ -7,7 +7,9 @@
     <div class="flex justify-between px-8 py-4">
       <div>
         <div class="mb-2">
-          <h1 class="text-2xl font-bold text-gray-900">AI 솔루션팀 (26)</h1>
+          <h1 class="text-3xl font-semibold text-gray-900">
+            AI 솔루션팀 <span class="text-gray-400 font-normal">(26)</span>
+          </h1>
         </div>
         <p class="text-gray-600 mb-6">
           AI 비서에서 사용할 문서를 저장하고 관리할 수 있어요.

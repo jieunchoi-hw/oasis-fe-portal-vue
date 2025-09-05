@@ -1,184 +1,341 @@
 @import "tailwindcss";
+@import "./scrollbar.css";
+@custom-variant dark (&:where(.dark, .dark *));
 
-/* 피그마 디자인 토큰 기반 커스텀 속성들 */
-@theme {
-  /* Primary Colors - 피그마 Blue 팔레트 */
-  --color-primary-50: #eff6ff;
-  --color-primary-100: #dbeafe;
-  --color-primary-200: #bfdbfe;
-  --color-primary-300: #93c5fd;
-  --color-primary-400: #60a5fa;
-  --color-primary-500: #3b82f6;
-  --color-primary-600: #2563eb;
-  --color-primary-700: #1d4ed8;
-  --color-primary-800: #1e40af;
-  --color-primary-900: #1e3a8a;
-  --color-primary-950: #172554;
-
-  /* Secondary Colors - 피그마 Gray 팔레트 */
-  --color-secondary-50: #f9fafb;
-  --color-secondary-100: #f3f4f6;
-  --color-secondary-200: #e5e7eb;
-  --color-secondary-300: #d1d5db;
-  --color-secondary-400: #9ca3af;
-  --color-secondary-500: #6b7280;
-  --color-secondary-600: #4b5563;
-  --color-secondary-700: #374151;
-  --color-secondary-800: #1f2937;
-  --color-secondary-900: #111827;
-  --color-secondary-950: #030712;
-
-  /* Success Colors - Green 팔레트 */
-  --color-success-50: #f0fdf4;
-  --color-success-100: #dcfce7;
-  --color-success-200: #bbf7d0;
-  --color-success-300: #86efac;
-  --color-success-400: #4ade80;
-  --color-success-500: #22c55e;
-  --color-success-600: #16a34a;
-  --color-success-700: #15803d;
-  --color-success-800: #166534;
-  --color-success-900: #14532d;
-  --color-success-950: #052e16;
-
-  /* Warning Colors - Amber 팔레트 */
-  --color-warning-50: #fffbeb;
-  --color-warning-100: #fef3c7;
-  --color-warning-200: #fde68a;
-  --color-warning-300: #fcd34d;
-  --color-warning-400: #fbbf24;
-  --color-warning-500: #f59e0b;
-  --color-warning-600: #d97706;
-  --color-warning-700: #b45309;
-  --color-warning-800: #92400e;
-  --color-warning-900: #78350f;
-  --color-warning-950: #451a03;
-
-  /* Danger Colors - Red 팔레트 */
-  --color-danger-50: #fef2f2;
-  --color-danger-100: #fee2e2;
-  --color-danger-200: #fecaca;
-  --color-danger-300: #fca5a5;
-  --color-danger-400: #f87171;
-  --color-danger-500: #ef4444;
-  --color-danger-600: #dc2626;
-  --color-danger-700: #b91c1c;
-  --color-danger-800: #991b1b;
-  --color-danger-900: #7f1d1d;
-  --color-danger-950: #450a0a;
-
-  /* Neutral Colors - Slate 팔레트 */
-  --color-neutral-50: #f8fafc;
-  --color-neutral-100: #f1f5f9;
-  --color-neutral-200: #e2e8f0;
-  --color-neutral-300: #cbd5e1;
-  --color-neutral-400: #94a3b8;
-  --color-neutral-500: #64748b;
-  --color-neutral-600: #475569;
-  --color-neutral-700: #334155;
-  --color-neutral-800: #1e293b;
-  --color-neutral-900: #0f172a;
-  --color-neutral-950: #020617;
-
-  /* Typography - 피그마 텍스트 스타일 */
-  --font-family-sans:
-    "Pretendard", -apple-system, BlinkMacSystemFont, system-ui, Roboto,
-    "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR",
-    "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
-    sans-serif;
-
-  --font-family-mono:
-    "JetBrains Mono", "Fira Code", "Cascadia Code", "SF Mono", Monaco,
-    "Inconsolata", "Roboto Mono", "Source Code Pro", monospace;
-
-  /* Font Sizes - 피그마 텍스트 크기 */
-  --font-size-xs: 0.75rem; /* 12px */
-  --font-size-sm: 0.875rem; /* 14px */
-  --font-size-base: 1rem; /* 16px */
-  --font-size-lg: 1.125rem; /* 18px */
-  --font-size-xl: 1.25rem; /* 20px */
-  --font-size-2xl: 1.5rem; /* 24px */
-  --font-size-3xl: 1.875rem; /* 30px */
-  --font-size-4xl: 2.25rem; /* 36px */
-  --font-size-5xl: 3rem; /* 48px */
-  --font-size-6xl: 3.75rem; /* 60px */
-
-  /* Line Heights */
-  --line-height-none: 1;
-  --line-height-tight: 1.25;
-  --line-height-normal: 1.5;
-  --line-height-relaxed: 1.625;
-  --line-height-loose: 2;
-
-  /* Font Weights */
-  --font-weight-thin: 100;
-  --font-weight-light: 300;
-  --font-weight-normal: 400;
-  --font-weight-medium: 500;
-  --font-weight-semibold: 600;
-  --font-weight-bold: 700;
-  --font-weight-extrabold: 800;
-  --font-weight-black: 900;
-
-  /* Spacing - 피그마 스페이싱 시스템 (8px 기반) */
-  --spacing-0: 0;
-  --spacing-1: 0.25rem; /* 4px */
-  --spacing-2: 0.5rem; /* 8px */
-  --spacing-3: 0.75rem; /* 12px */
-  --spacing-4: 1rem; /* 16px */
-  --spacing-5: 1.25rem; /* 20px */
-  --spacing-6: 1.5rem; /* 24px */
-  --spacing-7: 1.75rem; /* 28px */
-  --spacing-8: 2rem; /* 32px */
-  --spacing-10: 2.5rem; /* 40px */
-  --spacing-12: 3rem; /* 48px */
-  --spacing-16: 4rem; /* 64px */
-  --spacing-20: 5rem; /* 80px */
-  --spacing-24: 6rem; /* 96px */
-  --spacing-32: 8rem; /* 128px */
-
-  /* Border Radius - 피그마 라운드 시스템 */
-  --radius-none: 0;
-  --radius-sm: 0.125rem; /* 2px */
-  --radius-base: 0.25rem; /* 4px */
-  --radius-md: 0.375rem; /* 6px */
-  --radius-lg: 0.5rem; /* 8px */
-  --radius-xl: 0.75rem; /* 12px */
-  --radius-2xl: 1rem; /* 16px */
-  --radius-3xl: 1.5rem; /* 24px */
-  --radius-full: 9999px;
-
-  /* Shadows - 피그마 그림자 시스템 */
-  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-  --shadow-base: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
-  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  --shadow-lg:
-    0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-  --shadow-xl:
-    0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-  --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
-  --shadow-inner: inset 0 2px 4px 0 rgb(0 0 0 / 0.05);
-
-  /* Z-Index - 레이어 시스템 */
-  --z-index-dropdown: 1000;
-  --z-index-sticky: 1020;
-  --z-index-fixed: 1030;
-  --z-index-modal-backdrop: 1040;
-  --z-index-modal: 1050;
-  --z-index-popover: 1060;
-  --z-index-tooltip: 1070;
-
-  /* Transitions - 애니메이션 */
-  --transition-fast: 150ms;
-  --transition-normal: 300ms;
-  --transition-slow: 500ms;
-  --transition-ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-ease-out: cubic-bezier(0, 0, 0.2, 1);
-  --transition-ease-in: cubic-bezier(0.4, 0, 1, 1);
+@font-face {
+  font-family: "Pretendard Variable";
+  font-weight: 45 920;
+  font-style: normal;
+  font-display: swap;
+  src: url("/fonts/PretendardVariable.woff2") format("woff2-variations");
 }
 
-/* 전역 스타일 */
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+
+  /* variables */
+  --py-lg: 80px;
+  --py-md: 40px;
+  --py-sm: 20px;
+  --px-lg: 132px;
+  --px-md: 60px;
+  --px-sm: 24px;
+
+  --header-height: 4.375rem;
+  --sidebar-header-height: 6.375rem;
+  --chat-header-height: 4rem;
+  --chat-textarea-height: 5rem;
+
+  --main-margin-lg: 11.25rem;
+
+  --sidebar-width: 18.75rem;
+  --sidebar-collapsed-width: 5rem;
+
+  /* Color System */
+  /* Common Colors */
+  --common-0: #ffffff;
+  --common-100: #000000;
+
+  --error: #f2474b;
+
+  /* Blue Colors */
+  --blue-300: #579bec;
+  --blue-400: #658aef;
+  --blue-500: #376af6;
+  --blue-600: #005eeb;
+  --blue-700: #0054d1;
+
+  /* Gray Colors */
+  --gray-50: #f8fafd;
+  --gray-100: #f2f5fa;
+  --gray-150: #edf0f5;
+  --gray-200: #efefef;
+  --gray-250: #dfdfe0;
+  --gray-300: #a7acb6;
+  --gray-400: #858588;
+  --gray-450: #636367;
+  --gray-500: #47484c;
+  --gray-550: #2f3235;
+  --gray-600: #2f3235;
+  --gray-650: #262a2d;
+  --gray-700: #211c32;
+  --gray-750: #171719;
+  --gray-800: #09031c;
+
+  /* Primary Color System - Light Theme (Default) */
+  --primary-normal: var(--blue-500);
+  --primary-neutral: var(--blue-300);
+  --primary-assistive: var(--blue-400);
+  --primary-strong: var(--blue-600);
+  --primary-heavy: var(--blue-700);
+
+  /* Background Color System - Light Theme (Default) */
+  --background-normal: var(--common-0);
+  --background-neutral: var(--common-0);
+  --background-alternative: var(--gray-100);
+  --background-assistive: var(--common-0);
+
+  /* Text Color System - Light Theme (Default) */
+  --strong: var(--gray-750);
+  --normal: var(--gray-700);
+  --neutral: var(--gray-500);
+  --alternative: var(--gray-400);
+  --assistive: var(--gray-300);
+  --disable: var(--gray-250);
+
+  /* Icon Color System - Light Theme (Default) */
+  --icon-normal: var(--gray-500);
+  --icon-neutral: var(--gray-400);
+  --icon-disable: var(--gray-300);
+  --icon-assistive: var(--gray-300);
+
+  /* Line Color System - Light Theme (Default) */
+  --line-normal: var(--gray-200);
+  --line-neutral: var(--gray-200);
+  --line-alternative: var(--gray-250);
+  --line-assistive: var(--gray-250);
+
+  /* Modal Color System - Light Theme (Default) */
+  --modal-line-normal: var(--gray-200);
+  --modal-line-alternative: var(--gray-250);
+  --modal-icon-normal: var(--gray-500);
+  --modal-background-normal: var(--common-0);
+  --modal-background-alternative: var(--common-0);
+  --modal-background-assistive: var(--gray-100);
+  --modal-background-neutral: var(--gray-100);
+
+  /* Dropdown Color System - Light Theme (Default) */
+  --dropdown-background-normal: var(--common-0);
+  --dropdown-background-alternative: var(--gray-50);
+
+  /* Interaction Color System - Light Theme (Default) */
+  --interaction-background-active: var(--gray-100);
+  --interaction-text-active: var(--gray-450);
+  --interaction-text-inactive: var(--gray-300);
+
+  /* Card Color System - Light Theme (Default) */
+  --card-icon-normal: var(--gray-500);
+  --card-assistive: var(--gray-450);
+
+  --card-text-assistive: var(--gray-450);
+
+  /* Slider Color System - Light Theme (Default) */
+  --slider-line-normal: var(--gray-250);
+  --slider-background-normal: var(--common-0);
+
+  --table-alternative: var(--gray-50);
+
+  --context-background-normal: var(--common-0);
+  --context-background-alternative: var(--gray-50);
+}
+
+/* rem 배율 정의: base 레이어에서 잡아주기 */
+@layer base {
+  /* 일반 */
+  @media (-webkit-min-device-pixel-ratio: 1) {
+    :root {
+      font-size: 16px;
+    }
+  }
+
+  /* 레티나 디스플레이(Mac)  */
+  @media (-webkit-min-device-pixel-ratio: 2) {
+    :root {
+      font-size: 14px;
+    }
+  }
+
+  /* 초고해상도 모바일/모니터  */
+  @media (-webkit-min-device-pixel-ratio: 3) {
+    :root {
+      font-size: 12px;
+    }
+  }
+}
+
+@theme {
+  /* Base Theme Variables */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans:
+    "Pretendard", -apple-system, BlinkMacSystemFont, system-ui, Roboto,
+    "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR",
+    "Malgun Gothic", sans-serif;
+  --font-mono:
+    "Pretendard", ui-monospace, SFMono-Regular, "SF Mono", Consolas,
+    "Liberation Mono", Menlo, monospace;
+
+  /* Color System */
+  --color-common-0: var(--common-0);
+  --color-common-100: var(--common-100);
+
+  --color-error: var(--error);
+
+  /* Blue Colors */
+  --color-blue-300: var(--blue-300);
+  --color-blue-400: var(--blue-400);
+  --color-blue-500: var(--blue-500);
+  --color-blue-600: var(--blue-600);
+  --color-blue-700: var(--blue-700);
+
+  /* Gray Colors */
+  --color-gray-50: var(--gray-50);
+  --color-gray-100: var(--gray-100);
+  --color-gray-150: var(--gray-150);
+  --color-gray-200: var(--gray-200);
+  --color-gray-250: var(--gray-250);
+  --color-gray-300: var(--gray-300);
+  --color-gray-400: var(--gray-400);
+  --color-gray-450: var(--gray-450);
+  --color-gray-500: var(--gray-500);
+  --color-gray-550: var(--gray-550);
+  --color-gray-600: var(--gray-600);
+  --color-gray-650: var(--gray-650);
+  --color-gray-700: var(--gray-700);
+  --color-gray-750: var(--gray-750);
+  --color-gray-800: var(--gray-800);
+
+  /* Primary Color System */
+  --color-primary-normal: var(--primary-normal);
+  --color-primary-neutral: var(--primary-neutral);
+  --color-primary-assistive: var(--primary-assistive);
+  --color-primary-strong: var(--primary-strong);
+  --color-primary-heavy: var(--primary-heavy);
+
+  /* Background Color System */
+  --color-background-normal: var(--background-normal);
+  --color-background-neutral: var(--background-neutral);
+  --color-background-alternative: var(--background-alternative);
+  --color-background-assistive: var(--background-assistive);
+
+  /* Text Color System */
+  --color-strong: var(--strong);
+  --color-normal: var(--normal);
+  --color-neutral: var(--neutral);
+  --color-alternative: var(--alternative);
+  --color-assistive: var(--assistive);
+  --color-disable: var(--disable);
+
+  /* Icon Color System */
+  --color-icon-normal: var(--icon-normal);
+  --color-icon-neutral: var(--icon-neutral);
+  --color-icon-disable: var(--icon-disable);
+  --color-icon-assistive: var(--icon-assistive);
+
+  /* Line Color System */
+  --color-line-normal: var(--line-normal);
+  --color-line-neutral: var(--line-neutral);
+  --color-line-alternative: var(--line-alternative);
+  --color-line-assistive: var(--line-assistive);
+
+  /* Modal Color System */
+  --color-modal-line-normal: var(--modal-line-normal);
+  --color-modal-line-alternative: var(--modal-line-alternative);
+  --color-modal-icon-normal: var(--modal-icon-normal);
+  --color-modal-background-normal: var(--modal-background-normal);
+  --color-modal-background-alternative: var(--modal-background-alternative);
+  --color-modal-background-assistive: var(--modal-background-assistive);
+  --color-modal-background-neutral: var(--modal-background-neutral);
+
+  /* Dropdown Color System */
+  --color-dropdown-background-normal: var(--dropdown-background-normal);
+  --color-dropdown-background-alternative: var(
+    --dropdown-background-alternative
+  );
+
+  /* Interaction Color System */
+  --color-interaction-background-active: var(--interaction-background-active);
+  --color-interaction-text-active: var(--interaction-text-active);
+  --color-interaction-text-inactive: var(--interaction-text-inactive);
+
+  /* Card Color System */
+  --color-card-icon-normal: var(--card-icon-normal);
+  --color-card-assistive: var(--card-assistive);
+  --color-card-text-assistive: var(--card-text-assistive);
+  /* Slider Color System */
+  --color-slider-line-normal: var(--slider-line-normal);
+  --color-slider-background-normal: var(--slider-background-normal);
+
+  --color-table-alternative: var(--table-alternative);
+
+  --color-context-background-normal: var(--context-background-normal);
+  --color-context-background-alternative: var(--context-background-alternative);
+}
+
+.dark {
+  --background: #0a0a0a;
+  --foreground: #ededed;
+
+  --primary-normal: var(--blue-500);
+  --primary-neutral: var(--blue-300);
+  --primary-assistive: var(--blue-400);
+  --primary-strong: var(--blue-600);
+  --primary-heavy: var(--blue-700);
+
+  /* Background Color System - Dark Theme Override */
+  --background-normal: var(--common-0);
+  --background-neutral: var(--gray-700);
+  --background-alternative: var(--gray-800);
+  --background-assistive: var(--gray-800);
+
+  /* Text Color System - Dark Theme Override */
+  --strong: var(--gray-200);
+  --normal: var(--gray-250);
+  --neutral: var(--gray-250);
+  --alternative: var(--gray-300);
+  --assistive: var(--gray-300);
+  --disable: var(--gray-250);
+
+  /* Icon Color System - Dark Theme Override */
+  --icon-normal: var(--gray-250);
+  --icon-neutral: var(--common-0);
+  --icon-disable: var(--gray-300);
+  --icon-assistive: var(--gray-450);
+
+  /* Line Color System - Dark Theme Override */
+  --line-normal: var(--gray-200);
+  --line-neutral: var(--gray-600);
+  --line-alternative: var(--gray-600);
+  --line-assistive: var(--gray-400);
+
+  /* Modal Color System - Dark Theme Override */
+  --modal-line-normal: var(--gray-600);
+  --modal-line-alternative: var(--gray-600);
+  --modal-icon-normal: var(--gray-300);
+  --modal-background-normal: var(--gray-650);
+  --modal-background-alternative: var(--gray-550);
+  --modal-background-assistive: var(--gray-100);
+  --modal-background-neutral: var(--gray-500);
+
+  /* Dropdown Color System - Dark Theme Override */
+  --dropdown-background-normal: var(--gray-650);
+  --dropdown-background-alternative: var(--gray-600);
+
+  /* Interaction Color System - Dark Theme Override */
+  --interaction-background-active: var(--gray-650);
+  --interaction-text-active: var(--gray-400);
+  --interaction-text-inactive: var(--gray-400);
+
+  /* Card Color System - Dark Theme Override */
+  --card-icon-normal: var(--gray-300);
+  --card-assistive: var(--gray-300);
+
+  --card-text-assistive: var(--gray-300);
+
+  /* Slider Color System - Dark Theme Override */
+  --slider-line-normal: var(--gray-500);
+  --slider-background-normal: var(--gray-650);
+
+  --table-alternative: var(--gray-650);
+
+  --context-background-normal: var(--gray-550);
+  --context-background-alternative: var(--gray-500);
+}
+
 body {
+  background: var(--background);
+  color: var(--foreground);
   font-family:
     "Pretendard",
     -apple-system,
@@ -194,39 +351,7 @@ body {
     "Segoe UI Emoji",
     "Segoe UI Symbol",
     sans-serif;
+  font-feature-settings: "tnum" 1;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-/* 커스텀 유틸리티 클래스 */
-.btn {
-  @apply px-4 py-2 rounded-lg font-medium transition-colors cursor-pointer;
-}
-
-.btn-primary {
-  @apply bg-primary-500 hover:bg-primary-600 text-white;
-}
-
-.btn-secondary {
-  @apply bg-neutral-100 hover:bg-neutral-200 text-neutral-800 border border-neutral-300;
-}
-
-.btn-outline {
-  @apply border border-primary-500 text-primary-500 hover:bg-primary-50;
-}
-
-.card {
-  @apply bg-white rounded-xl shadow-sm border border-neutral-200;
-}
-
-.card-hover {
-  @apply hover:shadow-md transition-shadow;
-}
-
-.input {
-  @apply w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent;
-}
-
-.label {
-  @apply block text-sm font-medium text-neutral-700 mb-2;
 }

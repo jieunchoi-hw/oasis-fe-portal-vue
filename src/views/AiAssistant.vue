@@ -4,8 +4,8 @@
     <div class="mb-8">
       <div class="flex items-center justify-between">
         <div>
-          <h1 class="text-2xl font-bold text-gray-900 mb-2">
-            AI 솔루션팀 (26)
+          <h1 class="text-3xl font-bold text-gray-900 mb-2">
+            AI 솔루션팀 (28)
           </h1>
           <p class="text-gray-600">
             AI 비서에서 사용할 솔루션 저장되어 관리할 수 있어요.

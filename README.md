@@ -5,10 +5,10 @@ Vue3, Vuetify, Pinia를 활용한 현대적인 웹 포털 애플리케이션입�
 ## 🚀 기술 스택
 
 - **Vue 3** - Composition API를 활용한 현대적인 프론트엔드 프레임워크
-- **Vuetify 3** - Material Design 기반의 UI 컴포넌트 라이브러리
+- **Tailwind CSS** - 유틸리티 우선 CSS 프레임워크
+- **Headless UI** - 접근성을 고려한 UI 컴포넌트
 - **Pinia** - Vue 3를 위한 직관적인 상태 관리 라이브러리
 - **Vue Router** - Vue.js 공식 라우터
-- **Sass/SCSS** - CSS 전처리기
 - **Vite** - 빠른 개발 서버와 번들링 도구
 
 ## 📁 프로젝트 구조
@@ -33,8 +33,8 @@ src/
 ├── plugins/            # Vue 플러그인
 │   └── vuetify.js
 ├── styles/             # 글로벌 스타일
-│   ├── variables.scss
-│   └── global.scss
+│   ├── main.css        # Tailwind CSS 설정
+│   └── design-tokens.md # 디자인 토큰 가이드
 ├── assets/             # 정적 자산
 ├── utils/              # 유틸리티 함수
 └── composables/        # Vue Composition 함수
@@ -120,35 +120,31 @@ npm run format
 
 ### 🎨 스타일링
 
-- Sass/SCSS 기반 스타일링
-- 재사용 가능한 변수 및 믹스인
-- 유틸리티 클래스
-- 컴포넌트별 스코프 스타일
+- Tailwind CSS 기반 유틸리티 우선 스타일링
+- 피그마 디자인 토큰 기반 색상 시스템
+- Headless UI를 활용한 접근성 고려 컴포넌트
+- 반응형 디자인 지원
 
 ## 📦 커스터마이징
 
 ### 테마 설정
 
-`src/plugins/vuetify.js`에서 테마 색상을 커스터마이징할 수 있습니다:
+`src/styles/main.css`에서 Tailwind CSS 색상을 커스터마이징할 수 있습니다:
 
-```javascript
-const lightTheme = {
-  colors: {
-    primary: "#1976d2",
-    secondary: "#424242",
-    // ... 다른 색상들
-  },
-};
+```css
+@theme {
+  --color-primary-500: #3b82f6;
+  --color-primary-600: #2563eb;
+  /* ... 다른 색상들 */
+}
 ```
 
-### SCSS 변수
+### 디자인 토큰
 
-`src/styles/variables.scss`에서 SCSS 변수를 수정할 수 있습니다:
+`src/styles/design-tokens.md`에서 사용 가능한 디자인 토큰을 확인할 수 있습니다:
 
-```scss
-$primary-color: #1976d2;
-$secondary-color: #424242;
-// ... 다른 변수들
+```html
+<button class="bg-primary-500 hover:bg-primary-600 text-white">버튼</button>
 ```
 
 ## 🚀 배포
