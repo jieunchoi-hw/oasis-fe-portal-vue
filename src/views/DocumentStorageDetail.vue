@@ -13,42 +13,80 @@
         </div>
       </div>
 
-      <!-- 검색바와 새로운 박스 버튼 -->
-      <div class="flex items-center gap-1.5">
+      <!-- 검색바와 버튼 그룹 -->
+      <div class="flex items-center gap-6">
         <!-- 검색바 -->
         <div class="relative">
           <input
             type="text"
-            placeholder="문서 박스를 검색해보세요."
+            placeholder="문서나 파일을 검색해보세요."
             class="w-90 h-11 pl-12 pr-4 border rounded-full bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-400"
             style="
+              width: 360px;
+              height: 44px;
               border-color: #efefef;
               padding: 7px 16px;
               padding-left: 48px;
               color: #a7acb6;
             "
           />
-          <img
-            src="@/assets/icons/search-icon.svg"
-            alt="검색"
-            class="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5"
-          />
+          <!-- 검색 아이콘 -->
+          <div
+            class="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 flex items-center justify-center"
+          >
+            <div class="relative w-5 h-5">
+              <img
+                src="@/assets/icons/search-icon.svg"
+                alt="검색"
+                class="absolute"
+              />
+            </div>
+          </div>
         </div>
 
-        <!-- 새로운 박스 버튼 -->
-        <button
-          class="flex items-center justify-center gap-1 h-10 text-white rounded-full hover:opacity-90 transition-opacity cursor-pointer"
-          style="background-color: #658aef; padding: 10px 14px 10px 8px"
-        >
-          <div class="flex items-center justify-center w-6 h-6 px-1.5 py-1">
-            <img
-              src="@/assets/icons/plus-icon.svg"
-              alt="추가"
-              class="w-4 h-4"
-            />
-          </div>
-          <span class="text-15px font-semibold">새로운 박스</span>
-        </button>
+        <!-- 버튼 그룹 -->
+        <div class="flex items-center gap-1.5">
+          <!-- 업로드 버튼 -->
+          <button
+            class="flex items-center justify-center w-10 h-10 bg-white border border-gray-200 rounded-full hover:bg-gray-50 transition-colors"
+            style="border-color: #efefef"
+          >
+            <div class="flex items-center justify-center w-5 h-5">
+              <img src="@/assets/icons/upload-icon.svg" alt="업로드" class="" />
+            </div>
+          </button>
+
+          <!-- 박스정보 버튼 -->
+          <button
+            class="flex items-center justify-center gap-1 h-10 px-3 bg-white border border-gray-200 rounded-full hover:bg-gray-50 transition-colors"
+            style="border-color: #efefef; padding: 10px 16px 10px 12px"
+          >
+            <div class="flex items-center justify-center w-6 h-6">
+              <img
+                src="@/assets/icons/mailbox-icon.svg"
+                alt="박스정보"
+                class="w-4 h-3"
+                style="width: 13.87px; height: 11.9px"
+              />
+            </div>
+            <span class="text-sm font-semibold text-gray-700">박스정보</span>
+          </button>
+
+          <!-- 새로운 폴더 버튼 -->
+          <button
+            class="flex items-center justify-center gap-1 h-10 px-3 text-white rounded-full hover:opacity-90 transition-opacity"
+            style="background-color: #658aef; padding: 10px 16px 10px 12px"
+          >
+            <div class="flex items-center justify-center w-6 h-6">
+              <img
+                src="@/assets/icons/plus-icon.svg"
+                alt="추가"
+                class="w-3 h-3"
+              />
+            </div>
+            <span class="text-sm font-semibold">새로운 폴더</span>
+          </button>
+        </div>
       </div>
     </div>
     <!-- 테이블 컨테이너 -->
