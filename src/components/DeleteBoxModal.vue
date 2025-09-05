@@ -150,7 +150,7 @@ const boxNameInput = ref("");
 const isDeleteEnabled = computed(() => {
   const input = boxNameInput.value?.trim() || "";
   const target = props.boxName?.trim() || "";
-  console.log("비교:", { input, target, equal: input === target });
+
   return input === target;
 });
 

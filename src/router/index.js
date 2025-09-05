@@ -4,6 +4,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import Home from "@/views/Home.vue";
 import AiAssistant from "@/views/AiAssistant.vue";
 import DocumentStorage from "@/views/DocumentStorage.vue";
+import DocumentStorageDetail from "@/views/DocumentStorageDetail.vue";
 import NotFound from "@/views/NotFound.vue";
 
 const routes = [
@@ -31,6 +32,15 @@ const routes = [
     component: DocumentStorage,
     meta: {
       title: "문서 저장소",
+      requiresAuth: false,
+    },
+  },
+  {
+    path: "/document-storage/:id",
+    name: "DocumentStorageDetail",
+    component: DocumentStorageDetail,
+    meta: {
+      title: "문서 상세보기",
       requiresAuth: false,
     },
   },

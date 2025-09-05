@@ -2,6 +2,7 @@
   <div>
     <div
       class="bg-white rounded-2xl hover:shadow-md transition-shadow cursor-pointer shadow-sm"
+      @click="handleCardClick"
     >
       <!-- 카드 헤더 -->
       <div class="p-6 pb-6.5">
@@ -21,6 +22,7 @@
             <Menu as="div" class="relative">
               <MenuButton
                 class="w-6.5 h-6.5 border border-neutral-300 rounded-lg flex items-center justify-center hover:bg-neutral-50 transition-colors"
+                @click.stop
               >
                 <img
                   src="@/assets/icons/more-options.svg"
@@ -52,7 +54,7 @@
                           'w-full text-left px-4 py-2 text-sm font-medium text-neutral-700 transition-colors rounded-md',
                           active ? 'bg-neutral-50' : '',
                         ]"
-                        @click="handleEdit"
+                        @click.stop="handleEdit"
                       >
                         수정
                       </button>
@@ -64,7 +66,7 @@
                           'w-full text-left px-4 py-2 text-sm font-medium text-neutral-700 transition-colors rounded-md',
                           active ? 'bg-blue-50' : '',
                         ]"
-                        @click="handleDelete"
+                        @click.stop="openDeleteModal"
                       >
                         삭제
                       </button>
@@ -76,7 +78,7 @@
                           'w-full text-left px-4 py-2 text-sm font-medium text-neutral-700 transition-colors rounded-md',
                           active ? 'bg-neutral-50' : '',
                         ]"
-                        @click="handlePrivacySettings"
+                        @click.stop="handlePrivacySettings"
                       >
                         공개범위 설정
                       </button>
@@ -88,6 +90,7 @@
 
             <button
               class="w-6.5 h-6.5 border border-neutral-300 rounded-lg flex items-center justify-center hover:bg-neutral-50 transition-colors"
+              @click.stop="handlePin"
             >
               <img
                 src="@/assets/icons/pin-icon.svg"
@@ -129,31 +132,43 @@
 
 <script setup>
 import { ref } from "vue";
+import { useRouter } from "vue-router";
 import { Menu, MenuButton, MenuItems, MenuItem } from "@headlessui/vue";
 import DeleteBoxModal from "./DeleteBoxModal.vue";
 
-defineProps({
+const router = useRouter();
+
+const props = defineProps({
   document: {
     type: Object,
     required: true,
   },
 });
 
-const emit = defineEmits(["edit", "delete", "privacy-settings"]);
+const emit = defineEmits(["edit", "delete", "privacy-settings", "pin"]);
 
 // Modal state
 const isDeleteModalOpen = ref(false);
 
-const handleEdit = () => {
-  emit("edit");
+const handleCardClick = () => {
+  // 카드 클릭 시 문서 상세 페이지로 이동
+  router.push(`/document-storage/${props.document.id}`);
 };
 
-const handleDelete = () => {
-  isDeleteModalOpen.value = true;
+const handleEdit = () => {
+  emit("edit", props.document);
 };
 
 const handlePrivacySettings = () => {
-  emit("privacy-settings");
+  emit("privacy-settings", props.document);
+};
+
+const handlePin = () => {
+  emit("pin", props.document);
+};
+
+const openDeleteModal = () => {
+  isDeleteModalOpen.value = true;
 };
 
 const closeDeleteModal = () => {
@@ -161,6 +176,7 @@ const closeDeleteModal = () => {
 };
 
 const confirmDelete = () => {
-  emit("delete");
+  emit("delete", props.document);
+  closeDeleteModal();
 };
 </script>
