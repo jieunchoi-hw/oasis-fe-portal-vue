@@ -1,7 +1,6 @@
 <template>
   <div
-    class="bg-white rounded-2xl hover:shadow-md transition-shadow duration-200 cursor-pointer"
-    style="box-shadow: 2px 4px 4px 0px rgba(0, 0, 0, 0.04)"
+    class="bg-white rounded-2xl hover:shadow-md transition-shadow cursor-pointer shadow-sm"
   >
     <!-- 카드 헤더 -->
     <div class="p-6 pb-6.5">
@@ -18,8 +17,7 @@
         <!-- 액션 버튼들 -->
         <div class="flex items-center gap-1">
           <button
-            class="w-6.5 h-6.5 border rounded-lg flex items-center justify-center hover:bg-gray-50 transition-colors"
-            style="border-color: #dfdfe0"
+            class="w-6.5 h-6.5 border border-neutral-300 rounded-lg flex items-center justify-center hover:bg-neutral-50 transition-colors"
           >
             <img
               src="@/assets/icons/more-options.svg"
@@ -28,8 +26,7 @@
             />
           </button>
           <button
-            class="w-6.5 h-6.5 border rounded-lg flex items-center justify-center hover:bg-gray-50 transition-colors"
-            style="border-color: #dfdfe0"
+            class="w-6.5 h-6.5 border border-neutral-300 rounded-lg flex items-center justify-center hover:bg-neutral-50 transition-colors"
           >
             <img
               src="@/assets/icons/pin-icon.svg"
@@ -43,17 +40,16 @@
       <!-- 카드 컨텐츠 -->
       <div class="space-y-2">
         <div class="space-y-1">
-          <h3 class="text-15px font-bold leading-tight" style="color: #211c32">
+          <h3 class="text-15px font-bold leading-tight text-neutral-900">
             {{ document.title }}
           </h3>
           <p
-            class="text-xs leading-relaxed h-4.5 overflow-hidden"
-            style="color: #636367"
+            class="text-xs leading-relaxed h-4.5 overflow-hidden text-neutral-600"
           >
             {{ document.description }}
           </p>
         </div>
-        <p class="text-xs h-4.25" style="color: #a7acb6">
+        <p class="text-xs h-4.25 text-neutral-400">
           {{ document.author }} / {{ document.date }}
         </p>
       </div>
@@ -69,41 +65,3 @@ defineProps({
   },
 });
 </script>
-
-<style scoped>
-.h-4\.5 {
-  height: 1.125rem; /* 18px */
-}
-
-.h-4\.25 {
-  height: 1.0625rem; /* 17px */
-}
-
-.pb-6\.5 {
-  padding-bottom: 1.625rem; /* 26px */
-}
-
-.w-10\.5 {
-  width: 2.625rem; /* 42px */
-}
-
-.h-8\.5 {
-  height: 2.125rem; /* 34px */
-}
-
-.w-6\.5 {
-  width: 1.625rem; /* 26px */
-}
-
-.h-6\.5 {
-  height: 1.625rem; /* 26px */
-}
-
-.w-4\.5 {
-  width: 1.125rem; /* 18px */
-}
-
-.text-15px {
-  font-size: 15px;
-}
-</style>
