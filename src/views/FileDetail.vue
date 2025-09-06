@@ -320,7 +320,7 @@ const columns = [
   }),
   columnHelper.accessor("status", {
     header: () => "상태",
-    size: 150,
+    size: 80,
     cell: (info) => {
       const row = info.row.original;
       return createStatusBadge(info.getValue(), row.statusType);
@@ -335,8 +335,8 @@ const columns = [
         "div",
         {
           class:
-            "text-gray-900 font-normal text-sm leading-5 line-clamp-2 cursor-pointer hover:bg-gray-50 p-2 rounded transition-colors",
-          style: "line-height: 1.4286em;",
+            "text-gray-900 font-normal text-sm leading-5 line-clamp-2 cursor-pointer hover:bg-gray-50 p-2 rounded transition-colors leading-tight",
+
           onClick: () => openSentenceDetailPanel(info.row.original),
         },
         info.getValue()
