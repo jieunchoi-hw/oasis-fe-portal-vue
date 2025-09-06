@@ -1,11 +1,20 @@
 <template>
   <button
+    :type="type"
     :class="[
-      'base-button',
-      `base-button--${variant}`,
-      `base-button--${size}`,
+      'w-full py-4.5',
+      size === 'default' ? 'h-[3.375rem] text-base' : 'h-17 text-xl',
+      'flex items-center justify-center rounded-xl',
+      primary
+        ? 'bg-primary-normal focus:ring-primary-normal text-common-0 hover:bg-primary-strong'
+        : 'focus:ring-modal-background-neutral bg-modal-background-neutral dark:text-gray-250 hover:bg-gray-150 text-gray-300 dark:hover:bg-gray-500',
+      'leading-[140%] font-semibold',
+      'focus:ring-2 focus:ring-offset-2 focus:outline-none',
+      'transition-all duration-200 ease-in-out',
+      !disabled && 'cursor-pointer',
+      disabled && 'cursor-not-allowed opacity-50',
+      shadow && 'shadow-[0px_10px_24px_4px_rgba(68,97,242,0.2)]',
       {
-        'base-button--disabled': disabled,
         'base-button--loading': loading,
       },
     ]"
@@ -59,21 +68,12 @@ const props = defineProps({
     default: "",
   },
   /**
-   * Button variant style
+   * Button type attribute
    */
-  variant: {
+  type: {
     type: String,
-    default: "primary",
-    validator: (value) =>
-      ["primary", "secondary", "outline", "ghost"].includes(value),
-  },
-  /**
-   * Button size
-   */
-  size: {
-    type: String,
-    default: "medium",
-    validator: (value) => ["small", "medium", "large"].includes(value),
+    default: "button",
+    validator: (value) => ["button", "submit", "reset"].includes(value),
   },
   /**
    * Disabled state
@@ -90,12 +90,26 @@ const props = defineProps({
     default: false,
   },
   /**
-   * Button type attribute
+   * Button size - 'default' matches TSX default size, 'big' matches TSX big size
    */
-  type: {
+  size: {
     type: String,
-    default: "button",
-    validator: (value) => ["button", "submit", "reset"].includes(value),
+    default: "default",
+    validator: (value) => ["default", "big"].includes(value),
+  },
+  /**
+   * Primary button style - true for primary, false for secondary
+   */
+  primary: {
+    type: Boolean,
+    default: true,
+  },
+  /**
+   * Apply shadow effect
+   */
+  shadow: {
+    type: Boolean,
+    default: true,
   },
 });
 
@@ -107,162 +121,3 @@ const handleClick = (event) => {
   }
 };
 </script>
-
-<style scoped>
-.base-button {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 600;
-  color: white;
-  border: 0;
-  border-radius: 12px;
-  transition: all 0.2s ease-in-out;
-  cursor: pointer;
-  outline: none;
-
-  /* Figma 디자인 기본 스타일 */
-  font-family:
-    "Pretendard",
-    -apple-system,
-    BlinkMacSystemFont,
-    system-ui,
-    sans-serif;
-  font-size: 20px;
-  line-height: 1.4em;
-  box-shadow: 0px 10px 24px 4px rgba(68, 97, 242, 0.2);
-}
-
-.base-button:focus {
-  box-shadow:
-    0 0 0 2px var(--color-blue-500),
-    0px 10px 24px 4px rgba(68, 97, 242, 0.2);
-}
-
-/* Primary variant (기본 피그마 디자인) */
-.base-button--primary {
-  background-color: var(--color-blue-500);
-}
-
-.base-button--primary:hover:not(:disabled) {
-  background-color: var(--color-blue-600);
-  transform: translateY(-1px);
-  box-shadow: 0px 12px 28px 6px rgba(68, 97, 242, 0.25);
-}
-
-.base-button--primary:active:not(:disabled) {
-  transform: translateY(0);
-  box-shadow: 0px 8px 20px 2px rgba(68, 97, 242, 0.15);
-}
-
-/* Secondary variant */
-.base-button--secondary {
-  background-color: var(--color-gray-600);
-  color: white;
-}
-
-.base-button--secondary:hover:not(:disabled) {
-  background-color: var(--color-gray-700);
-  transform: translateY(-1px);
-}
-
-/* Outline variant */
-.base-button--outline {
-  background-color: transparent;
-  border: 2px solid var(--color-blue-500);
-  color: var(--color-blue-500);
-  box-shadow: none;
-}
-
-.base-button--outline:hover:not(:disabled) {
-  background-color: var(--color-blue-500);
-  color: white;
-  box-shadow: 0px 10px 24px 4px rgba(68, 97, 242, 0.2);
-}
-
-/* Ghost variant */
-.base-button--ghost {
-  background-color: transparent;
-  color: var(--color-blue-500);
-  box-shadow: none;
-}
-
-.base-button--ghost:hover:not(:disabled) {
-  background-color: var(--color-gray-50);
-}
-
-/* Size variants */
-.base-button--small {
-  padding: 12px 24px;
-  font-size: 14px;
-}
-
-.base-button--medium {
-  /* 피그마 디자인 기본 사이즈 */
-  padding: 18px 176px;
-  min-width: 540px;
-  height: 68px;
-}
-
-.base-button--large {
-  padding: 24px 200px;
-  font-size: 24px;
-  min-width: 600px;
-  height: 80px;
-}
-
-/* Disabled state */
-.base-button--disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  transform: none !important;
-  box-shadow: none !important;
-}
-
-/* Loading state */
-.base-button--loading {
-  cursor: wait;
-}
-
-.base-button__spinner {
-  margin-right: 8px;
-}
-
-.base-button__content {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Animation for loading spinner */
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.animate-spin {
-  animation: spin 1s linear infinite;
-}
-
-/* Responsive adjustments */
-@media (max-width: 640px) {
-  .base-button--medium {
-    padding: 16px 32px;
-    min-width: auto;
-    width: 100%;
-    font-size: 18px;
-  }
-
-  .base-button--large {
-    padding: 20px 40px;
-    min-width: auto;
-    width: 100%;
-    font-size: 20px;
-  }
-}
-</style>

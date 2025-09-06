@@ -287,12 +287,7 @@
 
         <!-- 확인 버튼 -->
         <div class="flex justify-center">
-          <button
-            @click="handleSubmit"
-            class="w-full bg-blue-500 text-white font-semibold px-44 py-4.5 rounded-xl hover:bg-blue-700 transition-colors"
-          >
-            확인
-          </button>
+          <BaseButton @click="handleSubmit" size="default"> 확인 </BaseButton>
         </div>
       </div>
     </div>

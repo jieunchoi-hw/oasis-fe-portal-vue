@@ -95,24 +95,19 @@
 
                 <!-- Action buttons -->
                 <div class="flex gap-2">
-                  <button
+                  <BaseButton
                     @click="closeModal"
-                    class="flex-1 h-[54px] bg-[#F2F5FA] rounded-xl flex items-center justify-center text-base font-semibold text-[#A7ACB6] hover:bg-gray-200 transition-colors"
-                  >
-                    취소
-                  </button>
-                  <button
+                    text="취소"
+                    :primary="false"
+                    :shadow="false"
+                    size="default"
+                  />
+                  <BaseButton
                     @click="handleDelete"
+                    text="삭제하기"
+                    size="default"
                     :disabled="!isDeleteEnabled"
-                    :class="[
-                      'flex-1 h-[54px] rounded-xl flex items-center justify-center text-base font-semibold transition-colors',
-                      isDeleteEnabled
-                        ? 'bg-blue-500 text-white hover:bg-blue-600'
-                        : 'bg-gray-300 text-gray-500 cursor-not-allowed',
-                    ]"
-                  >
-                    삭제하기
-                  </button>
+                  />
                 </div>
               </div>
             </DialogPanel>

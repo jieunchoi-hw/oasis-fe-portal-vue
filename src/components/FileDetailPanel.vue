@@ -112,12 +112,13 @@
 
     <!-- 하단 버튼 -->
     <div class="absolute bottom-0 left-0 right-0 bg-white button-container">
-      <button
+      <BaseButton
         @click="handleDetailView"
-        class="w-full bg-primary-normal text-white font-semibold py-4 rounded-xl hover:bg-primary-strong transition-color text-base h-14"
-      >
-        상세보기
-      </button>
+        text="상세보기"
+        :primary="true"
+        :shadow="false"
+        size="default"
+      />
     </div>
   </div>
 </template>
