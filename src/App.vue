@@ -4,10 +4,10 @@
     <AppHeader />
 
     <!-- 메인 컨테이너 -->
-    <div 
+    <div
       class="grid h-screen pt-16 transition-all duration-300"
-      :style="{ 
-        gridTemplateColumns: isSidebarCollapsed ? '64px 1fr' : '299px 1fr' 
+      :style="{
+        gridTemplateColumns: isSidebarCollapsed ? '4rem 1fr' : '18.75rem 1fr',
       }"
     >
       <!-- 왼쪽 네비게이션 -->
@@ -16,7 +16,7 @@
       </aside>
 
       <!-- 메인 콘텐츠 -->
-      <main class="bg-gray-50 overflow-auto">
+      <main class="bg-gray-50 overflow-auto min-w-[1200px]">
         <router-view />
       </main>
     </div>

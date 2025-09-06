@@ -369,7 +369,7 @@ const columnHelper = createColumnHelper();
 const columns = [
   columnHelper.accessor("name", {
     header: () => "이름",
-    size: 400,
+    size: 450,
     cell: (info) => {
       const row = info.row.original;
       return h("div", { class: "flex items-center justify-between gap-4" }, [
@@ -420,7 +420,7 @@ const columns = [
   }),
   columnHelper.accessor("modifiedDate", {
     header: () => "수정된 날짜",
-    size: 240,
+    size: 200,
     cell: (info) =>
       h("span", { class: "text-gray-900 font-normal" }, info.getValue()),
     enableSorting: true,
