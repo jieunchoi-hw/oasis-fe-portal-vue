@@ -69,7 +69,6 @@
 <script setup>
 import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
-import ContextMenu from "./ContextMenu.vue";
 import DeleteBoxModal from "./DeleteBoxModal.vue";
 
 const router = useRouter();
