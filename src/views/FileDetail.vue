@@ -35,7 +35,7 @@
 
     <!-- 테이블 컨테이너 -->
     <div
-      class="mx-8 bg-white rounded-xl overflow-hidden h-[42rem] flex flex-col"
+      class="mx-8 bg-white rounded-xl overflow-hidden max-h-[42rem] flex flex-col"
     >
       <div class="flex-1 overflow-auto">
         <table class="w-full">
@@ -114,8 +114,7 @@
             <tr
               v-for="row in table.getRowModel().rows"
               :key="row.id"
-              class="group border-b last:border-b-0 transition-colors duration-150 hover:bg-gray-50"
-              :style="{ borderColor: '#EFEFEF' }"
+              class="group border-b border-line-neutral last:border-b-0 transition-colors duration-150 hover:bg-gray-50"
             >
               <td
                 v-for="cell in row.getVisibleCells()"
@@ -335,8 +334,7 @@ const columns = [
         "div",
         {
           class:
-            "text-gray-900 font-normal text-sm leading-5 line-clamp-2 cursor-pointer hover:bg-gray-50 p-2 rounded transition-colors leading-tight",
-
+            "text-gray-900 font-normal text-sm leading-5 line-clamp-1 cursor-pointer hover:bg-gray-50 rounded transition-colors leading-tight",
           onClick: () => openSentenceDetailPanel(info.row.original),
         },
         info.getValue()

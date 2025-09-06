@@ -102,10 +102,9 @@
             <th
               v-for="header in headerGroup.headers"
               :key="header.id"
-              class="text-left border-b px-4 py-4 text-sm font-semibold text-gray-600 bg-white relative"
+              class="text-left border-b border-line-neutral px-4 py-4 text-sm font-semibold text-gray-600 bg-white relative"
               :style="{
                 width: header.getSize() + 'px',
-                borderColor: '#EFEFEF',
               }"
             >
               <div class="flex items-center gap-3">
@@ -154,8 +153,7 @@
           <tr
             v-for="row in table.getRowModel().rows"
             :key="row.id"
-            class="group border-b last:border-b-0 transition-colors duration-150 hover:bg-gray-50"
-            :style="{ borderColor: '#EFEFEF' }"
+            class="group border-b border-line-neutral last:border-b-0 transition-colors duration-150 hover:bg-gray-50"
           >
             <td
               v-for="cell in row.getVisibleCells()"
