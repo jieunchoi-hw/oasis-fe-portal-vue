@@ -34,105 +34,127 @@
     </div>
 
     <!-- 테이블 컨테이너 -->
-    <div class="mx-8 bg-white rounded-xl overflow-hidden">
-      <table class="w-full">
-        <!-- 테이블 헤더 -->
-        <thead>
-          <tr
-            v-for="headerGroup in table.getHeaderGroups()"
-            :key="headerGroup.id"
-          >
-            <th
-              v-for="header in headerGroup.headers"
-              :key="header.id"
-              :class="[
-                'border-b px-4 py-4 text-sm font-semibold text-gray-600 bg-white relative',
-                header.column.id === 'number' ? 'text-center' : 'text-left',
-              ]"
-              :style="{
-                width: header.getSize() + 'px',
-                borderColor: '#EFEFEF',
-              }"
+    <div
+      class="mx-8 bg-white rounded-xl overflow-hidden h-[42rem] flex flex-col"
+    >
+      <div class="flex-1 overflow-auto">
+        <table class="w-full">
+          <!-- 테이블 헤더 -->
+          <thead class="sticky top-0 bg-white z-10">
+            <tr
+              v-for="headerGroup in table.getHeaderGroups()"
+              :key="headerGroup.id"
             >
-              <!-- 번호 컬럼은 중앙 정렬로 단순하게 표시 -->
-              <div
-                v-if="header.column.id === 'number'"
-                class="flex justify-center"
+              <th
+                v-for="header in headerGroup.headers"
+                :key="header.id"
+                :class="[
+                  'border-b px-4 py-4 text-sm font-semibold text-gray-600 bg-white relative',
+                  header.column.id === 'number' ? 'text-center' : 'text-left',
+                ]"
+                :style="{
+                  width: header.getSize() + 'px',
+                  borderColor: '#EFEFEF',
+                }"
               >
-                <FlexRender
-                  :render="header.column.columnDef.header"
-                  :props="header.getContext()"
-                />
-              </div>
-              <!-- 다른 컬럼들은 기존 레이아웃 유지 -->
-              <div v-else class="flex items-center gap-3">
-                <FlexRender
-                  :render="header.column.columnDef.header"
-                  :props="header.getContext()"
-                />
-                <!-- 정렬 아이콘 -->
+                <!-- 번호 컬럼은 중앙 정렬로 단순하게 표시 -->
                 <div
-                  v-if="header.column.getCanSort()"
-                  class="cursor-pointer flex items-center ml-3"
-                  @click="() => header.column.toggleSorting()"
+                  v-if="header.column.id === 'number'"
+                  class="flex justify-center"
                 >
-                  <img
-                    v-if="header.column.getIsSorted() === 'asc'"
-                    src="@/assets/icons/arrow-up.svg"
-                    alt="정렬 오름차순"
-                    class="w-3.5 h-3.5"
-                  />
-                  <img
-                    v-else-if="header.column.getIsSorted() === 'desc'"
-                    src="@/assets/icons/arrow-down.svg"
-                    alt="정렬 내림차순"
-                    class="w-3.5 h-3.5"
-                  />
-                  <img
-                    v-else
-                    src="@/assets/icons/arrow-up-down.svg"
-                    alt="정렬 가능"
-                    class="w-3.5 h-3.5"
+                  <FlexRender
+                    :render="header.column.columnDef.header"
+                    :props="header.getContext()"
                   />
                 </div>
-              </div>
-              <!-- 컬럼 구분선 -->
-              <div
-                v-if="!header.isLast"
-                class="absolute right-0 top-4 bottom-4 w-px bg-gray-200"
-                style="background-color: #efefef"
-              ></div>
-            </th>
-          </tr>
-        </thead>
+                <!-- 다른 컬럼들은 기존 레이아웃 유지 -->
+                <div v-else class="flex items-center gap-3">
+                  <FlexRender
+                    :render="header.column.columnDef.header"
+                    :props="header.getContext()"
+                  />
+                  <!-- 정렬 아이콘 -->
+                  <div
+                    v-if="header.column.getCanSort()"
+                    class="cursor-pointer flex items-center ml-3"
+                    @click="() => header.column.toggleSorting()"
+                  >
+                    <img
+                      v-if="header.column.getIsSorted() === 'asc'"
+                      src="@/assets/icons/arrow-up.svg"
+                      alt="정렬 오름차순"
+                      class="w-3.5 h-3.5"
+                    />
+                    <img
+                      v-else-if="header.column.getIsSorted() === 'desc'"
+                      src="@/assets/icons/arrow-down.svg"
+                      alt="정렬 내림차순"
+                      class="w-3.5 h-3.5"
+                    />
+                    <img
+                      v-else
+                      src="@/assets/icons/arrow-up-down.svg"
+                      alt="정렬 가능"
+                      class="w-3.5 h-3.5"
+                    />
+                  </div>
+                </div>
+                <!-- 컬럼 구분선 -->
+                <div
+                  v-if="!header.isLast"
+                  class="absolute right-0 top-4 bottom-4 w-px bg-gray-200"
+                  style="background-color: #efefef"
+                ></div>
+              </th>
+            </tr>
+          </thead>
 
-        <!-- 테이블 바디 -->
-        <tbody>
-          <tr
-            v-for="row in table.getRowModel().rows"
-            :key="row.id"
-            class="group border-b last:border-b-0 transition-colors duration-150 hover:bg-gray-50"
-            :style="{ borderColor: '#EFEFEF' }"
-          >
-            <td
-              v-for="cell in row.getVisibleCells()"
-              :key="cell.id"
-              :class="[
-                'text-sm px-4 py-4',
-                cell.column.id === 'number' ? 'text-center' : '',
-                cell.column.id === 'content'
-                  ? 'cursor-pointer group-hover:underline'
-                  : '',
-              ]"
+          <!-- 테이블 바디 -->
+          <tbody>
+            <tr
+              v-for="row in table.getRowModel().rows"
+              :key="row.id"
+              class="group border-b last:border-b-0 transition-colors duration-150 hover:bg-gray-50"
+              :style="{ borderColor: '#EFEFEF' }"
             >
-              <FlexRender
-                :render="cell.column.columnDef.cell"
-                :props="cell.getContext()"
-              />
-            </td>
-          </tr>
-        </tbody>
-      </table>
+              <td
+                v-for="cell in row.getVisibleCells()"
+                :key="cell.id"
+                :class="[
+                  'text-sm px-4 py-4',
+                  cell.column.id === 'number' ? 'text-center' : '',
+                  cell.column.id === 'content'
+                    ? 'cursor-pointer group-hover:underline'
+                    : '',
+                ]"
+              >
+                <FlexRender
+                  :render="cell.column.columnDef.cell"
+                  :props="cell.getContext()"
+                />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 버튼 그룹 -->
+    <div class="flex justify-center gap-2 mt-6 mb-8">
+      <BaseButton
+        class="flex-1 max-w-[211px] !bg-background-neutral"
+        text="취소"
+        :primary="false"
+        :shadow="false"
+        size="default"
+      />
+      <BaseButton
+        class="flex-1 max-w-[211px]"
+        text="적용하기"
+        :primary="true"
+        :shadow="true"
+        size="default"
+      />
     </div>
   </div>
 
@@ -150,6 +172,7 @@ import { ref, h, computed } from "vue";
 import { useRoute } from "vue-router";
 import Breadcrumb from "@/components/Breadcrumb.vue";
 import SentenceDetailPanel from "@/components/SentenceDetailPanel.vue";
+import BaseButton from "@/components/BaseButton.vue";
 
 import {
   useVueTable,
