@@ -16,7 +16,7 @@
         <div class="flex items-center gap-1.5">
           <!-- 새로운 문장 버튼 -->
           <button
-            @click="openCreateFolderModal"
+            @click="openSentenceDetailPanel"
             class="flex items-center justify-center gap-1 h-10 px-3 text-white rounded-full hover:opacity-90 transition-opacity"
             style="background-color: #658aef; padding: 10px 16px 10px 12px"
           >
@@ -120,7 +120,9 @@
               :class="[
                 'text-sm px-4 py-4',
                 cell.column.id === 'number' ? 'text-center' : '',
-                cell.column.id === 'content' ? 'group-hover:underline' : '',
+                cell.column.id === 'content'
+                  ? 'cursor-pointer group-hover:underline'
+                  : '',
               ]"
             >
               <FlexRender
@@ -133,12 +135,22 @@
       </table>
     </div>
   </div>
-  <!-- 페이지 헤더 -->
+
+  <!-- 문장 상세 패널 -->
+  <SentenceDetailPanel
+    :isVisible="isSentenceDetailPanelVisible"
+    :sentenceData="selectedSentence"
+    @close="closeSentenceDetailPanel"
+    @save="handleSentenceSave"
+    @delete="handleSentenceDelete"
+  />
 </template>
 <script setup>
 import { ref, h, computed } from "vue";
 import { useRoute } from "vue-router";
 import Breadcrumb from "@/components/Breadcrumb.vue";
+import SentenceDetailPanel from "@/components/SentenceDetailPanel.vue";
+
 import {
   useVueTable,
   FlexRender,
@@ -148,6 +160,10 @@ import {
 } from "@tanstack/vue-table";
 
 const route = useRoute();
+
+// 패널 상태
+const isSentenceDetailPanelVisible = ref(false);
+const selectedSentence = ref(null);
 
 // 예시 데이터
 const fileData = ref({
@@ -295,8 +311,10 @@ const columns = [
       h(
         "div",
         {
-          class: "text-gray-900 font-normal text-sm leading-5 line-clamp-2",
+          class:
+            "text-gray-900 font-normal text-sm leading-5 line-clamp-2 cursor-pointer hover:bg-gray-50 p-2 rounded transition-colors",
           style: "line-height: 1.4286em;",
+          onClick: () => openSentenceDetailPanel(info.row.original),
         },
         info.getValue()
       ),
@@ -314,4 +332,25 @@ const table = useVueTable({
   getSortedRowModel: getSortedRowModel(),
   enableSorting: true,
 });
+
+// 패널 관련 함수들
+const openSentenceDetailPanel = (sentenceData = null) => {
+  selectedSentence.value = sentenceData;
+  isSentenceDetailPanelVisible.value = true;
+};
+
+const closeSentenceDetailPanel = () => {
+  isSentenceDetailPanelVisible.value = false;
+  selectedSentence.value = null;
+};
+
+const handleSentenceSave = (data) => {
+  console.log("문장 저장:", data);
+  closeSentenceDetailPanel();
+};
+
+const handleSentenceDelete = () => {
+  console.log("문장 삭제");
+  closeSentenceDetailPanel();
+};
 </script>
