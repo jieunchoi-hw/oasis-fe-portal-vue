@@ -16,7 +16,6 @@
         <div class="flex items-center gap-1.5">
           <!-- 새로운 문장 버튼 -->
           <button
-            @click="openSentenceDetailPanel"
             class="flex items-center justify-center gap-1 h-10 px-3 text-white rounded-full hover:opacity-90 transition-opacity"
             style="background-color: #658aef; padding: 10px 16px 10px 12px"
           >
@@ -126,6 +125,7 @@
                     ? 'cursor-pointer group-hover:underline'
                     : '',
                 ]"
+                @click="cell.column.id === 'content' ? openSentenceDetailPanel(row.original) : null"
               >
                 <FlexRender
                   :render="cell.column.columnDef.cell"
@@ -334,8 +334,7 @@ const columns = [
         "div",
         {
           class:
-            "text-gray-900 font-normal text-sm leading-5 line-clamp-1 cursor-pointer hover:bg-gray-50 rounded transition-colors leading-tight",
-          onClick: () => openSentenceDetailPanel(info.row.original),
+            "text-gray-900 font-normal text-sm leading-5 line-clamp-1 transition-colors leading-tight",
         },
         info.getValue()
       ),
