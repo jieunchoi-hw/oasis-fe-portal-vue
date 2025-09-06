@@ -1,4 +1,11 @@
 <template>
+  <!-- 백드롭 오버레이 -->
+  <div
+    v-if="isVisible"
+    class="fixed inset-0 z-40"
+    @click="$emit('close')"
+  ></div>
+
   <div
     v-if="isVisible"
     class="fixed right-0 bg-white z-50 transform transition-transform duration-300 ease-in-out border-l"

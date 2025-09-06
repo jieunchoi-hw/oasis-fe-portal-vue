@@ -2,11 +2,13 @@
   <div
     v-if="isVisible"
     class="fixed inset-0 z-50 flex justify-end backdrop-blur-[2px] bg-black/50"
+    @click="$emit('close')"
   >
     <!-- 모달 패널 -->
     <div
       class="bg-white transform transition-transform duration-300 ease-in-out border-l w-[800px] h-screen border-gray-200 flex flex-col"
       :class="isVisible ? 'translate-x-0' : 'translate-x-full'"
+      @click.stop
     >
       <!-- 헤더 -->
       <div
@@ -31,7 +33,7 @@
       </div>
 
       <!-- 스크롤 가능한 콘텐츠 영역 -->
-      <div ref="scrollContainer" class="flex-1 overflow-y-auto min-h-0">
+      <div class="flex-1 overflow-y-auto min-h-0">
         <!-- 제목 -->
         <div class="px-10 pt-8 pb-4">
           <h2 class="text-gray-900 font-semibold text-sm leading-5">
@@ -205,7 +207,7 @@
 </template>
 
 <script setup>
-import { ref, nextTick } from "vue";
+import { ref } from "vue";
 import documentIcon from "@/assets/icons/document-icon.svg";
 
 // Props
@@ -223,9 +225,6 @@ const props = defineProps({
 // Emits
 const emit = defineEmits(["close", "save", "delete"]);
 
-// 스크롤 영역 ref
-const scrollContainer = ref(null);
-
 // 링크 데이터
 const links = ref([
   { title: "복지 포인트 안내", url: "http://chatcI-elmas-labs.app.prd.honec" },
@@ -238,17 +237,8 @@ const getFileIcon = () => {
 };
 
 // 링크 추가 함수
-const addLink = async () => {
+const addLink = () => {
   links.value.push({ title: "", url: "" });
-  
-  // DOM 업데이트 후 스크롤을 맨 아래로 이동
-  await nextTick();
-  if (scrollContainer.value) {
-    scrollContainer.value.scrollTo({
-      top: scrollContainer.value.scrollHeight,
-      behavior: 'smooth'
-    });
-  }
 };
 
 // 링크 제거 함수
