@@ -71,7 +71,7 @@
     <!-- 하단 그라데이션 오버레이 - 뷰포트 고정 -->
     <div
       ref="overlay"
-      class="fixed bottom-0 left-0 right-0 h-20 pointer-events-none duration-300 z-10 bg-gradient-to-b from-slate-50/0 to-slate-50"
+      class="fixed bottom-0 left-0 right-0 h-20 pointer-events-none duration-300 z-10 bg-gradient-to-b from-slate-50/0 to-slate-50 transition-opacity"
     ></div>
 
     <!-- 모달 -->
@@ -84,12 +84,13 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from "vue";
+import { ref, watchEffect, inject, onMounted, onUnmounted } from "vue";
 import DocumentCard from "@/components/DocumentCard.vue";
 import CreateBoxModal from "@/components/CreateBoxModal.vue";
 
 // 오버레이 ref
 const overlay = ref(null);
+const scrollHost = inject("scrollHost", null);
 
 // 모달 상태
 const isModalOpen = ref(false);
@@ -112,32 +113,52 @@ const handleModalSubmit = (formData) => {
 };
 
 // 스크롤 이벤트 핸들러
+const FADE_THRESHOLD = 100;
+
 const handleScroll = () => {
   if (!overlay.value) return;
 
-  const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-  const windowHeight = window.innerHeight;
-  const documentHeight = document.documentElement.scrollHeight;
+  // 호스트 결정
+  const el = scrollHost?.value ?? null;
 
-  // 스크롤이 맨 아래에서 100px 이내에 있으면 오버레이를 서서히 사라지게 함
-  const bottomDistance = documentHeight - (scrollTop + windowHeight);
-  const fadeThreshold = 100; // 100px 이내에서 페이드 시작
-
-  if (bottomDistance <= fadeThreshold) {
-    const opacity = Math.max(0, bottomDistance / fadeThreshold);
-    overlay.value.style.opacity = opacity.toString();
+  // 호스트 기준으로 bottomDistance 계산
+  let bottomDistance;
+  if (el) {
+    const scrollTop = el.scrollTop;
+    const clientHeight = el.clientHeight;
+    const scrollHeight = el.scrollHeight;
+    bottomDistance = scrollHeight - (scrollTop + clientHeight);
   } else {
-    overlay.value.style.opacity = "1";
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const clientHeight = window.innerHeight;
+    const scrollHeight = document.documentElement.scrollHeight;
+    bottomDistance = scrollHeight - (scrollTop + clientHeight);
   }
+
+  const targetOpacity =
+    bottomDistance <= FADE_THRESHOLD
+      ? Math.max(0, bottomDistance / FADE_THRESHOLD)
+      : 1;
+
+  overlay.value.style.opacity = String(targetOpacity);
 };
 
 // 컴포넌트 마운트/언마운트 시 이벤트 리스너 관리
 onMounted(() => {
-  window.addEventListener("scroll", handleScroll);
+  const stop = watchEffect(() => {
+    if (scrollHost?.value) {
+      scrollHost.value.addEventListener("scroll", handleScroll, {
+        passive: true,
+      });
+    }
+  });
 });
 
 onUnmounted(() => {
-  window.removeEventListener("scroll", handleScroll);
+  stop();
+  if (scrollHost?.value) {
+    scrollHost.value.removeEventListener("scroll", handleScroll);
+  }
 });
 
 // 문서 데이터
