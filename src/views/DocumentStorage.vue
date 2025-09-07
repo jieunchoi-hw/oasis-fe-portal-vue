@@ -1,10 +1,9 @@
 <template>
-  <div
-    class="min-h-screen bg-gray-50 pt-10 px-15"
-    style="background-color: #f5f8fd"
-  >
+  <div class="min-h-screen px-15 bg-gray-50">
     <!-- 페이지 헤더 -->
-    <div class="flex justify-between px-8 py-4">
+    <div
+      class="sticky top-0 z-20 flex justify-between px-8 py-4 pt-14 bg-gray-50"
+    >
       <div>
         <div class="mb-2">
           <h1 class="text-3xl font-semibold text-gray-900">
@@ -257,6 +256,34 @@ const documents = ref([
   },
   {
     id: 16,
+    title: "구매업무 관련 문서",
+    description: "문서 박스에 대한 설명문구가 작성되는 영역입니다.",
+    author: "김한화",
+    date: "2025.08.20",
+  },
+  {
+    id: 17,
+    title: "구매업무 관련 문서",
+    description: "문서 박스에 대한 설명문구가 작성되는 영역입니다.",
+    author: "김한화",
+    date: "2025.08.20",
+  },
+  {
+    id: 18,
+    title: "구매업무 관련 문서",
+    description: "문서 박스에 대한 설명문구가 작성되는 영역입니다.",
+    author: "김한화",
+    date: "2025.08.20",
+  },
+  {
+    id: 19,
+    title: "구매업무 관련 문서",
+    description: "문서 박스에 대한 설명문구가 작성되는 영역입니다.",
+    author: "김한화",
+    date: "2025.08.20",
+  },
+  {
+    id: 20,
     title: "구매업무 관련 문서",
     description: "문서 박스에 대한 설명문구가 작성되는 영역입니다.",
     author: "김한화",
