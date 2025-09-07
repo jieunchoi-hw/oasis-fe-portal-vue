@@ -68,7 +68,7 @@
       </div>
     </div>
     <!-- 테이블 컨테이너 -->
-    <div class="mx-8 bg-white rounded-xl overflow-hidden">
+    <div class="mx-8 bg-white rounded-xl overflow-hidden min-h-[43rem]">
       <table v-if="counts > 0" class="w-full">
         <!-- 테이블 헤더 -->
         <thead>
@@ -150,10 +150,29 @@
         </tbody>
       </table>
 
-      <div
-        v-else
-        class="flex flex-col items-center justify-center py-20 gap-4"
-      ></div>
+      <!-- Empty State -->
+      <div v-else class="flex items-center justify-center min-h-[43rem]">
+        <div class="flex flex-col items-center gap-10">
+          <!-- Document Illustration -->
+          <div class="w-50 h-50 flex items-center justify-center">
+            <img
+              src="@/assets/icons/document.svg"
+              alt="Empty Document State"
+              class="w-50 h-50"
+            />
+          </div>
+
+          <!-- Text Content -->
+          <div class="flex flex-col items-center gap-3">
+            <h3 class="text-lg font-medium text-neutral text-center">
+              아직 문서가 없어요
+            </h3>
+            <p class="text-sm text-assistive text-center">
+              파일을 끌어다 놓거나 상단 버튼을 눌러 문서를 업로드 해보세요
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- 파일 상세 패널 -->
