@@ -370,7 +370,16 @@ const data = ref([
 ]);
 
 onMounted(() => {
-  counts.value = JSON.parse(route.query.document).counts;
+  // sessionStorage에서 document 정보 가져오기
+  const storedDocument = sessionStorage.getItem("selectedDocument");
+  if (storedDocument) {
+    const document = JSON.parse(storedDocument);
+    counts.value = document.counts || 0;
+  } else {
+    // fallback: sessionStorage에 데이터가 없는 경우 기본값 설정
+    counts.value = 0;
+    console.warn("Document information not found in sessionStorage");
+  }
 });
 
 // 컬럼 정의

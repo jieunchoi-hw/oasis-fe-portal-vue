@@ -31,7 +31,7 @@
               : 'text-neutral-500 hover:text-neutral-700'
           "
         >
-          RAG
+          문서 저장소
         </router-link>
       </nav>
     </div>

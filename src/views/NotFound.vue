@@ -93,28 +93,6 @@
           </router-link>
         </div>
       </div>
-
-      <!-- 문의 정보 -->
-      <div class="mt-8 p-4 bg-blue-50 dark:bg-blue-900 rounded-lg">
-        <div class="flex items-center justify-center mb-2">
-          <QuestionMarkCircleIcon
-            class="h-6 w-6 text-blue-600 dark:text-blue-400"
-          />
-        </div>
-        <h4 class="font-semibold text-blue-900 dark:text-blue-100 mb-2">
-          도움이 필요하신가요?
-        </h4>
-        <p class="text-sm text-blue-700 dark:text-blue-300 mb-3">
-          계속해서 문제가 발생한다면 고객지원팀에 문의해주세요.
-        </p>
-
-        <button
-          class="inline-flex items-center text-sm font-medium text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
-        >
-          <EnvelopeIcon class="h-4 w-4 mr-1" />
-          문의하기
-        </button>
-      </div>
     </div>
   </div>
 </template>
