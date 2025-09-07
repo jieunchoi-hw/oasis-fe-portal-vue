@@ -23,15 +23,15 @@
           AI 비서
         </router-link>
         <router-link
-          to="/document-storage"
+          to="/rag"
           class="px-3 py-2 text-base font-semibold transition-colors h-9 flex items-center"
           :class="
-            $route.path.startsWith('/document-storage')
+            $route.path.startsWith('/rag')
               ? 'text-neutral-900'
               : 'text-neutral-500 hover:text-neutral-700'
           "
         >
-          문서 저장소
+          RAG
         </router-link>
       </nav>
     </div>

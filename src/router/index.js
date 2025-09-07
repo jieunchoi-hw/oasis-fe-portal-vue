@@ -3,15 +3,15 @@ import { createRouter, createWebHistory } from "vue-router";
 // Views
 import Home from "@/views/Home.vue";
 import AiAssistant from "@/views/AiAssistant.vue";
-import DocumentStorage from "@/views/DocumentStorage.vue";
-import DocumentStorageDetail from "@/views/DocumentStorageDetail.vue";
+import Rag from "@/views/Rag.vue";
+import RagDetail from "@/views/RagDetail.vue";
 import FileDetail from "@/views/FileDetail.vue";
 import NotFound from "@/views/NotFound.vue";
 
 const routes = [
   {
     path: "/",
-    redirect: "/document-storage",
+    redirect: "/rag",
   },
   {
     path: "/home",
@@ -32,25 +32,25 @@ const routes = [
     },
   },
   {
-    path: "/document-storage",
-    name: "DocumentStorage",
-    component: DocumentStorage,
+    path: "/rag",
+    name: "Rag",
+    component: Rag,
     meta: {
-      title: "문서 저장소",
+      title: "RAG",
       requiresAuth: false,
     },
   },
   {
-    path: "/document-storage/:id",
-    name: "DocumentStorageDetail",
-    component: DocumentStorageDetail,
+    path: "/rag/:id",
+    name: "RagDetail",
+    component: RagDetail,
     meta: {
-      title: "문서 상세보기",
+      title: "RAG 상세보기",
       requiresAuth: false,
     },
   },
   {
-    path: "/document-storage/:id/file/:fileId",
+    path: "/rag/:id/file/:fileId",
     name: "FileDetail",
     component: FileDetail,
     meta: {

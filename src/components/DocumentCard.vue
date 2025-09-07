@@ -107,7 +107,7 @@ const menuItems = computed(() => [
 const handleCardClick = () => {
   // 카드 클릭 시 문서 상세 페이지로 이동 (쿼리로 document 정보 전달)
   router.push({
-    path: `/document-storage/${props.document.id}`,
+    path: `/rag/${props.document.id}`,
     query: { document: JSON.stringify(props.document) },
   });
 };
