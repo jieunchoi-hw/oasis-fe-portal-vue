@@ -69,7 +69,7 @@
     </div>
     <!-- 테이블 컨테이너 -->
     <div class="mx-8 bg-white rounded-xl overflow-hidden">
-      <table class="w-full">
+      <table v-if="counts > 0" class="w-full">
         <!-- 테이블 헤더 -->
         <thead>
           <tr
@@ -149,6 +149,11 @@
           </tr>
         </tbody>
       </table>
+
+      <div
+        v-else
+        class="flex flex-col items-center justify-center py-20 gap-4"
+      ></div>
     </div>
 
     <!-- 파일 상세 패널 -->
@@ -168,7 +173,7 @@
 </template>
 
 <script setup>
-import { computed, ref, h } from "vue";
+import { computed, ref, h, onMounted } from "vue";
 import SearchInput from "@/components/SearchInput.vue";
 import { useRoute } from "vue-router";
 import {
@@ -189,6 +194,7 @@ import wordIcon from "@/assets/icons/word-icon.svg";
 import excelIcon from "@/assets/icons/excel-icon.svg";
 
 const route = useRoute();
+const counts = ref(0);
 
 // Document ID from route params
 const documentId = computed(() => route.params.id);
@@ -343,6 +349,10 @@ const data = ref([
     sharing: "비공개",
   },
 ]);
+
+onMounted(() => {
+  counts.value = JSON.parse(route.query.document).counts;
+});
 
 // 컬럼 정의
 const columnHelper = createColumnHelper();
