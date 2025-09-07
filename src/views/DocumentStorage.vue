@@ -71,14 +71,7 @@
     <!-- 하단 그라데이션 오버레이 - 뷰포트 고정 -->
     <div
       ref="overlay"
-      class="fixed bottom-0 left-0 right-0 h-20 pointer-events-none transition-opacity duration-300 z-10"
-      style="
-        background: linear-gradient(
-          180deg,
-          rgba(245, 248, 253, 0) 0%,
-          rgba(245, 248, 253, 1) 70%
-        );
-      "
+      class="fixed bottom-0 left-0 right-0 h-20 pointer-events-none duration-300 z-10 bg-gradient-to-b from-slate-50/0 to-slate-50"
     ></div>
 
     <!-- 모달 -->
