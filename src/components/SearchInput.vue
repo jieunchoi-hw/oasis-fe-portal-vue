@@ -3,7 +3,7 @@
     <input
       type="text"
       :placeholder="placeholder"
-      class="w-96 h-11 px-4 py-1.5 pl-12 bg-background-neutral border-line-neutral border-solid inline-flex border rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 placeholder:text-gray-400 placeholder:text-base placeholder:font-normal placeholder:leading-tight"
+      class="w-96 h-11 px-4 py-1.5 pl-12 bg-background-neutral border-line-neutral border-solid inline-flex border rounded-full focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 placeholder:text-gray-400 placeholder:text-base placeholder:font-normal placeholder:leading-tight"
       :style="inputStyle"
       v-model="modelValue"
       @input="$emit('update:modelValue', modelValue)"

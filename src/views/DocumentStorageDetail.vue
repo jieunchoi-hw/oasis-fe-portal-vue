@@ -16,33 +16,10 @@
       <!-- 검색바와 버튼 그룹 -->
       <div class="flex items-center gap-6">
         <!-- 검색바 -->
-        <div class="relative">
-          <input
-            type="text"
-            placeholder="문서나 파일을 검색해보세요."
-            class="w-90 h-11 pl-12 pr-4 border rounded-full bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-400"
-            style="
-              width: 360px;
-              height: 44px;
-              border-color: #efefef;
-              padding: 7px 16px;
-              padding-left: 48px;
-              color: #a7acb6;
-            "
-          />
-          <!-- 검색 아이콘 -->
-          <div
-            class="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 flex items-center justify-center"
-          >
-            <div class="relative w-5 h-5">
-              <img
-                src="@/assets/icons/search-icon.svg"
-                alt="검색"
-                class="absolute"
-              />
-            </div>
-          </div>
-        </div>
+        <SearchInput
+          v-model="search"
+          placeholder="문서나 파일을 검색해보세요."
+        />
 
         <!-- 버튼 그룹 -->
         <div class="flex items-center gap-1.5">
@@ -192,6 +169,7 @@
 
 <script setup>
 import { computed, ref, h } from "vue";
+import SearchInput from "@/components/SearchInput.vue";
 import { useRoute } from "vue-router";
 import {
   useVueTable,
@@ -257,6 +235,9 @@ const handleCreateFolder = (folderName) => {
   // 여기에 폴더 생성 로직 추가
   // 예: API 호출, 데이터 업데이트 등
 };
+
+// 검색어 상태
+const search = ref("");
 
 // 샘플 데이터
 const data = ref([
@@ -449,10 +430,21 @@ const columns = [
   }),
 ];
 
+// 검색어에 따라 필터링된 데이터
+const filteredData = computed(() => {
+  if (!search.value.trim()) return data.value;
+  const keyword = search.value.trim().toLowerCase();
+  return data.value.filter(
+    (item) =>
+      item.name.toLowerCase().includes(keyword) ||
+      (item.modifiedBy && item.modifiedBy.toLowerCase().includes(keyword))
+  );
+});
+
 // 테이블 인스턴스 생성
 const table = useVueTable({
   get data() {
-    return data.value;
+    return filteredData.value;
   },
   columns,
   getCoreRowModel: getCoreRowModel(),
