@@ -2,6 +2,7 @@ import BaseButton from "@/components/BaseButton.vue";
 import ContextMenu from "@/components/ContextMenu.vue";
 import SearchInput from "@/components/SearchInput.vue";
 import AppTable from "@/components/AppTable.vue";
+import AppConfirmDialog from "@/components/AppConfirmDialog.vue";
 
 export default {
   install(app) {
@@ -9,5 +10,6 @@ export default {
     app.component("ContextMenu", ContextMenu);
     app.component("SearchInput", SearchInput);
     app.component("AppTable", AppTable);
+    app.component("AppConfirmDialog", AppConfirmDialog);
   },
 };
