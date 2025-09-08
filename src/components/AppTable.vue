@@ -1,8 +1,101 @@
 <template>
-  <div class="bg-white rounded-xl overflow-hidden min-h-[43rem]">
-    <table v-if="data.length > 0" class="w-full">
+  <div class="mx-8 bg-white rounded-xl overflow-hidden" :class="containerClass">
+    <div v-if="showScrollContainer" class="flex-1 overflow-auto">
+      <table class="w-full">
+        <!-- 테이블 헤더 -->
+        <thead :class="headerClass">
+          <tr
+            v-for="headerGroup in table.getHeaderGroups()"
+            :key="headerGroup.id"
+          >
+            <th
+              v-for="header in headerGroup.headers"
+              :key="header.id"
+              :class="getHeaderCellClass(header)"
+              :style="{
+                width: header.getSize() + 'px',
+                borderColor: '#EFEFEF',
+              }"
+            >
+              <!-- 번호 컬럼은 중앙 정렬로 단순하게 표시 -->
+              <div
+                v-if="header.column.id === 'number'"
+                class="flex justify-center"
+              >
+                <FlexRender
+                  :render="header.column.columnDef.header"
+                  :props="header.getContext()"
+                />
+              </div>
+              <!-- 다른 컬럼들은 기존 레이아웃 유지 -->
+              <div v-else class="flex items-center gap-3">
+                <FlexRender
+                  :render="header.column.columnDef.header"
+                  :props="header.getContext()"
+                />
+                <!-- 정렬 아이콘 -->
+                <div
+                  v-if="header.column.getCanSort()"
+                  class="cursor-pointer flex items-center ml-3"
+                  @click="() => header.column.toggleSorting()"
+                >
+                  <img
+                    v-if="header.column.getIsSorted() === 'asc'"
+                    src="@/assets/icons/arrow-up.svg"
+                    alt="정렬 오름차순"
+                    class="w-3.5 h-3.5"
+                  />
+                  <img
+                    v-else-if="header.column.getIsSorted() === 'desc'"
+                    src="@/assets/icons/arrow-down.svg"
+                    alt="정렬 내림차순"
+                    class="w-3.5 h-3.5"
+                  />
+                  <img
+                    v-else
+                    src="@/assets/icons/arrow-up-down.svg"
+                    alt="정렬 가능"
+                    class="w-3.5 h-3.5"
+                  />
+                </div>
+              </div>
+              <!-- 컬럼 구분선 -->
+              <div
+                v-if="!header.isLast"
+                class="absolute right-0 top-4 bottom-4 w-px bg-gray-200"
+                style="background-color: #efefef"
+              ></div>
+            </th>
+          </tr>
+        </thead>
+
+        <!-- 테이블 바디 -->
+        <tbody>
+          <tr
+            v-for="row in table.getRowModel().rows"
+            :key="row.id"
+            :class="getRowClass(row)"
+          >
+            <td
+              v-for="cell in row.getVisibleCells()"
+              :key="cell.id"
+              :class="getCellClass(cell)"
+              @click="handleCellClick(cell, row)"
+            >
+              <FlexRender
+                :render="cell.column.columnDef.cell"
+                :props="cell.getContext()"
+              />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 스크롤 컨테이너가 없는 경우 -->
+    <table v-else class="w-full">
       <!-- 테이블 헤더 -->
-      <thead>
+      <thead :class="headerClass">
         <tr
           v-for="headerGroup in table.getHeaderGroups()"
           :key="headerGroup.id"
@@ -10,12 +103,24 @@
           <th
             v-for="header in headerGroup.headers"
             :key="header.id"
-            class="text-left border-b border-line-neutral px-4 py-4 text-sm font-semibold text-gray-600 bg-white relative"
+            :class="getHeaderCellClass(header)"
             :style="{
               width: header.getSize() + 'px',
+              borderColor: '#EFEFEF',
             }"
           >
-            <div class="flex items-center gap-3">
+            <!-- 번호 컬럼은 중앙 정렬로 단순하게 표시 -->
+            <div
+              v-if="header.column.id === 'number'"
+              class="flex justify-center"
+            >
+              <FlexRender
+                :render="header.column.columnDef.header"
+                :props="header.getContext()"
+              />
+            </div>
+            <!-- 다른 컬럼들은 기존 레이아웃 유지 -->
+            <div v-else class="flex items-center gap-3">
               <FlexRender
                 :render="header.column.columnDef.header"
                 :props="header.getContext()"
@@ -61,13 +166,13 @@
         <tr
           v-for="row in table.getRowModel().rows"
           :key="row.id"
-          class="group border-b border-line-neutral last:border-b-0 transition-colors duration-150 hover:bg-gray-50"
+          :class="getRowClass(row)"
         >
           <td
             v-for="cell in row.getVisibleCells()"
             :key="cell.id"
-            class="text-sm"
-            :class="getCellClass(cell.column.id)"
+            :class="getCellClass(cell)"
+            @click="handleCellClick(cell, row)"
           >
             <FlexRender
               :render="cell.column.columnDef.cell"
@@ -79,20 +184,27 @@
     </table>
 
     <!-- Empty State -->
-    <div v-else class="flex items-center justify-center min-h-[43rem]">
+    <div
+      v-if="showEmptyState && table.getRowModel().rows.length === 0"
+      class="flex items-center justify-center min-h-[43rem]"
+    >
       <div class="flex flex-col items-center gap-10">
-        <!-- Empty State Icon -->
+        <!-- Document Illustration -->
         <div class="w-50 h-50 flex items-center justify-center">
-          <img :src="emptyStateIcon" :alt="emptyStateAlt" class="w-50 h-50" />
+          <img
+            src="@/assets/icons/document.svg"
+            alt="Empty Document State"
+            class="w-50 h-50"
+          />
         </div>
 
         <!-- Text Content -->
         <div class="flex flex-col items-center gap-3">
           <h3 class="text-lg font-medium text-neutral text-center">
-            {{ emptyStateTitle }}
+            {{ emptyStateTitle || "아직 데이터가 없어요" }}
           </h3>
           <p class="text-sm text-assistive text-center">
-            {{ emptyStateDescription }}
+            {{ emptyStateDescription || "데이터를 추가해보세요" }}
           </p>
         </div>
       </div>
@@ -101,83 +213,83 @@
 </template>
 
 <script setup>
-import { computed } from "vue";
-import {
-  useVueTable,
-  FlexRender,
-  getCoreRowModel,
-  getSortedRowModel,
-} from "@tanstack/vue-table";
+// import { computed } from "vue";
+import { FlexRender } from "@tanstack/vue-table";
 
-// Props 정의
 const props = defineProps({
-  data: {
-    type: Array,
+  table: {
+    type: Object,
     required: true,
-    default: () => [],
   },
-  columns: {
-    type: Array,
-    required: true,
-    default: () => [],
-  },
-  emptyStateIcon: {
+  containerClass: {
     type: String,
-    default: "@/assets/icons/document.svg",
+    default: "max-h-[42rem] flex flex-col",
   },
-  emptyStateAlt: {
+  showScrollContainer: {
+    type: Boolean,
+    default: true,
+  },
+  headerClass: {
     type: String,
-    default: "Empty State",
+    default: "sticky top-0 bg-white z-10",
+  },
+  showEmptyState: {
+    type: Boolean,
+    default: false,
   },
   emptyStateTitle: {
     type: String,
-    default: "데이터가 없습니다",
+    default: "",
   },
   emptyStateDescription: {
     type: String,
-    default: "표시할 데이터가 없습니다",
+    default: "",
   },
-  cellClassConfig: {
-    type: Object,
-    default: () => ({
-      default: "px-4 py-4",
-      name: "px-8 py-4",
-    }),
+  // 셀 클릭 이벤트를 위한 설정
+  clickableColumns: {
+    type: Array,
+    default: () => [],
   },
 });
 
-// Events 정의
-const emit = defineEmits(["row-click", "cell-click"]);
+const emit = defineEmits(["cellClick"]);
 
-// 셀 클래스 계산 (일반 테이블용)
-const getCellClass = (columnId) => {
-  return props.cellClassConfig[columnId] || props.cellClassConfig.default;
+// 헤더 셀 클래스 계산
+const getHeaderCellClass = (header) => {
+  const baseClass =
+    "border-b px-4 py-4 text-sm font-semibold text-gray-600 bg-white relative";
+  const alignmentClass =
+    header.column.id === "number" ? "text-center" : "text-left";
+  return [baseClass, alignmentClass];
 };
 
-// 헤더 클래스 계산 (문장 테이블용)
-const getHeaderClass = (columnId) => {
-  return props.headerClassConfig[columnId] || props.headerClassConfig.default;
+// 행 클래스 계산
+const getRowClass = (_row) => {
+  return "group border-b border-line-neutral last:border-b-0 transition-colors duration-150 hover:bg-gray-50";
 };
 
-// 바디 셀 클래스 계산 (문장 테이블용)
-const getBodyCellClass = (columnId) => {
-  return (
-    props.bodyCellClassConfig[columnId] || props.bodyCellClassConfig.default
-  );
+// 셀 클래스 계산
+const getCellClass = (cell) => {
+  const baseClass = "text-sm";
+  const alignmentClass = cell.column.id === "number" ? "text-center" : "";
+  const clickableClass = props.clickableColumns.includes(cell.column.id)
+    ? "cursor-pointer group-hover:underline"
+    : "";
+
+  // RagDetail의 특별한 패딩 처리
+  const paddingClass = cell.column.id === "name" ? "px-8 py-4" : "px-4 py-4";
+
+  return [baseClass, alignmentClass, clickableClass, paddingClass];
 };
 
-// 테이블 인스턴스 생성
-const table = useVueTable({
-  get data() {
-    return props.data;
-  },
-  columns: props.columns,
-  getCoreRowModel: getCoreRowModel(),
-  getSortedRowModel: getSortedRowModel(),
-  enableSorting: true,
-});
+// 셀 클릭 핸들러
+const handleCellClick = (cell, row) => {
+  if (props.clickableColumns.includes(cell.column.id)) {
+    emit("cellClick", {
+      cell,
+      row: row.original,
+      columnId: cell.column.id,
+    });
+  }
+};
 </script>
-
-<style scoped>
-/* 테이블 관련 스타일은 여기에 추가 */
-</style>

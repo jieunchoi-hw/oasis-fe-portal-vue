@@ -67,21 +67,17 @@
         </div>
       </div>
     </div>
-
-    <div v-if="counts > 0" class="mx-8">
-      <AppTable
-        :data="filteredData"
-        :columns="tableColumns"
-        :empty-state-icon="documentEmptyIcon"
-        empty-state-alt="Empty Document State"
-        empty-state-title="검색된 문서가 없어요"
-        empty-state-description="입력한 키워드를 다시 한 번 확인해보세요"
-        :cell-class-config="cellClassConfig"
-        @row-click="handleRowClick"
-        @cell-click="handleCellClick"
-      />
-    </div>
-
+    <!-- 테이블 컨테이너 -->
+    <AppTable
+      v-if="counts > 0"
+      :table="table"
+      container-class="min-h-[43rem]"
+      :show-scroll-container="false"
+      header-class=""
+      :show-empty-state="counts === 0"
+      empty-state-title="아직 문서가 없어요"
+      empty-state-description="파일을 끌어다 놓거나 상단 버튼을 눌러 문서를 업로드 해보세요"
+    />
     <div
       v-else
       class="bg-white rounded-xl overflow-hidden min-h-[43rem] justify-center flex items-center mx-8"
@@ -125,13 +121,26 @@
 </template>
 
 <script setup>
-import { computed, ref, onMounted } from "vue";
+import { computed, ref, h, onMounted } from "vue";
 import SearchInput from "@/components/SearchInput.vue";
+import { useRoute } from "vue-router";
+import {
+  useVueTable,
+  FlexRender,
+  getCoreRowModel,
+  createColumnHelper,
+  getSortedRowModel,
+} from "@tanstack/vue-table";
+import ContextMenu from "@/components/ContextMenu.vue";
 import FileDetailPanel from "@/components/FileDetailPanel.vue";
 import CreateFolderModal from "@/components/CreateFolderModal.vue";
-import { useRoute } from "vue-router";
-import { useTableColumns } from "@/composables/useTableColumns.js";
-import documentEmptyIcon from "@/assets/icons/document.svg";
+import AppTable from "@/components/AppTable.vue";
+
+// 파일 타입별 아이콘 import
+import documentIcon from "@/assets/icons/document-icon.svg"; //임시 변경예정
+import pdfIcon from "@/assets/icons/pdf-icon.svg";
+import wordIcon from "@/assets/icons/word-icon.svg";
+import excelIcon from "@/assets/icons/excel-icon.svg";
 
 const route = useRoute();
 const counts = ref(0);
@@ -139,51 +148,21 @@ const counts = ref(0);
 // Document ID from route params
 const documentId = computed(() => route.params.id);
 
-// 테이블 컬럼 설정
-const { createDocumentTableColumns } = useTableColumns();
+// 파일 타입별 아이콘 매핑 함수
+const getFileTypeIcon = (fileType) => {
+  const iconMap = {
+    document: documentIcon,
+    pdf: pdfIcon,
+    word: wordIcon,
+    excel: excelIcon,
+  };
+  return iconMap[fileType] || pdfIcon; // 기본값으로 pdf 아이콘 사용
+};
 
-// 파일 이름 클릭 핸들러
 const handleFileNameClick = (fileData) => {
   console.log("파일 클릭됨:", fileData);
   selectedFileData.value = fileData;
   isDetailPanelVisible.value = true;
-};
-
-// 컨텍스트 메뉴 클릭 핸들러
-const handleContextMenuClick = (action, fileData) => {
-  console.log(`${action} 클릭됨:`, fileData);
-  // 각 액션별 로직 처리
-  switch (action) {
-    case "rename":
-      // 이름 변경 로직
-      break;
-    case "delete":
-      // 삭제 로직
-      break;
-    default:
-      break;
-  }
-};
-
-// 테이블 컬럼 생성
-const tableColumns = createDocumentTableColumns({
-  onFileNameClick: handleFileNameClick,
-  onContextMenuClick: handleContextMenuClick,
-});
-
-// 셀 클래스 설정
-const cellClassConfig = {
-  default: "px-4 py-4",
-  name: "px-8 py-4",
-};
-
-// 테이블 이벤트 핸들러
-const handleRowClick = (rowData) => {
-  console.log("Row clicked:", rowData);
-};
-
-const handleCellClick = (cellData) => {
-  console.log("Cell clicked:", cellData);
 };
 
 // 패널 상태 관리
@@ -333,6 +312,92 @@ onMounted(() => {
   }
 });
 
+// 컬럼 정의
+const columnHelper = createColumnHelper();
+
+const columns = [
+  columnHelper.accessor("name", {
+    header: () => "이름",
+    size: 450,
+    cell: (info) => {
+      const row = info.row.original;
+      return h("div", { class: "flex items-center justify-between gap-4" }, [
+        h("div", { class: "flex items-center gap-4" }, [
+          h("img", {
+            src: getFileTypeIcon(row.fileType),
+            alt: `${row.fileType} 파일`,
+            class: "w-6 h-6",
+          }),
+          h(
+            "span",
+            {
+              class:
+                "text-gray-900 font-medium group-hover:text-blue-500 group-hover:underline group-hover:font-semibold cursor-pointer",
+              onClick: () => handleFileNameClick(row),
+            },
+            info.getValue()
+          ),
+        ]),
+        h(ContextMenu, {
+          menuItems: [
+            {
+              label: "이름바꾸기",
+              action: () => {
+                console.log("이름바꾸기", info.row.original);
+              },
+              activeClass: "bg-neutral-50",
+            },
+            {
+              label: "삭제",
+              action: () => {
+                console.log("삭제", info.row.original);
+              },
+              activeClass: "bg-blue-50",
+            },
+          ],
+          buttonClass:
+            "opacity-0 group-hover:opacity-100 p-1 hover:bg-gray-100 rounded transition-all",
+          iconClass: "w-4 h-4",
+          menuPosition: "left",
+          onItemClick: (item) => {
+            console.log("Table menu item clicked:", item.label);
+          },
+        }),
+      ]);
+    },
+    enableSorting: true,
+  }),
+  columnHelper.accessor("modifiedDate", {
+    header: () => "수정된 날짜",
+    size: 200,
+    cell: (info) =>
+      h("span", { class: "text-gray-900 font-normal" }, info.getValue()),
+    enableSorting: true,
+  }),
+  columnHelper.accessor("modifiedBy", {
+    header: () => "수정한 사람",
+    size: 240,
+    cell: (info) =>
+      h("span", { class: "text-gray-900 font-normal" }, info.getValue()),
+    enableSorting: true,
+  }),
+  columnHelper.accessor("fileSize", {
+    header: () => "파일 크기",
+    size: 218,
+    cell: (info) =>
+      h("span", { class: "text-gray-600 font-normal" }, info.getValue()),
+    enableSorting: false,
+  }),
+  columnHelper.accessor("sharing", {
+    header: () => "공유",
+    size: 218,
+    cell: (info) => {
+      return h("span", { class: "text-gray-900 font-normal" }, info.getValue());
+    },
+    enableSorting: false,
+  }),
+];
+
 // 검색어에 따라 필터링된 데이터
 const filteredData = computed(() => {
   if (!search.value.trim()) return data.value;
@@ -342,6 +407,17 @@ const filteredData = computed(() => {
       item.name.toLowerCase().includes(keyword) ||
       (item.modifiedBy && item.modifiedBy.toLowerCase().includes(keyword))
   );
+});
+
+// 테이블 인스턴스 생성
+const table = useVueTable({
+  get data() {
+    return filteredData.value;
+  },
+  columns,
+  getCoreRowModel: getCoreRowModel(),
+  getSortedRowModel: getSortedRowModel(),
+  enableSorting: true,
 });
 </script>
 

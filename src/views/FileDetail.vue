@@ -33,110 +33,11 @@
     </div>
 
     <!-- 테이블 컨테이너 -->
-    <div
-      class="mx-8 bg-white rounded-xl overflow-hidden max-h-[42rem] flex flex-col"
-    >
-      <div class="flex-1 overflow-auto">
-        <table class="w-full">
-          <!-- 테이블 헤더 -->
-          <thead class="sticky top-0 bg-white z-10">
-            <tr
-              v-for="headerGroup in table.getHeaderGroups()"
-              :key="headerGroup.id"
-            >
-              <th
-                v-for="header in headerGroup.headers"
-                :key="header.id"
-                :class="[
-                  'border-b px-4 py-4 text-sm font-semibold text-gray-600 bg-white relative',
-                  header.column.id === 'number' ? 'text-center' : 'text-left',
-                ]"
-                :style="{
-                  width: header.getSize() + 'px',
-                  borderColor: '#EFEFEF',
-                }"
-              >
-                <!-- 번호 컬럼은 중앙 정렬로 단순하게 표시 -->
-                <div
-                  v-if="header.column.id === 'number'"
-                  class="flex justify-center"
-                >
-                  <FlexRender
-                    :render="header.column.columnDef.header"
-                    :props="header.getContext()"
-                  />
-                </div>
-                <!-- 다른 컬럼들은 기존 레이아웃 유지 -->
-                <div v-else class="flex items-center gap-3">
-                  <FlexRender
-                    :render="header.column.columnDef.header"
-                    :props="header.getContext()"
-                  />
-                  <!-- 정렬 아이콘 -->
-                  <div
-                    v-if="header.column.getCanSort()"
-                    class="cursor-pointer flex items-center ml-3"
-                    @click="() => header.column.toggleSorting()"
-                  >
-                    <img
-                      v-if="header.column.getIsSorted() === 'asc'"
-                      src="@/assets/icons/arrow-up.svg"
-                      alt="정렬 오름차순"
-                      class="w-3.5 h-3.5"
-                    />
-                    <img
-                      v-else-if="header.column.getIsSorted() === 'desc'"
-                      src="@/assets/icons/arrow-down.svg"
-                      alt="정렬 내림차순"
-                      class="w-3.5 h-3.5"
-                    />
-                    <img
-                      v-else
-                      src="@/assets/icons/arrow-up-down.svg"
-                      alt="정렬 가능"
-                      class="w-3.5 h-3.5"
-                    />
-                  </div>
-                </div>
-                <!-- 컬럼 구분선 -->
-                <div
-                  v-if="!header.isLast"
-                  class="absolute right-0 top-4 bottom-4 w-px bg-gray-200"
-                  style="background-color: #efefef"
-                ></div>
-              </th>
-            </tr>
-          </thead>
-
-          <!-- 테이블 바디 -->
-          <tbody>
-            <tr
-              v-for="row in table.getRowModel().rows"
-              :key="row.id"
-              class="group border-b border-line-neutral last:border-b-0 transition-colors duration-150 hover:bg-gray-50"
-            >
-              <td
-                v-for="cell in row.getVisibleCells()"
-                :key="cell.id"
-                :class="[
-                  'text-sm px-4 py-4',
-                  cell.column.id === 'number' ? 'text-center' : '',
-                  cell.column.id === 'content'
-                    ? 'cursor-pointer group-hover:underline'
-                    : '',
-                ]"
-                @click="cell.column.id === 'content' ? openSentenceDetailPanel(row.original) : null"
-              >
-                <FlexRender
-                  :render="cell.column.columnDef.cell"
-                  :props="cell.getContext()"
-                />
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
+    <AppTable
+      :table="table"
+      :clickable-columns="['content']"
+      @cell-click="handleTableCellClick"
+    />
 
     <!-- 버튼 그룹 -->
     <div class="flex justify-center gap-2 mt-6 mb-8">
@@ -167,21 +68,21 @@
   />
 </template>
 <script setup>
-import { ref, h, computed } from "vue";
-import { useRoute } from "vue-router";
+import { ref, h } from "vue";
+// import { useRoute } from "vue-router";
 import Breadcrumb from "@/components/Breadcrumb.vue";
 import SentenceDetailPanel from "@/components/SentenceDetailPanel.vue";
 import BaseButton from "@/components/BaseButton.vue";
+import AppTable from "@/components/AppTable.vue";
 
 import {
   useVueTable,
-  FlexRender,
   getCoreRowModel,
   createColumnHelper,
   getSortedRowModel,
 } from "@tanstack/vue-table";
 
-const route = useRoute();
+// const route = useRoute();
 
 // 패널 상태
 const isSentenceDetailPanelVisible = ref(false);
@@ -364,13 +265,20 @@ const closeSentenceDetailPanel = () => {
   selectedSentence.value = null;
 };
 
-const handleSentenceSave = (data) => {
-  console.log("문장 저장:", data);
+const handleSentenceSave = (_data) => {
+  // console.log("문장 저장:", data);
   closeSentenceDetailPanel();
 };
 
 const handleSentenceDelete = () => {
-  console.log("문장 삭제");
+  // console.log("문장 삭제");
   closeSentenceDetailPanel();
+};
+
+// 테이블 셀 클릭 핸들러
+const handleTableCellClick = (event) => {
+  if (event.columnId === "content") {
+    openSentenceDetailPanel(event.row);
+  }
 };
 </script>
