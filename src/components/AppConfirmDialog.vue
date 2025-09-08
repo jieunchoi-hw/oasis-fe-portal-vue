@@ -1,73 +1,92 @@
 <template>
-  <Teleport to="body">
-    <div
-      v-if="isVisible"
-      class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
-      @click="handleBackdropClick"
-    >
-      <div class="bg-white rounded-2xl p-6 mx-5 max-w-sm w-full" @click.stop>
-        <!-- Header with close button -->
-        <div class="flex justify-end mb-10">
-          <button
-            @click="handleClose"
-            class="flex items-center justify-center w-5 h-5 p-2.5 rounded-full bg-gray-200 hover:bg-gray-300 transition-colors"
-          >
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 14 14"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M10.5 3.5L3.5 10.5M3.5 3.5L10.5 10.5"
-                stroke="#47484C"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-          </button>
-        </div>
+  <TransitionRoot appear :show="isVisible" as="template">
+    <Dialog as="div" @close="handleClose" class="relative z-50">
+      <TransitionChild
+        as="template"
+        enter="duration-300 ease-out"
+        enter-from="opacity-0"
+        enter-to="opacity-100"
+        leave="duration-200 ease-in"
+        leave-from="opacity-100"
+        leave-to="opacity-0"
+      >
+        <div class="fixed inset-0 bg-black/50 backdrop-blur-[2px]" />
+      </TransitionChild>
 
-        <!-- Content -->
-        <div class="flex flex-col items-center gap-2 mb-10">
-          <div class="flex justify-center px-2.5">
-            <h2
-              class="text-xl font-semibold text-center text-[#211C32] leading-[1.4]"
+      <div class="fixed inset-0 overflow-y-auto">
+        <div
+          class="flex min-h-full items-center justify-center p-4 text-center"
+        >
+          <TransitionChild
+            as="template"
+            enter="duration-300 ease-out"
+            enter-from="opacity-0 scale-95"
+            enter-to="opacity-100 scale-100"
+            leave="duration-200 ease-in"
+            leave-from="opacity-100 scale-100"
+            leave-to="opacity-0 scale-95"
+          >
+            <DialogPanel
+              class="relative bg-white rounded-2xl w-110 px-5 pt-6 pb-7 transform overflow-hidden text-left align-middle shadow-xl transition-all"
             >
-              {{ title }}
-            </h2>
-          </div>
-          <p
-            class="text-[15px] font-normal text-[#858588] leading-[1.4] text-center"
-          >
-            {{ description }}
-          </p>
-        </div>
+              <!-- Header with close button -->
+              <div class="relative flex items-center justify-center px-0 py-2">
+                <h2 class="text-xl font-semibold text-text-normal text-center">
+                  {{ title }}
+                </h2>
+                <button
+                  @click="handleClose"
+                  class="absolute right-0 top-0 p-2.5 hover:bg-gray-100 rounded-lg transition-colors"
+                >
+                  <img
+                    src="@/assets/icons/close-modal-icon.svg"
+                    alt="닫기"
+                    class="w-5 h-5"
+                  />
+                </button>
+              </div>
 
-        <!-- Action buttons -->
-        <div class="flex justify-center gap-2">
-          <button
-            @click="handleCancel"
-            class="flex items-center justify-center w-[180px] h-[54px] px-44 py-[18px] bg-[#F2F5FA] rounded-xl text-[#A7ACB6] font-semibold text-base leading-[1.4] hover:bg-[#E8EBF0] transition-colors"
-          >
-            {{ cancelText }}
-          </button>
-          <button
-            @click="handleConfirm"
-            class="flex items-center justify-center w-[180px] h-[54px] px-44 py-[18px] bg-[#376AF6] rounded-xl text-white font-semibold text-base leading-[1.4] hover:bg-[#2E5AE5] transition-colors"
-          >
-            {{ confirmText }}
-          </button>
+              <!-- Content -->
+              <div class="space-y-8.5 mt-2">
+                <p
+                  class="text-base font-normal text-alternative text-center leading-tight mb-12"
+                >
+                  {{ description }}
+                </p>
+
+                <!-- Action buttons -->
+                <div class="flex gap-2">
+                  <BaseButton
+                    @click="handleCancel"
+                    :text="cancelText"
+                    :primary="false"
+                    :shadow="false"
+                    size="default"
+                  />
+                  <BaseButton
+                    @click="handleConfirm"
+                    :text="confirmText"
+                    size="default"
+                  />
+                </div>
+              </div>
+            </DialogPanel>
+          </TransitionChild>
         </div>
       </div>
-    </div>
-  </Teleport>
+    </Dialog>
+  </TransitionRoot>
 </template>
 
 <script setup>
 import { defineProps, defineEmits } from "vue";
+import {
+  Dialog,
+  DialogPanel,
+  TransitionRoot,
+  TransitionChild,
+} from "@headlessui/vue";
+import BaseButton from "./BaseButton.vue";
 
 const props = defineProps({
   isVisible: {
@@ -110,9 +129,5 @@ const handleConfirm = () => {
   emit("confirm");
 };
 
-const handleBackdropClick = () => {
-  if (props.closeOnBackdrop) {
-    handleClose();
-  }
-};
+// Remove handleBackdropClick as Headless UI handles backdrop clicks automatically
 </script>

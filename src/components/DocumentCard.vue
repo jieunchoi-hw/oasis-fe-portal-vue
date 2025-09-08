@@ -63,6 +63,17 @@
       @close="closeDeleteModal"
       @delete="confirmDelete"
     />
+
+    <!-- Pin Confirm Dialog -->
+    <AppConfirmDialog
+      :is-visible="isPinConfirmDialogOpen"
+      title="즐겨찾는 문서로 설정하시겠어요?"
+      description="즐겨찾기로 설정된 문서는 상단에 고정됩니다."
+      confirm-text="설정"
+      @close="closePinConfirmDialog"
+      @cancel="closePinConfirmDialog"
+      @confirm="confirmPin"
+    />
   </div>
 </template>
 
@@ -70,6 +81,7 @@
 import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
 import DeleteBoxModal from "./DeleteBoxModal.vue";
+import AppConfirmDialog from "./AppConfirmDialog.vue";
 
 const router = useRouter();
 
@@ -84,6 +96,7 @@ const emit = defineEmits(["edit", "delete", "privacy-settings", "pin"]);
 
 // Modal state
 const isDeleteModalOpen = ref(false);
+const isPinConfirmDialogOpen = ref(false);
 
 // 메뉴 아이템들 정의
 const menuItems = computed(() => [
@@ -119,7 +132,7 @@ const handlePrivacySettings = () => {
 };
 
 const handlePin = () => {
-  emit("pin", props.document);
+  isPinConfirmDialogOpen.value = true;
 };
 
 const openDeleteModal = () => {
@@ -135,8 +148,17 @@ const confirmDelete = () => {
   closeDeleteModal();
 };
 
-const handleMenuItemClick = (item) => {
-  // 추가적인 처리가 필요한 경우 여기에 구현
-  console.log("Menu item clicked:", item.label);
+const handleMenuItemClick = (_item) => {
+  // console.log("Menu item clicked:", _item.label);
+};
+
+// Pin confirm dialog handlers
+const closePinConfirmDialog = () => {
+  isPinConfirmDialogOpen.value = false;
+};
+
+const confirmPin = () => {
+  emit("pin", props.document);
+  closePinConfirmDialog();
 };
 </script>

@@ -31,7 +31,7 @@
             >
               <!-- Header with close button -->
               <div class="relative flex items-center justify-center px-0 py-2">
-                <h2 class="text-xl font-semibold text-[#211C32] text-center">
+                <h2 class="text-xl font-semibold text-text-normal text-center">
                   박스를 삭제하시겠어요?
                 </h2>
                 <button
