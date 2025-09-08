@@ -69,40 +69,12 @@
     </div>
     <!-- 테이블 컨테이너 -->
     <AppTable
-      v-if="counts > 0"
       :table="table"
       container-class="min-h-[43rem]"
       :show-scroll-container="false"
       header-class=""
       :show-empty-state="counts === 0"
-      empty-state-title="아직 문서가 없어요"
-      empty-state-description="파일을 끌어다 놓거나 상단 버튼을 눌러 문서를 업로드 해보세요"
     />
-    <div
-      v-else
-      class="bg-white rounded-xl overflow-hidden min-h-[43rem] justify-center flex items-center mx-8"
-    >
-      <div class="flex flex-col items-center gap-10">
-        <!-- Document Illustration -->
-        <div class="w-50 h-50 flex items-center justify-center">
-          <img
-            src="@/assets/icons/document.svg"
-            alt="Empty Document State"
-            class="w-50 h-50"
-          />
-        </div>
-
-        <!-- Text Content -->
-        <div class="flex flex-col items-center gap-3">
-          <h3 class="text-lg font-medium text-neutral text-center">
-            아직 문서가 없어요
-          </h3>
-          <p class="text-sm text-assistive text-center">
-            파일을 끌어다 놓거나 상단 버튼을 눌러 문서를 업로드 해보세요
-          </p>
-        </div>
-      </div>
-    </div>
 
     <!-- 파일 상세 패널 -->
     <FileDetailPanel
@@ -141,6 +113,7 @@ import documentIcon from "@/assets/icons/document-icon.svg"; //임시 변경예�
 import pdfIcon from "@/assets/icons/pdf-icon.svg";
 import wordIcon from "@/assets/icons/word-icon.svg";
 import excelIcon from "@/assets/icons/excel-icon.svg";
+import hwpIcon from "@/assets/icons/hwp-icon.svg";
 
 const route = useRoute();
 const counts = ref(0);
@@ -155,6 +128,7 @@ const getFileTypeIcon = (fileType) => {
     pdf: pdfIcon,
     word: wordIcon,
     excel: excelIcon,
+    hwp: hwpIcon,
   };
   return iconMap[fileType] || pdfIcon; // 기본값으로 pdf 아이콘 사용
 };
@@ -227,17 +201,17 @@ const data = ref([
   },
   {
     id: 4,
-    name: "AI 솔루션팀 업무 분장표 (2025년).excel",
-    fileType: "excel",
+    name: "TEST 문서.pdf",
+    fileType: "pdf",
     modifiedDate: "2025.08.10",
-    modifiedBy: "김종성(Jongsung Kim)",
+    modifiedBy: "최지은(Jieun Choi)",
     fileSize: "0개 항목",
     sharing: "비공개",
   },
   {
     id: 5,
-    name: "AI 솔루션팀 업무 분장표 (2025년).excel",
-    fileType: "excel",
+    name: "AI 솔루션팀 업무 분장표 (2025년).hwp",
+    fileType: "hwp",
     modifiedDate: "2025.08.10",
     modifiedBy: "김종성(Jongsung Kim)",
     fileSize: "0개 항목",

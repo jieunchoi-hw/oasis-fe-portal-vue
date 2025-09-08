@@ -36,6 +36,7 @@
     <AppTable
       :table="table"
       :clickable-columns="['content']"
+      container-class="min-h-[40rem]"
       @cell-click="handleTableCellClick"
     />
 
@@ -173,6 +174,22 @@ const data = ref([
   {
     id: 10,
     number: 10,
+    status: "수정",
+    statusType: "modified",
+    content:
+      "구매 담당자는 본인의 이해관계가 있는 업체와 거래할 수 없다. 위반 시 징계 및 손해배상 책임을 진다. 구매 담당자는 본인의 이해관계가 있는 업체와 거래할 수 없다. 위반 시 징계 및 손해배상 책임을 진다.",
+  },
+  {
+    id: 11,
+    number: 11,
+    status: "수정",
+    statusType: "modified",
+    content:
+      "구매 담당자는 본인의 이해관계가 있는 업체와 거래할 수 없다. 위반 시 징계 및 손해배상 책임을 진다. 구매 담당자는 본인의 이해관계가 있는 업체와 거래할 수 없다. 위반 시 징계 및 손해배상 책임을 진다.",
+  },
+  {
+    id: 12,
+    number: 12,
     status: "수정",
     statusType: "modified",
     content:

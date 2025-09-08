@@ -1,9 +1,16 @@
 <template>
   <div class="mx-8 bg-white rounded-xl overflow-hidden" :class="containerClass">
-    <div v-if="showScrollContainer" class="flex-1 overflow-auto">
+    <!-- 테이블 스크롤 컨테이너: 헤더 고정, 바디 스크롤 -->
+    <div
+      v-if="showScrollContainer"
+      class="table-scroll-container max-h-[42rem] overflow-auto"
+    >
       <table class="w-full">
         <!-- 테이블 헤더 -->
-        <thead :class="headerClass">
+        <thead
+          :class="[headerClass, 'sticky top-0 z-10']"
+          style="position: sticky; top: 0; z-index: 10; background: white"
+        >
           <tr
             v-for="headerGroup in table.getHeaderGroups()"
             :key="headerGroup.id"
@@ -95,7 +102,10 @@
     <!-- 스크롤 컨테이너가 없는 경우 -->
     <table v-else class="w-full">
       <!-- 테이블 헤더 -->
-      <thead :class="headerClass">
+      <thead
+        :class="[headerClass, 'sticky top-0 z-10']"
+        style="position: sticky; top: 0; z-index: 10; background: white"
+      >
         <tr
           v-for="headerGroup in table.getHeaderGroups()"
           :key="headerGroup.id"
@@ -182,11 +192,10 @@
         </tr>
       </tbody>
     </table>
-
     <!-- Empty State -->
     <div
       v-if="showEmptyState && table.getRowModel().rows.length === 0"
-      class="flex items-center justify-center min-h-[43rem]"
+      class="bg-white rounded-xl overflow-hidden min-h-[43rem] justify-center flex items-center mx-8"
     >
       <div class="flex flex-col items-center gap-10">
         <!-- Document Illustration -->
@@ -201,10 +210,13 @@
         <!-- Text Content -->
         <div class="flex flex-col items-center gap-3">
           <h3 class="text-lg font-medium text-neutral text-center">
-            {{ emptyStateTitle || "아직 데이터가 없어요" }}
+            {{ emptyStateTitle || "검색된 데이터가 없어요" }}
           </h3>
           <p class="text-sm text-assistive text-center">
-            {{ emptyStateDescription || "데이터를 추가해보세요" }}
+            {{
+              emptyStateDescription ||
+              "검색어를 확인하거나 상단 버튼을 눌러 문서를 업로드 해보세요"
+            }}
           </p>
         </div>
       </div>
