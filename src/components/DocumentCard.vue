@@ -93,10 +93,12 @@
 <script setup>
 import { ref, computed, onMounted, nextTick } from "vue";
 import { useRouter } from "vue-router";
+import { useRagStore } from "@/stores/rag";
 import DeleteBoxModal from "./DeleteBoxModal.vue";
 import AppConfirmDialog from "./AppConfirmDialog.vue";
 
 const router = useRouter();
+const ragStore = useRagStore();
 
 const props = defineProps({
   document: {
@@ -141,8 +143,8 @@ const menuItems = computed(() => [
 ]);
 
 const handleCardClick = async () => {
-  // 카드 클릭 시 문서 상세 페이지로 이동 (sessionStorage에 document 정보 저장)
-  sessionStorage.setItem("selectedDocument", JSON.stringify(props.document));
+  // 카드 클릭 시 문서 상세 페이지로 이동 (rag store에 document 정보 저장)
+  ragStore.setSelectedRag(props.document);
 
   // 현재 라우트와 동일한 경우 강제로 새로고침
   const targetRoute = `/rag/${props.document.id}`;

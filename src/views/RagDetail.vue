@@ -8,7 +8,7 @@
       <div>
         <div class="mb-2">
           <h1 class="text-2xl text-text-neutral font-semibold leading-loose">
-            업무 관련 문서
+            {{ ragStore.selectedRag.title }}
           </h1>
         </div>
       </div>
@@ -123,9 +123,9 @@
 import { computed, ref, h, onMounted } from "vue";
 import SearchInput from "@/components/SearchInput.vue";
 import { useRoute } from "vue-router";
+import { useRagStore } from "@/stores/rag";
 import {
   useVueTable,
-  FlexRender,
   getCoreRowModel,
   createColumnHelper,
   getSortedRowModel,
@@ -143,6 +143,7 @@ import excelIcon from "@/assets/icons/excel-icon.svg";
 import hwpIcon from "@/assets/icons/hwp-icon.svg";
 
 const route = useRoute();
+const ragStore = useRagStore();
 const counts = ref(0);
 
 // Document ID from route params
@@ -300,15 +301,14 @@ const data = ref([
 ]);
 
 onMounted(() => {
-  // sessionStorage에서 document 정보 가져오기
-  const storedDocument = sessionStorage.getItem("selectedDocument");
+  // rag store에서 document 정보 가져오기
+  const storedDocument = ragStore.getSelectedRag();
   if (storedDocument) {
-    const document = JSON.parse(storedDocument);
-    counts.value = document.counts || 0;
+    counts.value = storedDocument.counts || 0;
   } else {
-    // fallback: sessionStorage에 데이터가 없는 경우 기본값 설정
+    // fallback: store에 데이터가 없는 경우 기본값 설정
     counts.value = 0;
-    console.warn("Document information not found in sessionStorage");
+    console.warn("Document information not found in rag store");
   }
 });
 
