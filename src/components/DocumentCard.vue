@@ -76,11 +76,22 @@
       @cancel="closePinConfirmDialog"
       @confirm="confirmPin"
     />
+
+    <!-- Unpin Confirm Dialog -->
+    <AppConfirmDialog
+      :is-visible="isUnpinConfirmDialogOpen"
+      title="즐겨찾기에서 해제하시겠어요?"
+      description="해제된 문서는 즐겨찾기 목록에서 제거됩니다."
+      confirm-text="해제"
+      @close="closeUnpinConfirmDialog"
+      @cancel="closeUnpinConfirmDialog"
+      @confirm="confirmUnpin"
+    />
   </div>
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from "vue";
+import { ref, computed, onMounted, nextTick } from "vue";
 import { useRouter } from "vue-router";
 import DeleteBoxModal from "./DeleteBoxModal.vue";
 import AppConfirmDialog from "./AppConfirmDialog.vue";
@@ -105,6 +116,7 @@ const emit = defineEmits([
 // Modal state
 const isDeleteModalOpen = ref(false);
 const isPinConfirmDialogOpen = ref(false);
+const isUnpinConfirmDialogOpen = ref(false);
 
 // 즐겨찾기 상태
 const isFavorite = ref(false);
@@ -128,10 +140,22 @@ const menuItems = computed(() => [
   },
 ]);
 
-const handleCardClick = () => {
+const handleCardClick = async () => {
   // 카드 클릭 시 문서 상세 페이지로 이동 (sessionStorage에 document 정보 저장)
   sessionStorage.setItem("selectedDocument", JSON.stringify(props.document));
-  router.push(`/rag/${props.document.id}`);
+
+  // 현재 라우트와 동일한 경우 강제로 새로고침
+  const targetRoute = `/rag/${props.document.id}`;
+  if (router.currentRoute.value.path === targetRoute) {
+    // 같은 라우트인 경우 replace로 강제 업데이트
+    await router.replace(targetRoute);
+    // 다음 틱에서 다시 push하여 컴포넌트 재렌더링 강제
+    await nextTick();
+    await router.push(targetRoute);
+  } else {
+    // 다른 라우트인 경우 일반 push
+    await router.push(targetRoute);
+  }
 };
 
 const handleEdit = () => {
@@ -143,7 +167,13 @@ const handlePrivacySettings = () => {
 };
 
 const handlePin = () => {
-  isPinConfirmDialogOpen.value = true;
+  if (isFavorite.value) {
+    // 이미 즐겨찾기인 경우 해제 다이얼로그 표시
+    isUnpinConfirmDialogOpen.value = true;
+  } else {
+    // 즐겨찾기가 아닌 경우 설정 다이얼로그 표시
+    isPinConfirmDialogOpen.value = true;
+  }
 };
 
 const openDeleteModal = () => {
@@ -205,6 +235,33 @@ const checkFavoriteStatus = () => {
   isFavorite.value = existingFavorites.some(
     (fav) => fav.id === props.document.id
   );
+};
+
+// Unpin confirm dialog handlers
+const closeUnpinConfirmDialog = () => {
+  isUnpinConfirmDialogOpen.value = false;
+};
+
+const confirmUnpin = () => {
+  // localStorage에서 즐겨찾기 문서 제거
+  const existingFavorites = JSON.parse(
+    localStorage.getItem("favoriteDocuments") || "[]"
+  );
+
+  const updatedFavorites = existingFavorites.filter(
+    (fav) => fav.id !== props.document.id
+  );
+
+  localStorage.setItem("favoriteDocuments", JSON.stringify(updatedFavorites));
+
+  // 즐겨찾기 상태 업데이트
+  isFavorite.value = false;
+
+  // 즐겨찾기 업데이트 이벤트 emit
+  emit("favorite-updated");
+
+  emit("pin", props.document);
+  closeUnpinConfirmDialog();
 };
 
 // 컴포넌트 마운트 시 즐겨찾기 상태 확인

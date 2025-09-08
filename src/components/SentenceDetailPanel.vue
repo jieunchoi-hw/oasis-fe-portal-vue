@@ -8,10 +8,10 @@
     leave-from-class="opacity-100"
     leave-to-class="opacity-0"
   >
-    <!-- 백드롭 오버레이 -->
+    <!-- 백드롭 오버레이, z-index 헤더보다 높게설정 -->
     <div
       v-if="isVisible"
-      class="fixed inset-0 z-40 backdrop-blur-[2px] bg-black/50"
+      class="fixed inset-0 z-50 backdrop-blur-[2px] bg-black/50"
       @click="$emit('close')"
     ></div>
   </Transition>
