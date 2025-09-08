@@ -27,8 +27,7 @@
             leave-to="opacity-0 scale-95"
           >
             <DialogPanel
-              class="relative bg-white rounded-2xl shadow-xl max-h-[90vh] overflow-y-auto transform text-left align-middle transition-all"
-              style="width: 1048px; max-width: 90vw"
+              class="relative w-[65rem] bg-white rounded-2xl shadow-xl max-h-[90vh] transform text-left align-middle transition-all"
             >
               <!-- 모달 헤더 -->
               <div
@@ -116,7 +115,7 @@
                         v-model="formData.boxName"
                         type="text"
                         placeholder="박스 이름을 입력해주세요."
-                        class="w-full h-12 px-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-400 text-sm"
+                        class="w-full h-12 px-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-0.5 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-400 text-sm"
                       />
                     </div>
 
@@ -131,7 +130,7 @@
                         <textarea
                           v-model="formData.boxDescription"
                           placeholder="박스에 대한 설명을 입력해주세요."
-                          class="w-full h-20 px-3 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-400 text-sm resize-none"
+                          class="w-full h-20 px-3 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-0.5 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-400 text-sm resize-none"
                           maxlength="50"
                         ></textarea>
                         <div
@@ -164,7 +163,7 @@
                           v-model="formData.textSplitSize"
                           type="text"
                           placeholder="텍스트 분할 크기"
-                          class="w-full h-12 px-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-400 text-sm"
+                          class="w-full h-12 px-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-0.5 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-400 text-sm"
                         />
                       </div>
                       <div class="flex-1">
@@ -177,7 +176,7 @@
                           v-model="formData.textOverlapSize"
                           type="text"
                           placeholder="텍스트 중첩 크기"
-                          class="w-full h-12 px-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-400 text-sm"
+                          class="w-full h-12 px-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-0.5 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-400 text-sm"
                         />
                       </div>
                     </div>
@@ -202,13 +201,13 @@
                               v-model="item.from"
                               type="text"
                               placeholder="From"
-                              class="flex-1 h-12 px-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-400 text-sm"
+                              class="flex-1 h-12 px-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-0.5 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-400 text-sm"
                             />
                             <input
                               v-model="item.to"
                               type="text"
                               placeholder="To"
-                              class="flex-1 h-12 px-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-400 text-sm"
+                              class="flex-1 h-12 px-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-0.5 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-400 text-sm"
                             />
                           </div>
                           <button
@@ -253,7 +252,7 @@
                             v-model="forbiddenWords[index]"
                             type="text"
                             placeholder="금칙어를 입력해주세요."
-                            class="flex-1 h-12 px-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-400 text-sm"
+                            class="flex-1 h-12 px-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-0.5 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-400 text-sm"
                           />
                           <button
                             @click="removeForbiddenWord(index)"
@@ -288,22 +287,54 @@
                         임베딩 모델
                       </label>
                       <div class="relative">
-                        <select
-                          v-model="formData.embeddingModel"
-                          class="w-full h-12 px-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-sm appearance-none bg-white"
-                        >
-                          <option value="" disabled class="text-gray-400">
-                            모델 종류 임시문구
-                          </option>
-                          <option value="model1">모델 1</option>
-                          <option value="model2">모델 2</option>
-                          <option value="model3">모델 3</option>
-                        </select>
-                        <img
-                          src="@/assets/icons/dropdown-arrow-icon.svg"
-                          alt="드롭다운"
-                          class="absolute right-3 top-1/2 transform -translate-y-1/2 w-3 h-2 pointer-events-none"
-                        />
+                        <Listbox v-model="selectedEmbeddingModel">
+                          <ListboxButton
+                            class="w-full h-12 px-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-0.5 focus:ring-blue-500 focus:border-blue-500 text-sm appearance-none bg-white flex items-center justify-between"
+                          >
+                            <span>
+                              {{
+                                selectedEmbeddingModel
+                                  ? selectedEmbeddingModel.label
+                                  : "모델 종류 선택"
+                              }}
+                            </span>
+                            <img
+                              src="@/assets/icons/dropdown-arrow-icon.svg"
+                              alt="드롭다운"
+                              class="w-3 h-2 pointer-events-none"
+                            />
+                          </ListboxButton>
+                          <ListboxOptions
+                            class="absolute z-[60] mt-1 w-full max-h-48 overflow-y-auto bg-white border border-gray-200 rounded-lg shadow-lg"
+                          >
+                            <ListboxOption
+                              v-for="model in embeddingModels"
+                              :key="model.value"
+                              :value="model"
+                              :disabled="model.unavailable"
+                              v-slot="{ active, selected }"
+                              class="cursor-pointer select-none relative"
+                            >
+                              <div
+                                :class="[
+                                  active
+                                    ? 'bg-blue-50 text-blue-900'
+                                    : 'text-gray-900',
+                                  'px-4 py-3 text-sm',
+                                ]"
+                              >
+                                <span
+                                  :class="[
+                                    selected ? 'font-semibold' : 'font-normal',
+                                    'block truncate',
+                                  ]"
+                                >
+                                  {{ model.label }}
+                                </span>
+                              </div>
+                            </ListboxOption>
+                          </ListboxOptions>
+                        </Listbox>
                       </div>
                     </div>
                   </div>
@@ -331,7 +362,13 @@
 </template>
 
 <script setup>
-import { ref, reactive } from "vue";
+import { ref, reactive, watch } from "vue";
+import {
+  Listbox,
+  ListboxButton,
+  ListboxOptions,
+  ListboxOption,
+} from "@headlessui/vue";
 import {
   Dialog,
   DialogPanel,
@@ -350,6 +387,16 @@ const props = defineProps({
 // Emits
 const emit = defineEmits(["close", "submit"]);
 
+// 임베딩 모델 리스트
+const embeddingModels = [
+  { value: "model1", label: "모델 1", unavailable: false },
+  { value: "model2", label: "모델 2", unavailable: false },
+  { value: "model3", label: "모델 3", unavailable: false },
+];
+
+// Listbox용 선택된 임베딩 모델
+const selectedEmbeddingModel = ref(null);
+
 // 폼 데이터
 const formData = reactive({
   boxName: "",
@@ -357,6 +404,11 @@ const formData = reactive({
   embeddingModel: "",
   textSplitSize: "",
   textOverlapSize: "",
+});
+
+// Listbox 선택 시 폼 데이터에 반영
+watch(selectedEmbeddingModel, (val) => {
+  formData.embeddingModel = val ? val.value : "";
 });
 
 // 단어 대치 배열
