@@ -150,6 +150,64 @@
                     <h3 class="text-base font-semibold text-gray-900 mb-8">
                       고급정보
                     </h3>
+                    <!-- 임베딩 모델 -->
+                    <div class="mb-6">
+                      <label
+                        class="block text-sm font-medium text-gray-900 mb-2 px-1"
+                      >
+                        임베딩 모델
+                      </label>
+                      <div class="relative">
+                        <Listbox v-model="selectedEmbeddingModel">
+                          <ListboxButton
+                            class="w-full h-12 px-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-0.5 focus:ring-blue-500 focus:border-blue-500 text-sm appearance-none bg-white flex items-center justify-between"
+                          >
+                            <span>
+                              {{
+                                selectedEmbeddingModel
+                                  ? selectedEmbeddingModel.label
+                                  : "모델 종류 선택"
+                              }}
+                            </span>
+                            <img
+                              src="@/assets/icons/dropdown-arrow-icon.svg"
+                              alt="드롭다운"
+                              class="w-3 h-2 pointer-events-none"
+                            />
+                          </ListboxButton>
+                          <ListboxOptions
+                            class="absolute z-[60] mt-1 w-full max-h-48 overflow-y-auto bg-white border border-gray-200 rounded-lg shadow-lg"
+                          >
+                            <ListboxOption
+                              v-for="model in embeddingModels"
+                              :key="model.value"
+                              :value="model"
+                              :disabled="model.unavailable"
+                              v-slot="{ active, selected }"
+                              class="cursor-pointer select-none relative"
+                            >
+                              <div
+                                :class="[
+                                  active
+                                    ? 'bg-blue-50 text-blue-900'
+                                    : 'text-gray-900',
+                                  'px-4 py-3 text-sm',
+                                ]"
+                              >
+                                <span
+                                  :class="[
+                                    selected ? 'font-semibold' : 'font-normal',
+                                    'block truncate',
+                                  ]"
+                                >
+                                  {{ model.label }}
+                                </span>
+                              </div>
+                            </ListboxOption>
+                          </ListboxOptions>
+                        </Listbox>
+                      </div>
+                    </div>
 
                     <!-- 텍스트 분할/중첩 크기 -->
                     <div class="flex gap-3 mb-6">
@@ -276,65 +334,6 @@
                           />
                           추가
                         </button>
-                      </div>
-                    </div>
-
-                    <!-- 임베딩 모델 -->
-                    <div class="mb-6">
-                      <label
-                        class="block text-sm font-medium text-gray-900 mb-2 px-1"
-                      >
-                        임베딩 모델
-                      </label>
-                      <div class="relative">
-                        <Listbox v-model="selectedEmbeddingModel">
-                          <ListboxButton
-                            class="w-full h-12 px-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-0.5 focus:ring-blue-500 focus:border-blue-500 text-sm appearance-none bg-white flex items-center justify-between"
-                          >
-                            <span>
-                              {{
-                                selectedEmbeddingModel
-                                  ? selectedEmbeddingModel.label
-                                  : "모델 종류 선택"
-                              }}
-                            </span>
-                            <img
-                              src="@/assets/icons/dropdown-arrow-icon.svg"
-                              alt="드롭다운"
-                              class="w-3 h-2 pointer-events-none"
-                            />
-                          </ListboxButton>
-                          <ListboxOptions
-                            class="absolute z-[60] mt-1 w-full max-h-48 overflow-y-auto bg-white border border-gray-200 rounded-lg shadow-lg"
-                          >
-                            <ListboxOption
-                              v-for="model in embeddingModels"
-                              :key="model.value"
-                              :value="model"
-                              :disabled="model.unavailable"
-                              v-slot="{ active, selected }"
-                              class="cursor-pointer select-none relative"
-                            >
-                              <div
-                                :class="[
-                                  active
-                                    ? 'bg-blue-50 text-blue-900'
-                                    : 'text-gray-900',
-                                  'px-4 py-3 text-sm',
-                                ]"
-                              >
-                                <span
-                                  :class="[
-                                    selected ? 'font-semibold' : 'font-normal',
-                                    'block truncate',
-                                  ]"
-                                >
-                                  {{ model.label }}
-                                </span>
-                              </div>
-                            </ListboxOption>
-                          </ListboxOptions>
-                        </Listbox>
                       </div>
                     </div>
                   </div>

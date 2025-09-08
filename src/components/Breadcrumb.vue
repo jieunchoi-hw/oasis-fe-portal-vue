@@ -82,6 +82,6 @@ const onCrumbClick = (index) => {
   if (index === lastIdx) return; // 현재 위치는 비활성
 
   const target = pathForIndex(index);
-  router.push(target);
+  // router.push(target);
 };
 </script>
