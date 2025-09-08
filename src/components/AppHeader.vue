@@ -132,7 +132,7 @@
           />
           <!-- 알림 배지 -->
           <span
-            class="absolute -top-2 -right-2 text-white text-sm font-bold rounded-full w-4 h-4 flex items-center justify-center bg-primary-neutral"
+            class="absolute -top-2 -right-2 text-white text-xs font-bold rounded-full w-4 h-4 flex items-center justify-center bg-primary-neutral leading-none"
           >
             6
           </span>

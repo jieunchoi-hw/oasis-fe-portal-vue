@@ -92,7 +92,13 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(["edit", "delete", "privacy-settings", "pin"]);
+const emit = defineEmits([
+  "edit",
+  "delete",
+  "privacy-settings",
+  "pin",
+  "favorite-updated",
+]);
 
 // Modal state
 const isDeleteModalOpen = ref(false);
@@ -158,6 +164,27 @@ const closePinConfirmDialog = () => {
 };
 
 const confirmPin = () => {
+  // localStorage에 즐겨찾기 문서 저장
+  const existingFavorites = JSON.parse(
+    localStorage.getItem("favoriteDocuments") || "[]"
+  );
+
+  // 이미 즐겨찾기에 있는지 확인
+  const isAlreadyFavorite = existingFavorites.some(
+    (fav) => fav.id === props.document.id
+  );
+
+  if (!isAlreadyFavorite) {
+    existingFavorites.push(props.document);
+    localStorage.setItem(
+      "favoriteDocuments",
+      JSON.stringify(existingFavorites)
+    );
+
+    // 즐겨찾기 업데이트 이벤트 emit
+    emit("favorite-updated");
+  }
+
   emit("pin", props.document);
   closePinConfirmDialog();
 };

@@ -47,6 +47,7 @@
           v-for="document in filteredDocuments"
           :key="document.id"
           :document="document"
+          @favorite-updated="handleFavoriteUpdated"
         />
       </div>
     </div>
@@ -81,6 +82,7 @@ import CreateBoxModal from "@/components/CreateBoxModal.vue";
 // 오버레이 ref
 const overlay = ref(null);
 const scrollHost = inject("scrollHost", null);
+const refreshFavorites = inject("refreshFavorites", null);
 
 // 모달 상태
 const isModalOpen = ref(false);
@@ -100,6 +102,13 @@ const handleModalSubmit = (formData) => {
   console.log("박스 생성 데이터:", formData);
   // 여기에 API 호출 로직 추가
   closeModal();
+};
+
+// 즐겨찾기 업데이트 핸들러
+const handleFavoriteUpdated = () => {
+  if (refreshFavorites) {
+    refreshFavorites();
+  }
 };
 
 // 스크롤 이벤트 핸들러

@@ -71,7 +71,7 @@
         </div>
         <span
           class="text-base font-medium text-gray-700 flex-1 whitespace-nowrap"
-          >즐겨찾는 문서 저장소 (5)</span
+          >즐겨찾는 문서 저장소 ({{ favoriteDocuments.length }})</span
         >
         <img
           src="@/assets/icons/dropdown-arrow.svg"
@@ -87,6 +87,7 @@
           :key="document.id"
           class="flex items-center pl-8 pr-6 text-sm text-gray-700 hover:bg-gray-50 cursor-pointer whitespace-nowrap"
           style="height: 42px"
+          @click="handleFavoriteDocumentClick(document)"
         >
           {{ document.title }}
         </div>
@@ -96,7 +97,10 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 
 // 이벤트 emit 정의
 const emit = defineEmits(["toggle-sidebar"]);
@@ -111,26 +115,30 @@ const toggleSidebar = () => {
 };
 
 // 즐겨찾는 문서 목록
-const favoriteDocuments = ref([
-  {
-    id: 1,
-    title: "구매업무 관련 문서",
-  },
-  {
-    id: 2,
-    title: "신규 입사자 가이드",
-  },
-  {
-    id: 3,
-    title: "내부 보안 점검 규정집",
-  },
-  {
-    id: 4,
-    title: "고정자산 관리 규정",
-  },
-  {
-    id: 5,
-    title: "맥북 세팅 관련 가이드",
-  },
-]);
+const favoriteDocuments = ref([]);
+
+// localStorage에서 즐겨찾기 문서 로드
+const loadFavoriteDocuments = () => {
+  const storedFavorites = localStorage.getItem("favoriteDocuments");
+  if (storedFavorites) {
+    favoriteDocuments.value = JSON.parse(storedFavorites);
+  }
+};
+
+// 즐겨찾기 문서 클릭 핸들러
+const handleFavoriteDocumentClick = (document) => {
+  // sessionStorage에 document 정보 저장
+  sessionStorage.setItem("selectedDocument", JSON.stringify(document));
+  router.push(`/rag/${document.id}`);
+};
+
+// 컴포넌트 마운트 시 즐겨찾기 문서 로드
+onMounted(() => {
+  loadFavoriteDocuments();
+});
+
+// 외부에서 즐겨찾기 리스트를 새로고침할 수 있도록 expose
+defineExpose({
+  refreshFavorites: loadFavoriteDocuments,
+});
 </script>

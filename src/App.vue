@@ -12,7 +12,10 @@
     >
       <!-- 왼쪽 네비게이션 -->
       <aside class="bg-white border-r border-gray-200 overflow-hidden">
-        <AppNavigation @toggle-sidebar="handleSidebarToggle" />
+        <AppNavigation
+          ref="appNavigation"
+          @toggle-sidebar="handleSidebarToggle"
+        />
       </aside>
 
       <!-- 메인 콘텐츠 -->
@@ -42,6 +45,18 @@ const handleSidebarToggle = (collapsed) => {
 // 자식에게 넘길 스크롤 호스트
 const main = ref(null);
 provide("scrollHost", main);
+
+// AppNavigation ref
+const appNavigation = ref(null);
+
+// 즐겨찾기 새로고침 함수를 자식에게 제공
+const refreshFavorites = () => {
+  if (appNavigation.value) {
+    appNavigation.value.refreshFavorites();
+  }
+};
+
+provide("refreshFavorites", refreshFavorites);
 </script>
 
 <style scoped>
