@@ -145,13 +145,13 @@
                   v-if="header.column.getIsSorted() === 'asc'"
                   src="@/assets/icons/arrow-up.svg"
                   alt="정렬 오름차순"
-                  class="w-3.5 h-3.5"
+                  class="w-3 h-2"
                 />
                 <img
                   v-else-if="header.column.getIsSorted() === 'desc'"
                   src="@/assets/icons/arrow-down.svg"
                   alt="정렬 내림차순"
-                  class="w-3.5 h-3.5"
+                  class="w-3 h-2"
                 />
                 <img
                   v-else

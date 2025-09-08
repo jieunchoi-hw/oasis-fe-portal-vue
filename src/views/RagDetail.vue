@@ -69,12 +69,42 @@
     </div>
     <!-- 테이블 컨테이너 -->
     <AppTable
+      v-if="counts > 0"
       :table="table"
       container-class="min-h-[43rem]"
       :show-scroll-container="false"
       header-class=""
       :show-empty-state="counts === 0"
     />
+    <!-- [임시] 빈 상태 표시 -->
+    <div
+      v-else
+      class="bg-white rounded-xl overflow-hidden min-h-[43rem] justify-center flex items-center mx-8"
+    >
+      <div class="flex flex-col items-center gap-10">
+        <!-- Document Illustration -->
+        <div class="w-50 h-50 flex items-center justify-center">
+          <img
+            src="@/assets/icons/document.svg"
+            alt="Empty Document State"
+            class="w-50 h-50"
+          />
+        </div>
+
+        <!-- Text Content -->
+        <div class="flex flex-col items-center gap-3">
+          <h3 class="text-lg font-medium text-neutral text-center">
+            {{ emptyStateTitle || "검색된 데이터가 없어요" }}
+          </h3>
+          <p class="text-sm text-assistive text-center">
+            {{
+              emptyStateDescription ||
+              "검색어를 확인하거나 상단 버튼을 눌러 문서를 업로드 해보세요"
+            }}
+          </p>
+        </div>
+      </div>
+    </div>
 
     <!-- 파일 상세 패널 -->
     <FileDetailPanel
