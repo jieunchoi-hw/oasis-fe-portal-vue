@@ -40,25 +40,17 @@
             <!-- 아바타 및 색상 선택기 -->
             <div class="flex items-center justify-start gap-14 mb-12">
               <div
-                class="relative w-30 h-30 rounded-full flex items-center justify-center"
-                style="background-color: #f2f5fa"
+                class="relative w-30 h-30 rounded-full flex items-center justify-center bg-gray-100"
               >
                 <!-- 3D 일러스트레이션 -->
                 <img
                   src="@/assets/icons/3d-illustration.svg"
                   alt="3D 일러스트"
-                  class="absolute"
-                  style="
-                    width: 69.57px;
-                    height: 56.52px;
-                    left: 27.22px;
-                    top: 31.3px;
-                  "
+                  class="absolute w-18 h-16 left-7"
                 />
                 <!-- 쓰기 아이콘 배경 -->
                 <div
-                  class="absolute w-5.5 h-5.5 rounded-2xl flex items-center justify-center"
-                  style="background-color: #658aef; left: 89px; top: 94px"
+                  class="absolute w-5.5 h-5.5 rounded-2xl flex items-center justify-center bg-blue-400 left-22 top-24"
                 >
                   <!-- 쓰기 아이콘 -->
                   <img

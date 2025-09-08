@@ -134,7 +134,6 @@ const getFileTypeIcon = (fileType) => {
 };
 
 const handleFileNameClick = (fileData) => {
-  console.log("파일 클릭됨:", fileData);
   selectedFileData.value = fileData;
   isDetailPanelVisible.value = true;
 };
