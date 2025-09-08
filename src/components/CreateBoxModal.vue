@@ -116,7 +116,7 @@
                         v-model="formData.boxName"
                         type="text"
                         placeholder="박스 이름을 입력해주세요."
-                        class="w-full h-12 px-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-400 text-sm"
+                        class="w-full h-12 px-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-400 text-sm"
                       />
                     </div>
 
@@ -131,7 +131,7 @@
                         <textarea
                           v-model="formData.boxDescription"
                           placeholder="박스에 대한 설명을 입력해주세요."
-                          class="w-full h-20 px-3 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-400 text-sm resize-none"
+                          class="w-full h-20 px-3 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-400 text-sm resize-none"
                           maxlength="50"
                         ></textarea>
                         <div
@@ -164,7 +164,7 @@
                           v-model="formData.textSplitSize"
                           type="text"
                           placeholder="텍스트 분할 크기"
-                          class="w-full h-12 px-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-400 text-sm"
+                          class="w-full h-12 px-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-400 text-sm"
                         />
                       </div>
                       <div class="flex-1">
@@ -177,7 +177,7 @@
                           v-model="formData.textOverlapSize"
                           type="text"
                           placeholder="텍스트 중첩 크기"
-                          class="w-full h-12 px-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-400 text-sm"
+                          class="w-full h-12 px-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-400 text-sm"
                         />
                       </div>
                     </div>
@@ -202,13 +202,13 @@
                               v-model="item.from"
                               type="text"
                               placeholder="From"
-                              class="flex-1 h-12 px-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-400 text-sm"
+                              class="flex-1 h-12 px-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-400 text-sm"
                             />
                             <input
                               v-model="item.to"
                               type="text"
                               placeholder="To"
-                              class="flex-1 h-12 px-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-400 text-sm"
+                              class="flex-1 h-12 px-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-400 text-sm"
                             />
                           </div>
                           <button
@@ -253,7 +253,7 @@
                             v-model="forbiddenWords[index]"
                             type="text"
                             placeholder="금칙어를 입력해주세요."
-                            class="flex-1 h-12 px-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-400 text-sm"
+                            class="flex-1 h-12 px-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-400 text-sm"
                           />
                           <button
                             @click="removeForbiddenWord(index)"
@@ -290,7 +290,7 @@
                       <div class="relative">
                         <select
                           v-model="formData.embeddingModel"
-                          class="w-full h-12 px-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm appearance-none bg-white"
+                          class="w-full h-12 px-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-sm appearance-none bg-white"
                         >
                           <option value="" disabled class="text-gray-400">
                             모델 종류 임시문구
