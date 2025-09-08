@@ -329,14 +329,33 @@ const documents = ref([
 
 // 검색어에 따라 필터링된 문서 목록
 const filteredDocuments = computed(() => {
-  if (!search.value.trim()) return documents.value;
-  const keyword = search.value.trim().toLowerCase();
-  return documents.value.filter(
-    (doc) =>
-      doc.title.toLowerCase().includes(keyword) ||
-      doc.description.toLowerCase().includes(keyword) ||
-      doc.author.toLowerCase().includes(keyword)
-  );
+  // 검색어 필터링
+  let docs = [];
+  if (!search.value.trim()) {
+    docs = documents.value.slice();
+  } else {
+    const keyword = search.value.trim().toLowerCase();
+    docs = documents.value.filter(
+      (doc) =>
+        doc.title.toLowerCase().includes(keyword) ||
+        doc.description.toLowerCase().includes(keyword) ||
+        doc.author.toLowerCase().includes(keyword)
+    );
+  }
+
+  // 즐겨찾기 문서 id 목록 가져오기
+  const favoriteIds = JSON.parse(
+    localStorage.getItem("favoriteDocuments") || "[]"
+  ).map((doc) => doc.id);
+
+  // 즐겨찾기 우선 정렬
+  docs.sort((a, b) => {
+    const aFav = favoriteIds.includes(a.id) ? 0 : 1;
+    const bFav = favoriteIds.includes(b.id) ? 0 : 1;
+    return aFav - bFav;
+  });
+
+  return docs;
 });
 </script>
 

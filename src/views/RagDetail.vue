@@ -94,13 +94,10 @@
         <!-- Text Content -->
         <div class="flex flex-col items-center gap-3">
           <h3 class="text-lg font-medium text-neutral text-center">
-            {{ emptyStateTitle || "검색된 데이터가 없어요" }}
+            "검색된 데이터가 없어요"
           </h3>
           <p class="text-sm text-assistive text-center">
-            {{
-              emptyStateDescription ||
-              "검색어를 확인하거나 상단 버튼을 눌러 문서를 업로드 해보세요"
-            }}
+            "검색어를 확인하거나 상단 버튼을 눌러 문서를 업로드 해보세요"
           </p>
         </div>
       </div>
