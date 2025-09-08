@@ -2,6 +2,7 @@
   <div>
     <div
       class="bg-white rounded-2xl hover:shadow-md transition-shadow cursor-pointer shadow-sm"
+      :class="{ 'border-1 border-blue-300': isFavorite }"
       @click="handleCardClick"
     >
       <!-- 카드 헤더 -->
@@ -27,6 +28,7 @@
             <button
               class="w-6.5 h-6.5 border border-neutral-300 rounded-lg flex items-center justify-center hover:bg-neutral-50 transition-colors"
               @click.stop="handlePin"
+              :class="{ 'bg-yellow-400': isFavorite }"
             >
               <img
                 src="@/assets/icons/pin-icon.svg"
@@ -78,7 +80,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import DeleteBoxModal from "./DeleteBoxModal.vue";
 import AppConfirmDialog from "./AppConfirmDialog.vue";
@@ -103,6 +105,9 @@ const emit = defineEmits([
 // Modal state
 const isDeleteModalOpen = ref(false);
 const isPinConfirmDialogOpen = ref(false);
+
+// 즐겨찾기 상태
+const isFavorite = ref(false);
 
 // 메뉴 아이템들 정의
 const menuItems = computed(() => [
@@ -181,6 +186,9 @@ const confirmPin = () => {
       JSON.stringify(existingFavorites)
     );
 
+    // 즐겨찾기 상태 업데이트
+    isFavorite.value = true;
+
     // 즐겨찾기 업데이트 이벤트 emit
     emit("favorite-updated");
   }
@@ -188,4 +196,19 @@ const confirmPin = () => {
   emit("pin", props.document);
   closePinConfirmDialog();
 };
+
+// 즐겨찾기 상태 확인 함수
+const checkFavoriteStatus = () => {
+  const existingFavorites = JSON.parse(
+    localStorage.getItem("favoriteDocuments") || "[]"
+  );
+  isFavorite.value = existingFavorites.some(
+    (fav) => fav.id === props.document.id
+  );
+};
+
+// 컴포넌트 마운트 시 즐겨찾기 상태 확인
+onMounted(() => {
+  checkFavoriteStatus();
+});
 </script>

@@ -74,6 +74,7 @@
           >즐겨찾는 문서 저장소 ({{ favoriteDocuments.length }})</span
         >
         <img
+          v-if="favoriteDocuments.length > 0"
           src="@/assets/icons/dropdown-arrow.svg"
           alt="드롭다운"
           class="w-3.5 h-3.5"
@@ -90,6 +91,15 @@
           @click="handleFavoriteDocumentClick(document)"
         >
           {{ document.title }}
+        </div>
+
+        <!-- 즐겨찾기 문서가 없을 때 -->
+        <div
+          v-if="favoriteDocuments.length === 0"
+          class="flex items-center pl-8 pr-6 text-sm text-gray-400 whitespace-nowrap"
+          style="height: 42px"
+        >
+          즐겨찾는 문서를 추가하세요.
         </div>
       </div>
     </div>
