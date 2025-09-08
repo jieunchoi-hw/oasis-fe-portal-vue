@@ -1,6 +1,6 @@
 <template>
   <header
-    class="bg-white border-b border-neutral-200 h-16 flex items-center justify-between px-10 fixed top-0 left-0 right-0 z-[1000]"
+    class="bg-white border-b border-neutral-200 h-16 flex items-center justify-between px-10 fixed top-0 left-0 right-0 z-50"
   >
     <!-- 왼쪽 영역: 로고 + 탭 네비게이션 -->
     <div class="flex items-center gap-12">
