@@ -4,6 +4,7 @@ import SearchInput from "@/components/SearchInput.vue";
 import AppTable from "@/components/AppTable.vue";
 import AppConfirmDialog from "@/components/AppConfirmDialog.vue";
 import ModalOpenButton from "@/components/ModalOpenButton.vue";
+import AppInput from "@/components/AppInput.vue";
 
 export default {
   install(app) {
@@ -13,5 +14,6 @@ export default {
     app.component("AppTable", AppTable);
     app.component("AppConfirmDialog", AppConfirmDialog);
     app.component("ModalOpenButton", ModalOpenButton);
+    app.component("AppInput", AppInput);
   },
 };

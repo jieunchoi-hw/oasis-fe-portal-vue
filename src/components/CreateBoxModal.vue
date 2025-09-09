@@ -106,16 +106,11 @@
 
                     <!-- 박스 이름 -->
                     <div class="mb-5">
-                      <label
-                        class="block text-sm font-medium text-gray-900 mb-2 px-1"
-                      >
-                        박스 이름
-                      </label>
-                      <input
+                      <AppInput
                         v-model="formData.boxName"
-                        type="text"
+                        label="박스 이름"
                         placeholder="박스 이름을 입력해주세요."
-                        class="w-full h-12 px-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-0.5 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-400 text-sm"
+                        required
                       />
                     </div>
 
@@ -212,29 +207,19 @@
                     <!-- 텍스트 분할/중첩 크기 -->
                     <div class="flex gap-3 mb-6">
                       <div class="flex-1">
-                        <label
-                          class="block text-sm font-medium text-gray-900 mb-2 px-1"
-                        >
-                          텍스트 분할 크기
-                        </label>
-                        <input
+                        <AppInput
                           v-model="formData.textSplitSize"
-                          type="text"
+                          label="텍스트 분할 크기"
                           placeholder="텍스트 분할 크기"
-                          class="w-full h-12 px-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-0.5 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-400 text-sm"
+                          type="number"
                         />
                       </div>
                       <div class="flex-1">
-                        <label
-                          class="block text-sm font-medium text-gray-900 mb-2 px-1"
-                        >
-                          텍스트 중첩 크기
-                        </label>
-                        <input
+                        <AppInput
                           v-model="formData.textOverlapSize"
-                          type="text"
+                          label="텍스트 중첩 크기"
                           placeholder="텍스트 중첩 크기"
-                          class="w-full h-12 px-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-0.5 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-400 text-sm"
+                          type="number"
                         />
                       </div>
                     </div>
@@ -255,17 +240,15 @@
                           <div
                             class="flex-1 flex justify-center items-center gap-2"
                           >
-                            <input
+                            <AppInput
                               v-model="item.from"
-                              type="text"
                               placeholder="From"
-                              class="flex-1 h-12 px-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-0.5 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-400 text-sm"
+                              custom-class="mb-0"
                             />
-                            <input
+                            <AppInput
                               v-model="item.to"
-                              type="text"
                               placeholder="To"
-                              class="flex-1 h-12 px-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-0.5 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-400 text-sm"
+                              custom-class="mb-0"
                             />
                           </div>
                           <button
@@ -306,11 +289,10 @@
                           :key="index"
                           class="flex items-center gap-2"
                         >
-                          <input
+                          <AppInput
                             v-model="forbiddenWords[index]"
-                            type="text"
                             placeholder="금칙어를 입력해주세요."
-                            class="flex-1 h-12 px-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-0.5 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-400 text-sm"
+                            custom-class="flex-1 mb-0"
                           />
                           <button
                             @click="removeForbiddenWord(index)"
