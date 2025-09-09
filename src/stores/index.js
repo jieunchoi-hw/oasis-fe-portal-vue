@@ -7,7 +7,7 @@ if (process.env.NODE_ENV === "production") {
   // 프로덕션에서는 로그 완전 비활성화
   pinia._p = [];
 } else {
-  // pinia._p = [];
+  pinia._p = [];
 }
 
 export default pinia;

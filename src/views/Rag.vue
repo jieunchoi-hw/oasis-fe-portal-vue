@@ -83,6 +83,7 @@ import { useRagStore } from "@/stores/rag";
 // 오버레이 ref
 const overlay = ref(null);
 const scrollHost = inject("scrollHost", null);
+
 const refreshFavorites = inject("refreshFavorites", null);
 
 // RAG 스토어
@@ -113,6 +114,8 @@ const handleFavoriteUpdated = () => {
   if (refreshFavorites) {
     refreshFavorites();
   }
+  // 문서 데이터 강제 갱신 (정렬 트리거)
+  rags.value = [...ragStore.ragData];
 };
 
 // 스크롤 이벤트 핸들러
@@ -168,17 +171,17 @@ onUnmounted(() => {
 const search = ref("");
 
 // 문서 데이터
-const documents = ref(ragStore.ragData);
+const rags = ref(ragStore.ragData);
 
 // 검색어에 따라 필터링된 문서 목록
 const filteredDocuments = computed(() => {
   // 검색어 필터링
   let docs = [];
   if (!search.value.trim()) {
-    docs = documents.value.slice();
+    docs = rags.value.slice();
   } else {
     const keyword = search.value.trim().toLowerCase();
-    docs = documents.value.filter(
+    docs = rags.value.filter(
       (doc) =>
         doc.title.toLowerCase().includes(keyword) ||
         doc.description.toLowerCase().includes(keyword) ||
