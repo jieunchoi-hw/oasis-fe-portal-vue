@@ -198,11 +198,11 @@
       class="bg-white rounded-xl overflow-hidden min-h-[43rem] justify-center flex items-center mx-8"
     >
       <div class="flex flex-col items-center gap-10">
-        <!-- Document Illustration -->
+        <!-- Rag Illustration -->
         <div class="w-50 h-50 flex items-center justify-center">
           <img
             src="@/assets/icons/document.svg"
-            alt="Empty Document State"
+            alt="Empty Rag State"
             class="w-50 h-50"
           />
         </div>

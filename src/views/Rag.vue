@@ -43,8 +43,8 @@
       <div
         class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-6"
       >
-        <DocumentCard
-          v-for="document in filteredDocuments"
+        <RagCard
+          v-for="document in filteredRags"
           :key="document.id"
           :document="document"
           @favorite-updated="handleFavoriteUpdated"
@@ -76,7 +76,7 @@ import {
   onUnmounted,
   computed,
 } from "vue";
-import DocumentCard from "@/components/DocumentCard.vue";
+import RagCard from "@/components/RagCard.vue";
 import CreateBoxModal from "@/components/CreateBoxModal.vue";
 import { useRagStore } from "@/stores/rag";
 
@@ -174,7 +174,7 @@ const search = ref("");
 const rags = ref(ragStore.ragData);
 
 // 검색어에 따라 필터링된 문서 목록
-const filteredDocuments = computed(() => {
+const filteredRags = computed(() => {
   // 검색어 필터링
   let docs = [];
   if (!search.value.trim()) {
@@ -191,7 +191,7 @@ const filteredDocuments = computed(() => {
 
   // 즐겨찾기 문서 id 목록 가져오기
   const favoriteIds = JSON.parse(
-    localStorage.getItem("favoriteDocuments") || "[]"
+    localStorage.getItem("favoriteRags") || "[]"
   ).map((doc) => doc.id);
 
   // 즐겨찾기 우선 정렬

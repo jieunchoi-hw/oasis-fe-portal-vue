@@ -71,10 +71,10 @@
         </div>
         <span
           class="text-base font-medium text-gray-700 flex-1 whitespace-nowrap"
-          >즐겨찾는 문서 저장소 ({{ favoriteDocuments.length }})</span
+          >즐겨찾는 문서 저장소 ({{ favoriteRags.length }})</span
         >
         <img
-          v-if="favoriteDocuments.length > 0"
+          v-if="favoriteRags.length > 0"
           src="@/assets/icons/dropdown-arrow.svg"
           alt="드롭다운"
           class="w-3.5 h-3.5"
@@ -84,18 +84,18 @@
       <!-- 문서 목록 -->
       <div class="space-y-0">
         <div
-          v-for="document in favoriteDocuments"
+          v-for="document in favoriteRags"
           :key="document.id"
           class="flex items-center pl-8 pr-6 text-sm text-gray-700 hover:bg-gray-50 cursor-pointer whitespace-nowrap"
           style="height: 42px"
-          @click="handleFavoriteDocumentClick(document)"
+          @click="handleFavoriteRagClick(document)"
         >
           {{ document.title }}
         </div>
 
         <!-- 즐겨찾기 문서가 없을 때 -->
         <div
-          v-if="favoriteDocuments.length === 0"
+          v-if="favoriteRags.length === 0"
           class="flex items-center pl-8 pr-6 text-sm text-gray-400 whitespace-nowrap"
           style="height: 42px"
         >
@@ -125,27 +125,27 @@ const toggleSidebar = () => {
 };
 
 // 즐겨찾는 문서 목록
-const favoriteDocuments = ref([]);
+const favoriteRags = ref([]);
 
 // localStorage에서 즐겨찾기 문서 로드
-const loadFavoriteDocuments = () => {
-  const storedFavorites = localStorage.getItem("favoriteDocuments");
+const loadFavoriteRags = () => {
+  const storedFavorites = localStorage.getItem("favoriteRags");
   if (storedFavorites) {
-    favoriteDocuments.value = JSON.parse(storedFavorites);
+    favoriteRags.value = JSON.parse(storedFavorites);
   }
 };
 // 즐겨찾기 문서 클릭 핸들러
-const handleFavoriteDocumentClick = (document) => {
+const handleFavoriteRagClick = (document) => {
   router.push(`/rag/${document.id}`);
 };
 
 // 컴포넌트 마운트 시 즐겨찾기 문서 로드
 onMounted(() => {
-  loadFavoriteDocuments();
+  loadFavoriteRags();
 });
 
 // 외부에서 즐겨찾기 리스트를 새로고침할 수 있도록 expose
 defineExpose({
-  refreshFavorites: loadFavoriteDocuments,
+  refreshFavorites: loadFavoriteRags,
 });
 </script>

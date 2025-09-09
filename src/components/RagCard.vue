@@ -200,7 +200,7 @@ const closePinConfirmDialog = () => {
 const confirmPin = () => {
   // localStorage에 즐겨찾기 문서 저장
   const existingFavorites = JSON.parse(
-    localStorage.getItem("favoriteDocuments") || "[]"
+    localStorage.getItem("favoriteRags") || "[]"
   );
 
   // 이미 즐겨찾기에 있는지 확인
@@ -210,10 +210,7 @@ const confirmPin = () => {
 
   if (!isAlreadyFavorite) {
     existingFavorites.push(props.document);
-    localStorage.setItem(
-      "favoriteDocuments",
-      JSON.stringify(existingFavorites)
-    );
+    localStorage.setItem("favoriteRags", JSON.stringify(existingFavorites));
 
     // 즐겨찾기 상태 업데이트
     isFavorite.value = true;
@@ -229,7 +226,7 @@ const confirmPin = () => {
 // 즐겨찾기 상태 확인 함수
 const checkFavoriteStatus = () => {
   const existingFavorites = JSON.parse(
-    localStorage.getItem("favoriteDocuments") || "[]"
+    localStorage.getItem("favoriteRags") || "[]"
   );
   isFavorite.value = existingFavorites.some(
     (fav) => fav.id === props.document.id
@@ -244,14 +241,14 @@ const closeUnpinConfirmDialog = () => {
 const confirmUnpin = () => {
   // localStorage에서 즐겨찾기 문서 제거
   const existingFavorites = JSON.parse(
-    localStorage.getItem("favoriteDocuments") || "[]"
+    localStorage.getItem("favoriteRags") || "[]"
   );
 
   const updatedFavorites = existingFavorites.filter(
     (fav) => fav.id !== props.document.id
   );
 
-  localStorage.setItem("favoriteDocuments", JSON.stringify(updatedFavorites));
+  localStorage.setItem("favoriteRags", JSON.stringify(updatedFavorites));
 
   // 즐겨찾기 상태 업데이트
   isFavorite.value = false;
