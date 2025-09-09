@@ -47,7 +47,10 @@
               </div>
 
               <!-- 모달 컨텐츠 -->
-              <div class="px-10 max-h-[34rem] overflow-y-auto">
+              <div
+                ref="contentAreaRef"
+                class="px-10 max-h-[34rem] overflow-y-auto"
+              >
                 <!-- 구분선 -->
                 <div class="w-full h-px bg-gray-200"></div>
                 <div class="flex gap-8">
@@ -107,6 +110,7 @@
                     <!-- 박스 이름 -->
                     <div class="mb-5">
                       <AppInput
+                        ref="boxNameInputRef"
                         v-model="formData.boxName"
                         label="박스 이름"
                         placeholder="박스 이름을 입력해주세요."
@@ -343,7 +347,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, watch } from "vue";
+import { ref, reactive, watch, nextTick } from "vue";
 import {
   Listbox,
   ListboxButton,
@@ -391,6 +395,31 @@ const formData = reactive({
 watch(selectedEmbeddingModel, (val) => {
   formData.embeddingModel = val ? val.value : "";
 });
+// 모달이 열릴 때 박스 이름 입력에 포커스
+const boxNameInputRef = ref(null);
+watch(
+  () => props.isOpen,
+  (isOpen) => {
+    if (isOpen) {
+      nextTick(() => {
+        if (boxNameInputRef.value) {
+          boxNameInputRef.value.focus();
+        }
+      });
+    }
+  }
+);
+const contentAreaRef = ref(null);
+const scrollToBottom = () => {
+  // nextTick(() => {
+  //   if (contentAreaRef.value) {
+  //     contentAreaRef.value.scrollTo({
+  //       top: contentAreaRef.value.scrollHeight,
+  //       behavior: "smooth",
+  //     });
+  //   }
+  // });
+};
 
 // 단어 대치 배열
 const wordReplacements = ref([{ from: "", to: "" }]);
@@ -401,6 +430,7 @@ const forbiddenWords = ref([""]);
 // 단어 대치 추가
 const addWordReplacement = () => {
   wordReplacements.value.push({ from: "", to: "" });
+  scrollToBottom();
 };
 
 // 단어 대치 제거
@@ -411,6 +441,7 @@ const removeWordReplacement = (index) => {
 // 금칙어 추가
 const addForbiddenWord = () => {
   forbiddenWords.value.push("");
+  scrollToBottom();
 };
 
 // 금칙어 제거
