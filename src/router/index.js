@@ -85,7 +85,7 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   // 페이지 타이틀 설정
   if (to.meta.title) {
-    document.title = `${to.meta.title} - Oasis Portal`;
+    document.title = `${to.meta.title} - OASIS Portal`;
   }
 
   next();
