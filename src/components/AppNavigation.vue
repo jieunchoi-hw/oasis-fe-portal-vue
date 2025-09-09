@@ -77,29 +77,46 @@
           v-if="favoriteRags.length > 0"
           src="@/assets/icons/dropdown-arrow.svg"
           alt="드롭다운"
-          class="w-3.5 h-3.5"
+          class="w-3.5 h-3.5 flex-shrink-0 cursor-pointer transition-transform duration-300"
+          :class="{ '-rotate-90': !isAccordionOpen }"
+          @click="toggleAccordion"
         />
       </div>
 
       <!-- 문서 목록 -->
-      <div class="space-y-0">
-        <div
-          v-for="document in favoriteRags"
-          :key="document.id"
-          class="flex items-center pl-8 pr-6 text-sm text-gray-700 hover:bg-gray-50 cursor-pointer whitespace-nowrap"
-          style="height: 42px"
-          @click="handleFavoriteRagClick(document)"
-        >
-          {{ document.title }}
-        </div>
+      <div
+        class="overflow-hidden transition-all duration-500 ease-in-out"
+        :style="{
+          maxHeight: isAccordionOpen ? `${favoriteRags.length * 42}px` : '0px',
+          opacity: isAccordionOpen ? '1' : '0',
+        }"
+      >
+        <div class="space-y-0">
+          <div
+            v-for="(document, index) in favoriteRags"
+            :key="document.id"
+            class="flex items-center pl-8 pr-6 text-sm text-gray-700 hover:bg-gray-50 cursor-pointer whitespace-nowrap transform transition-all duration-300 ease-out"
+            :class="{
+              'translate-y-0 opacity-100': isAccordionOpen,
+              'translate-y-2 opacity-0': !isAccordionOpen,
+            }"
+            :style="{
+              height: '42px',
+              transitionDelay: isAccordionOpen ? `${index * 50}ms` : '0ms',
+            }"
+            @click="handleFavoriteRagClick(document)"
+          >
+            {{ document.title }}
+          </div>
 
-        <!-- 즐겨찾기 문서가 없을 때 -->
-        <div
-          v-if="favoriteRags.length === 0"
-          class="flex items-center pl-8 pr-6 text-sm text-gray-400 whitespace-nowrap"
-          style="height: 42px"
-        >
-          즐겨찾는 문서를 추가하세요.
+          <!-- 즐겨찾기 문서가 없을 때 -->
+          <div
+            v-if="favoriteRags.length === 0"
+            class="flex items-center pl-8 pr-6 text-sm text-gray-400 whitespace-nowrap"
+            style="height: 42px"
+          >
+            즐겨찾는 문서를 추가하세요.
+          </div>
         </div>
       </div>
     </div>
@@ -115,13 +132,19 @@ const router = useRouter();
 // 이벤트 emit 정의
 const emit = defineEmits(["toggle-sidebar"]);
 
-// 사이드바 접힘 상태
 const isCollapsed = ref(false);
+
+const isAccordionOpen = ref(true);
 
 // 사이드바 토글 함수
 const toggleSidebar = () => {
   isCollapsed.value = !isCollapsed.value;
   emit("toggle-sidebar", isCollapsed.value);
+};
+
+// 아코디언 토글 함수
+const toggleAccordion = () => {
+  isAccordionOpen.value = !isAccordionOpen.value;
 };
 
 // 즐겨찾는 문서 목록
@@ -134,6 +157,7 @@ const loadFavoriteRags = () => {
     favoriteRags.value = JSON.parse(storedFavorites);
   }
 };
+
 // 즐겨찾기 문서 클릭 핸들러
 const handleFavoriteRagClick = (document) => {
   router.push(`/rag/${document.id}`);
