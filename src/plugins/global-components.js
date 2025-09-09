@@ -3,6 +3,7 @@ import ContextMenu from "@/components/ContextMenu.vue";
 import SearchInput from "@/components/SearchInput.vue";
 import AppTable from "@/components/AppTable.vue";
 import AppConfirmDialog from "@/components/AppConfirmDialog.vue";
+import ModalOpenButton from "@/components/ModalOpenButton.vue";
 
 export default {
   install(app) {
@@ -11,5 +12,6 @@ export default {
     app.component("SearchInput", SearchInput);
     app.component("AppTable", AppTable);
     app.component("AppConfirmDialog", AppConfirmDialog);
+    app.component("ModalOpenButton", ModalOpenButton);
   },
 };

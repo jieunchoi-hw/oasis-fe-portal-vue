@@ -21,20 +21,7 @@
         <SearchInput v-model="search" placeholder="문서 박스를 검색해보세요." />
 
         <!-- 새로운 박스 버튼 -->
-        <button
-          @click="openModal"
-          class="flex items-center justify-center gap-1 h-10 text-white rounded-full hover:opacity-90 transition-opacity"
-          style="background-color: #658aef; padding: 10px 14px 10px 8px"
-        >
-          <div class="flex items-center justify-center w-6 h-6 px-1.5 py-1">
-            <img
-              src="@/assets/icons/plus-icon.svg"
-              alt="추가"
-              class="w-3 h-3"
-            />
-          </div>
-          <span class="text-sm font-semibold">새로운 박스</span>
-        </button>
+        <ModalOpenButton text="새로운 박스" @click="openModal" />
       </div>
     </div>
 
