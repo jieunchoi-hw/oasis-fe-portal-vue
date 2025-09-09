@@ -69,7 +69,7 @@
     </div>
     <!-- 테이블 컨테이너 -->
     <AppTable
-      v-if="counts > 0"
+      v-if="ragStore.selectedRag.counts > 0"
       :table="table"
       container-class="min-h-[43rem]"
       :show-scroll-container="false"
@@ -120,7 +120,7 @@
 </template>
 
 <script setup>
-import { computed, ref, h, onMounted } from "vue";
+import { computed, ref, h, onMounted, watch } from "vue";
 import SearchInput from "@/components/SearchInput.vue";
 import { useRoute } from "vue-router";
 import { useRagStore } from "@/stores/rag";
@@ -146,8 +146,13 @@ const route = useRoute();
 const ragStore = useRagStore();
 const counts = ref(0);
 
-// Document ID from route params
-const documentId = computed(() => route.params.id);
+// 라우트 파라미터 변경 감지
+const updateSelectedRag = (id) => {
+  const selectedRag = ragStore.ragData.find((rag) => rag.id === parseInt(id));
+  if (selectedRag) {
+    ragStore.setSelectedRag(selectedRag);
+  }
+};
 
 // 파일 타입별 아이콘 매핑 함수
 const getFileTypeIcon = (fileType) => {
@@ -301,16 +306,19 @@ const data = ref([
 ]);
 
 onMounted(() => {
-  // rag store에서 document 정보 가져오기
-  const storedRag = ragStore.getSelectedRag();
-  if (storedRag) {
-    counts.value = storedRag.counts || 0;
-  } else {
-    // fallback: store에 데이터가 없는 경우 기본값 설정
-    counts.value = 0;
-    console.warn("Document information not found in rag store");
+  if (route.params.id) {
+    updateSelectedRag(route.params.id);
   }
 });
+
+watch(
+  () => route.params.id,
+  (newId) => {
+    if (newId) {
+      updateSelectedRag(newId);
+    }
+  }
+);
 
 // 컬럼 정의
 const columnHelper = createColumnHelper();

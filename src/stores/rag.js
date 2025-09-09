@@ -171,7 +171,6 @@ export const useRagStore = defineStore("rag", () => {
 
   // Actions
   const setSelectedRag = (rag) => {
-    console.log("Setting selected RAG:", rag);
     selectedRag.value = rag;
     // counts 정보도 함께 저장
     if (rag && rag.counts !== undefined) {
