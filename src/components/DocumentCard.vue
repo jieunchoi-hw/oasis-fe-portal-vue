@@ -2,7 +2,7 @@
   <div>
     <div
       class="bg-white rounded-2xl hover:shadow-md transition-shadow cursor-pointer shadow-sm"
-      :class="{ 'border-1 border-blue-300': isFavorite }"
+      :class="{ 'border-1 border-blue-400': isFavorite }"
       @click="handleCardClick"
     >
       <!-- 카드 헤더 -->
@@ -28,7 +28,7 @@
             <button
               class="w-6.5 h-6.5 border border-neutral-300 rounded-lg flex items-center justify-center hover:bg-neutral-50 transition-colors"
               @click.stop="handlePin"
-              :class="{ 'bg-yellow-400': isFavorite }"
+              :class="{ 'bg-blue-50': isFavorite }"
             >
               <img
                 src="@/assets/icons/pin-icon.svg"
@@ -143,9 +143,6 @@ const menuItems = computed(() => [
 ]);
 
 const handleCardClick = async () => {
-  // 카드 클릭 시 문서 상세 페이지로 이동 (rag store에 document 정보 저장)
-  ragStore.setSelectedRag(props.document);
-
   // 현재 라우트와 동일한 경우 강제로 새로고침
   const targetRoute = `/rag/${props.document.id}`;
   if (router.currentRoute.value.path === targetRoute) {

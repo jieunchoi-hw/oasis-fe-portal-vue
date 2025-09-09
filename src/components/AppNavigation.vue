@@ -134,11 +134,8 @@ const loadFavoriteDocuments = () => {
     favoriteDocuments.value = JSON.parse(storedFavorites);
   }
 };
-
 // 즐겨찾기 문서 클릭 핸들러
 const handleFavoriteDocumentClick = (document) => {
-  // sessionStorage에 document 정보 저장
-  sessionStorage.setItem("selectedDocument", JSON.stringify(document));
   router.push(`/rag/${document.id}`);
 };
 

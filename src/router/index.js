@@ -7,6 +7,7 @@ import Rag from "@/views/Rag.vue";
 import RagDetail from "@/views/RagDetail.vue";
 import FileDetail from "@/views/FileDetail.vue";
 import NotFound from "@/views/NotFound.vue";
+import { useRagStore } from "@/stores/rag";
 
 const routes = [
   {
@@ -47,6 +48,13 @@ const routes = [
     meta: {
       title: "RAG 상세보기",
       requiresAuth: false,
+    },
+    beforeEnter(to, from, next) {
+      const ragStore = useRagStore();
+      ragStore.setSelectedRag(
+        ragStore.ragData.find((rag) => rag.id === parseInt(to.params.id))
+      );
+      next();
     },
   },
   {

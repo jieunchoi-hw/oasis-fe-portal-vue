@@ -94,10 +94,10 @@
         <!-- Text Content -->
         <div class="flex flex-col items-center gap-3">
           <h3 class="text-lg font-medium text-neutral text-center">
-            "검색된 데이터가 없어요"
+            아직 문서가 없어요
           </h3>
           <p class="text-sm text-assistive text-center">
-            "검색어를 확인하거나 상단 버튼을 눌러 문서를 업로드 해보세요"
+            파일을 끌어다 놓거나 상단 버튼을 눌러 문서를 업로드 해보세요
           </p>
         </div>
       </div>
@@ -302,9 +302,9 @@ const data = ref([
 
 onMounted(() => {
   // rag store에서 document 정보 가져오기
-  const storedDocument = ragStore.getSelectedRag();
-  if (storedDocument) {
-    counts.value = storedDocument.counts || 0;
+  const storedRag = ragStore.getSelectedRag();
+  if (storedRag) {
+    counts.value = storedRag.counts || 0;
   } else {
     // fallback: store에 데이터가 없는 경우 기본값 설정
     counts.value = 0;
