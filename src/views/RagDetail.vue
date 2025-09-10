@@ -44,8 +44,7 @@
 
           <!-- 박스정보 버튼 -->
           <button
-            class="flex items-center justify-center gap-1 h-10 px-3 bg-white border border-gray-200 rounded-full hover:bg-gray-50 transition-colors"
-            style="border-color: #efefef; padding: 10px 16px 10px 12px"
+            class="flex items-center justify-center gap-1 h-10 pl-3 pr-4 py-2.5 bg-white border border-gray-200 rounded-full hover:bg-gray-50 transition-colors"
           >
             <div class="flex items-center justify-center w-6 h-6">
               <img
@@ -59,7 +58,7 @@
           </button>
 
           <!-- 새로운 폴더 버튼 -->
-          <ModalOpenButton text="새로운 문서" @click="openCreateFolderModal" />
+          <ModalOpenButton text="새로운 폴더" @click="openCreateFolderModal" />
         </div>
       </div>
     </div>
