@@ -54,38 +54,84 @@
         </div>
       </div>
     </div>
-    <!-- 테이블 컨테이너 -->
-    <AppTable
-      v-if="ragStore.selectedRag.counts > 0"
-      :table="table"
-      container-class="min-h-[43rem]"
-      :show-scroll-container="false"
-      header-class=""
-      :show-empty-state="counts === 0"
-    />
-    <!-- [임시] 빈 상태 표시 -->
-    <div
-      v-else
-      class="bg-white rounded-xl overflow-hidden min-h-[43rem] justify-center flex items-center mx-8"
-    >
-      <div class="flex flex-col items-center gap-10">
-        <!-- Rag Illustration -->
-        <div class="w-50 h-50 flex items-center justify-center">
-          <img
-            src="@/assets/icons/document.svg"
-            alt="Empty Rag State"
-            class="w-50 h-50"
-          />
-        </div>
 
-        <!-- Text Content -->
-        <div class="flex flex-col items-center gap-3">
-          <h3 class="text-lg font-medium text-neutral text-center">
-            아직 문서가 없어요
-          </h3>
-          <p class="text-sm text-assistive text-center">
-            파일을 끌어다 놓거나 상단 버튼을 눌러 문서를 업로드 해보세요
-          </p>
+    <!-- 파일 인풋 영역 -->
+    <div
+      class="relative"
+      @dragenter="handleDragEnter"
+      @dragover="handleDragOver"
+      @dragleave="handleDragLeave"
+      @drop="handleDrop"
+    >
+      <!-- 드래그 오버레이 -->
+      <div
+        v-if="isDragOver"
+        class="absolute inset-0 z-50 flex items-center justify-center bg-blue-50 bg-opacity-90 border-2 border-dashed border-blue-300 rounded-xl mx-8 transition-all duration-300 ease-in-out"
+        :class="{ 'opacity-70': isDragOver, 'opacity-0': !isDragOver }"
+      >
+        <div class="flex flex-col items-center gap-4 text-blue-600">
+          <div
+            class="w-16 h-16 flex items-center justify-center rounded-full bg-blue-100"
+          >
+            <svg
+              class="w-8 h-8"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+              />
+            </svg>
+          </div>
+          <div class="text-center">
+            <p class="text-lg font-semibold">파일을 여기에 드롭하세요</p>
+            <!-- subtitle -->
+            <!-- <p class="text-sm text-blue-500">
+            </p> -->
+          </div>
+        </div>
+      </div>
+
+      <!-- 기존 테이블/빈 상태 영역 -->
+      <div :class="{ 'pointer-events-none': isDragOver }">
+        <AppTable
+          v-if="ragStore.selectedRag.counts > 0"
+          :table="table"
+          container-class="min-h-[43rem]"
+          :show-scroll-container="false"
+          header-class=""
+          :show-empty-state="counts === 0"
+        />
+        <!-- [임시] 빈 상태 표시 -->
+        <div
+          v-else
+          class="bg-white rounded-xl overflow-hidden min-h-[43rem] justify-center flex items-center mx-8 transition-all duration-300 ease-in-out"
+          :class="{ 'opacity-50': isDragOver }"
+        >
+          <div class="flex flex-col items-center gap-10">
+            <!-- Rag Illustration -->
+            <div class="w-50 h-50 flex items-center justify-center">
+              <img
+                src="@/assets/icons/document.svg"
+                alt="Empty Rag State"
+                class="w-50 h-50"
+              />
+            </div>
+
+            <!-- Text Content -->
+            <div class="flex flex-col items-center gap-3">
+              <h3 class="text-lg font-medium text-neutral text-center">
+                아직 문서가 없어요
+              </h3>
+              <p class="text-sm text-assistive text-center">
+                파일을 끌어다 놓거나 상단 버튼을 눌러 문서를 업로드 해보세요
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -132,6 +178,45 @@ import hwpIcon from "@/assets/icons/hwp-icon.svg";
 const route = useRoute();
 const ragStore = useRagStore();
 const counts = ref(0);
+
+// 드래그 앤 드롭 상태 관리
+const isDragOver = ref(false);
+let dragCounter = 0;
+
+// 드래그 앤 드롭 이벤트 핸들러
+const handleDragEnter = (e) => {
+  e.preventDefault();
+  dragCounter++;
+  if (dragCounter === 1) {
+    isDragOver.value = true;
+  }
+};
+
+const handleDragOver = (e) => {
+  e.preventDefault();
+};
+
+const handleDragLeave = (e) => {
+  e.preventDefault();
+  dragCounter--;
+  if (dragCounter === 0) {
+    isDragOver.value = false;
+  }
+};
+
+const handleDrop = (e) => {
+  e.preventDefault();
+  dragCounter = 0;
+  isDragOver.value = false;
+
+  const files = Array.from(e.dataTransfer.files);
+  console.log("드롭된 파일들:", files);
+
+  // 여기에 파일 업로드 로직 추가
+  files.forEach((file) => {
+    console.log(`파일명: ${file.name}, 크기: ${file.size}, 타입: ${file.type}`);
+  });
+};
 
 // 라우트 파라미터 변경 감지
 const updateSelectedRag = (id) => {
