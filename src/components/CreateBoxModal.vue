@@ -66,9 +66,9 @@
                       <div
                         class="relative w-30 h-30 rounded-full flex items-center justify-center bg-gray-100"
                       >
-                        <!-- 3D 일러스트레이션 -->
+                        <!-- 문서 아이콘 -->
                         <img
-                          src="@/assets/icons/3d-illustration.svg"
+                          src="@/assets/icons/document-icon.svg"
                           alt="3D 일러스트"
                           class="absolute w-18 h-16 left-7"
                         />
@@ -169,9 +169,9 @@
                               }}
                             </span>
                             <img
-                              src="@/assets/icons/dropdown-arrow-icon.svg"
+                              src="@/assets/icons/dropdown-arrow.svg"
                               alt="드롭다운"
-                              class="w-3 h-2 pointer-events-none"
+                              class="w-4 h-4 pointer-events-none"
                             />
                           </ListboxButton>
                           <ListboxOptions
@@ -303,7 +303,7 @@
                             class="w-5 h-5 flex items-center justify-center"
                           >
                             <img
-                              src="@/assets/icons/delete-icon-2.svg"
+                              src="@/assets/icons/delete-icon.svg"
                               alt="삭제"
                               class="w-5 h-5"
                             />
@@ -314,7 +314,7 @@
                           class="w-full flex items-center justify-center gap-2 px-4 py-2 border border-gray-200 rounded-lg text-sm font-semibold text-gray-900 hover:bg-gray-50 transition-colors"
                         >
                           <img
-                            src="@/assets/icons/plus-button-icon-2.svg"
+                            src="@/assets/icons/plus-button-icon.svg"
                             alt="추가"
                             class="w-3 h-3"
                           />

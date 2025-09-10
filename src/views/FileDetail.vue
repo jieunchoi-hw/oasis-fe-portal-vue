@@ -15,19 +15,8 @@
         <!-- 버튼 그룹 -->
         <div class="flex items-center gap-1.5">
           <!-- 새로운 문장 버튼 -->
-          <button
-            class="flex items-center justify-center gap-1 h-10 px-3 text-white rounded-full hover:opacity-90 transition-opacity"
-            style="background-color: #658aef; padding: 10px 16px 10px 12px"
-          >
-            <div class="flex items-center justify-center w-6 h-6">
-              <img
-                src="@/assets/icons/plus-icon.svg"
-                alt="추가"
-                class="w-3 h-3"
-              />
-            </div>
-            <span class="text-sm font-semibold">새로운 문장</span>
-          </button>
+          <!-- 새로운 박스 버튼 -->
+          <ModalOpenButton text="새로운 문장" />
         </div>
       </div>
     </div>
