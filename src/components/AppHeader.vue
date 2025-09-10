@@ -216,7 +216,6 @@ const teams = [
 // 선택된 팀 (기본값: AI 솔루션팀)
 const selectedTeam = ref(teams[0]);
 const alrmClick = () => {
-  console.log("??");
   showSuccess("알림 클릭");
 };
 </script>

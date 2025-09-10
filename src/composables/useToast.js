@@ -12,9 +12,8 @@ export function useToast() {
    */
   const showSuccess = (message, options = {}) => {
     toast.success(message, {
-      autoClose: 3000,
+      autoClose: 300000,
       position: toast.POSITION.TOP_RIGHT,
-      theme: "auto",
       ...options,
     });
   };
@@ -28,7 +27,6 @@ export function useToast() {
     toast.error(message, {
       autoClose: 5000,
       position: toast.POSITION.TOP_RIGHT,
-      theme: "auto",
       ...options,
     });
   };
@@ -42,7 +40,6 @@ export function useToast() {
     toast.info(message, {
       autoClose: 4000,
       position: toast.POSITION.TOP_RIGHT,
-      theme: "auto",
       ...options,
     });
   };
@@ -56,7 +53,6 @@ export function useToast() {
     toast.warning(message, {
       autoClose: 4000,
       position: toast.POSITION.TOP_RIGHT,
-      theme: "auto",
       ...options,
     });
   };
@@ -71,7 +67,6 @@ export function useToast() {
     const defaultOptions = {
       autoClose: 3000,
       position: toast.POSITION.TOP_RIGHT,
-      theme: "auto",
       ...options,
     };
 
