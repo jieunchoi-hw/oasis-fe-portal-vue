@@ -29,11 +29,7 @@
               }"
             >
               <img
-                :src="
-                  isFavorite
-                    ? 'src/assets/icons/unpin-icon.svg'
-                    : 'src/assets/icons/pin-icon.svg'
-                "
+                :src="isFavorite ? unPinIcon : pinIcon"
                 alt="고정"
                 class="w-4.5 h-4.5"
               />
@@ -103,8 +99,10 @@ import { useRagStore } from "@/stores/rag";
 import DeleteBoxModal from "./DeleteBoxModal.vue";
 import AppConfirmDialog from "./AppConfirmDialog.vue";
 
+import unPinIcon from "@/assets/icons/unpin-icon.svg";
+import pinIcon from "@/assets/icons/pin-icon.svg";
+
 const router = useRouter();
-const ragStore = useRagStore();
 
 const props = defineProps({
   document: {
