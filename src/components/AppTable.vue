@@ -7,10 +7,7 @@
     >
       <table class="w-full">
         <!-- 테이블 헤더 -->
-        <thead
-          :class="[headerClass, 'sticky top-0 z-10']"
-          style="position: sticky; top: 0; z-index: 10; background: white"
-        >
+        <thead :class="[headerClass, 'sticky top-0 z-10']">
           <tr
             v-for="headerGroup in table.getHeaderGroups()"
             :key="headerGroup.id"
@@ -20,8 +17,7 @@
               :key="header.id"
               :class="getHeaderCellClass(header)"
               :style="{
-                width: header.getSize() + 'px',
-                borderColor: '#EFEFEF',
+                width: header.getSize() + 'rem',
               }"
             >
               <!-- 번호 컬럼은 중앙 정렬로 단순하게 표시 -->
@@ -70,7 +66,6 @@
               <div
                 v-if="!header.isLast"
                 class="absolute right-0 top-4 bottom-4 w-px bg-gray-200"
-                style="background-color: #efefef"
               ></div>
             </th>
           </tr>
@@ -102,10 +97,7 @@
     <!-- 스크롤 컨테이너가 없는 경우 -->
     <table v-else class="w-full">
       <!-- 테이블 헤더 -->
-      <thead
-        :class="[headerClass, 'sticky top-0 z-10']"
-        style="position: sticky; top: 0; z-index: 10; background: white"
-      >
+      <thead :class="[headerClass, 'sticky top-0 z-10']">
         <tr
           v-for="headerGroup in table.getHeaderGroups()"
           :key="headerGroup.id"
@@ -115,8 +107,7 @@
             :key="header.id"
             :class="getHeaderCellClass(header)"
             :style="{
-              width: header.getSize() + 'px',
-              borderColor: '#EFEFEF',
+              width: header.getSize() + 'rem',
             }"
           >
             <!-- 번호 컬럼은 중앙 정렬로 단순하게 표시 -->
@@ -165,7 +156,6 @@
             <div
               v-if="!header.isLast"
               class="absolute right-0 top-4 bottom-4 w-px bg-gray-200"
-              style="background-color: #efefef"
             ></div>
           </th>
         </tr>
@@ -269,7 +259,7 @@ const emit = defineEmits(["cellClick"]);
 // 헤더 셀 클래스 계산
 const getHeaderCellClass = (header) => {
   const baseClass =
-    "border-b px-4 py-4 text-sm font-semibold text-gray-600 bg-white relative";
+    "border-b border-line-neutral px-4 py-4 text-sm font-semibold text-gray-600 bg-white relative";
   const alignmentClass =
     header.column.id === "number" ? "text-center" : "text-left";
   return [baseClass, alignmentClass];
