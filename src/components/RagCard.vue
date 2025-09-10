@@ -1,8 +1,8 @@
 <template>
   <div>
     <div
-      class="bg-white rounded-2xl hover:shadow-md transition-shadow cursor-pointer shadow-sm"
-      :class="{ 'border-1 border-blue-400': isFavorite }"
+      class="bg-white rounded-2xl hover:shadow-[0_0.625rem_2rem_-0.25rem_rgba(24,39,75,0.12)] transition-shadow cursor-pointer shadow-[0.125rem_0.25rem_0.25rem_0_rgba(0,0,0,0.04)]"
+      :class="{ 'border-1 border-blue-100': isFavorite }"
       @click="handleCardClick"
     >
       <!-- 카드 헤더 -->
@@ -20,22 +20,28 @@
           <!-- 액션 버튼들 -->
           <div class="flex items-center gap-1">
             <!-- 더보기 컨텍스트 메뉴 -->
-            <ContextMenu
-              :menu-items="menuItems"
-              @item-click="handleMenuItemClick"
-            />
-
             <button
               class="w-6.5 h-6.5 border border-neutral-300 rounded-lg flex items-center justify-center hover:bg-neutral-50 transition-colors"
               @click.stop="handlePin"
-              :class="{ 'bg-blue-50': isFavorite }"
+              :class="{
+                'bg-indigo-50 rounded-lg border-none hover:!bg-indigo-100':
+                  isFavorite,
+              }"
             >
               <img
-                src="@/assets/icons/pin-icon.svg"
+                :src="
+                  isFavorite
+                    ? 'src/assets/icons/unpin-icon.svg'
+                    : 'src/assets/icons/pin-icon.svg'
+                "
                 alt="고정"
                 class="w-4.5 h-4.5"
               />
             </button>
+            <ContextMenu
+              :menu-items="menuItems"
+              @item-click="handleMenuItemClick"
+            />
           </div>
         </div>
 
