@@ -159,6 +159,7 @@ import documentIcon from "@/assets/icons/document-icon.svg"; //임시 변경예�
 import pdfIcon from "@/assets/icons/pdf-icon.svg";
 import wordIcon from "@/assets/icons/word-icon.svg";
 import excelIcon from "@/assets/icons/excel-icon.svg";
+import hwpIcon from "@/assets/icons/hwp-icon.svg";
 
 const route = useRoute();
 const router = useRouter();
@@ -185,6 +186,7 @@ const getFileTypeIcon = (fileType) => {
     pdf: pdfIcon,
     word: wordIcon,
     excel: excelIcon,
+    hwp: hwpIcon,
   };
   return iconMap[fileType] || "@/assets/icons/document-icon.svg";
 };

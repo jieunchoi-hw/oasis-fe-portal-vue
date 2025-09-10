@@ -11,7 +11,9 @@
       }"
     >
       <!-- 왼쪽 네비게이션 -->
-      <aside class="bg-white border-r border-gray-200 overflow-hidden">
+      <aside
+        class="bg-neutral z-0 border-r border-gray-200 overflow-hidden shadow-[0.25rem_0.25rem_1.5rem_0rem_rgba(0,0,0,0.1)]"
+      >
         <AppNavigation
           ref="appNavigation"
           @toggle-sidebar="handleSidebarToggle"

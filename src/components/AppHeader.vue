@@ -1,17 +1,17 @@
 <template>
   <header
-    class="bg-white border-b border-neutral-200 h-16 flex items-center justify-between px-10 fixed top-0 left-0 right-0 z-50"
+    class="bg-white border-b border-neutral-200 h-16 px-10 flex items-center justify-between fixed top-0 left-0 right-0 z-50"
   >
     <!-- 왼쪽 영역: 로고 + 탭 네비게이션 -->
     <div class="flex items-center gap-12">
       <!-- OASIS 로고 -->
       <div class="flex items-center">
-        <img src="@/assets/icons/oasis-logo.svg" alt="OASIS" class="h-6" />
+        <img src="@/assets/icons/oasis-logo.svg" alt="OASIS" class="w-28 h-7" />
       </div>
 
       <!-- 탭 네비게이션 -->
       <nav class="flex items-center gap-1">
-        <router-link
+        <!-- <router-link
           to="/ai-assistant"
           class="px-3 py-2 text-base font-semibold transition-colors h-9 flex items-center"
           :class="
@@ -21,7 +21,15 @@
           "
         >
           AI 비서
-        </router-link>
+        </router-link> -->
+
+        <a
+          href="https://oasis.haiqv.ai/portal"
+          rel="noopener noreferrer"
+          class="px-3 py-2 text-base font-semibold transition-colors h-9 flex items-center text-neutral-500"
+        >
+          AI 비서
+        </a>
         <router-link
           to="/rag"
           class="px-3 py-2 text-base font-semibold transition-colors h-9 flex items-center"
@@ -42,7 +50,7 @@
       <div class="relative">
         <Listbox v-model="selectedTeam">
           <ListboxButton
-            class="w-44 flex items-center gap-2.5 px-4 py-2 bg-background-neutral border border-neutral-200 rounded-full cursor-pointer hover:bg-neutral-50 transition-colors h-9"
+            class="w-60 flex items-center gap-2.5 px-4 py-2 bg-background-neutral border border-neutral-200 rounded-full cursor-pointer hover:bg-neutral-50 transition-colors h-9"
           >
             <div
               class="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0"
@@ -72,7 +80,7 @@
             leave-to-class="transform scale-95 opacity-0"
           >
             <ListboxOptions
-              class="w-44 absolute right-0 mt-2 bg-dropdown-background-normal border border-neutral-200 rounded-xl shadow-lg z-[9999] focus:outline-none"
+              class="w-60 absolute right-0 mt-2 bg-dropdown-background-normal border border-neutral-200 rounded-xl shadow-lg z-[9999] focus:outline-none"
               @open="isOpen = true"
               @close="isOpen = false"
             >

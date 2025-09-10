@@ -193,18 +193,13 @@
               <!-- 삭제 버튼 -->
               <button
                 @click="removeLink(index)"
-                class="flex items-center justify-center w-5 h-5 hover:opacity-70 transition-opacity"
+                class="w-5 h-5 flex items-center justify-center"
               >
-                <div
-                  class="w-5 h-5 rounded-full bg-gray-400 flex items-center justify-center relative"
-                >
-                  <div
-                    class="absolute w-2 h-0.5 bg-white rounded-full transform rotate-45"
-                  ></div>
-                  <div
-                    class="absolute w-2 h-0.5 bg-white rounded-full transform -rotate-45"
-                  ></div>
-                </div>
+                <img
+                  src="@/assets/icons/delete-icon.svg"
+                  alt="삭제"
+                  class="w-5 h-5"
+                />
               </button>
             </div>
 
