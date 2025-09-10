@@ -3,6 +3,14 @@
     class="min-h-[calc(100vh-4rem)] bg-background-neutral pt-10 px-15"
     style="background-color: #f5f8fd"
   >
+    <input
+      ref="fileInput"
+      type="file"
+      multiple
+      style="display: none"
+      @change="handleFileSelect"
+    />
+
     <!-- 페이지 헤더 -->
     <div class="flex justify-between px-8 py-4">
       <div>
@@ -27,6 +35,7 @@
           <button
             class="flex items-center justify-center w-10 h-10 bg-white border border-gray-200 rounded-full hover:bg-gray-50 transition-colors"
             style="border-color: #efefef"
+            @click="openFileDialog"
           >
             <div class="flex items-center justify-center w-5 h-5">
               <img src="@/assets/icons/upload-icon.svg" alt="업로드" class="" />
@@ -179,9 +188,47 @@ const route = useRoute();
 const ragStore = useRagStore();
 const counts = ref(0);
 
+// 파일 입력 ref
+const fileInput = ref(null);
+
 // 드래그 앤 드롭 상태 관리
 const isDragOver = ref(false);
 let dragCounter = 0;
+
+// 파일 업로드 관련 함수들
+const openFileDialog = () => {
+  fileInput.value?.click();
+};
+
+const handleFileSelect = (event) => {
+  const files = Array.from(event.target.files);
+  if (files.length > 0) {
+    uploadFiles(files);
+  }
+  // 파일 입력 초기화 (같은 파일을 다시 선택할 수 있도록)
+  event.target.value = "";
+};
+
+const uploadFiles = (files) => {
+  console.log("업로드할 파일들:", files);
+
+  files.forEach((file) => {
+    console.log(`파일명: ${file.name}, 크기: ${file.size}, 타입: ${file.type}`);
+
+    // 파일 검증 (선택사항)
+    const maxSize = 10 * 1024 * 1024; // 10MB
+
+    if (file.size > maxSize) {
+      alert(`${file.name}은(는) 파일 크기가 너무 큽니다. (최대 10MB)`);
+      return;
+    }
+
+    // 여기에 실제 파일 업로드 API 호출 로직을 추가하세요
+    // 예: uploadFileToServer(file);
+  });
+
+  // 업로드 성공 후 UI 업데이트나 알림 등의 로직을 추가할 수 있습니다
+};
 
 // 드래그 앤 드롭 이벤트 핸들러
 const handleDragEnter = (e) => {
@@ -210,12 +257,9 @@ const handleDrop = (e) => {
   isDragOver.value = false;
 
   const files = Array.from(e.dataTransfer.files);
-  console.log("드롭된 파일들:", files);
-
-  // 여기에 파일 업로드 로직 추가
-  files.forEach((file) => {
-    console.log(`파일명: ${file.name}, 크기: ${file.size}, 타입: ${file.type}`);
-  });
+  if (files.length > 0) {
+    uploadFiles(files);
+  }
 };
 
 // 라우트 파라미터 변경 감지
