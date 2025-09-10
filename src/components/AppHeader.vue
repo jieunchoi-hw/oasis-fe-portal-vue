@@ -132,7 +132,7 @@
 
       <!-- 알림 및 사용자 아이콘 -->
       <div class="flex items-center gap-4">
-        <button class="relative">
+        <button class="relative" @click="alrmClick">
           <img
             src="@/assets/icons/notification-bell.svg"
             alt="알림"
@@ -161,12 +161,15 @@
 
 <script setup>
 import { ref } from "vue";
+import { useToast } from "@/composables/useToast";
 import {
   Listbox,
   ListboxButton,
   ListboxOptions,
   ListboxOption,
 } from "@headlessui/vue";
+
+const { showSuccess, showError } = useToast();
 
 // 드롭다운 상태 관리
 const isOpen = ref(false);
@@ -212,6 +215,10 @@ const teams = [
 
 // 선택된 팀 (기본값: AI 솔루션팀)
 const selectedTeam = ref(teams[0]);
+const alrmClick = () => {
+  console.log("??");
+  showSuccess("알림 클릭");
+};
 </script>
 
 <style scoped>
