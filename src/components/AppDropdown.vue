@@ -1,15 +1,16 @@
 <template>
   <div class="relative">
     <Listbox v-model="selectedValue">
-      <ListboxButton class="app-dropdown-button">
+      <ListboxButton
+        class="w-full h-12 px-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-0.5 focus:ring-blue-500 focus:border-blue-500 text-sm appearance-none bg-white flex items-center justify-between"
+      >
         <span class="app-dropdown-text">
-          {{ selectedValue.name }}
+          {{ selectedValue.label }}
         </span>
         <img
-          src="@/assets/icons/down-arrow.svg"
+          src="@/assets/icons/dropdown-arrow.svg"
           alt="드롭다운"
-          class="w-5 h-5 transition-transform duration-200 flex-shrink-0"
-          :class="{ 'rotate-180': isOpen }"
+          class="w-4 h-4 pointer-events-none"
         />
       </ListboxButton>
 
@@ -22,14 +23,14 @@
         leave-to-class="transform scale-95 opacity-0"
       >
         <ListboxOptions
-          class="absolute right-0 mt-2 bg-dropdown-background-normal border border-neutral-200 rounded-xl shadow-lg z-[9999] focus:outline-none min-w-full"
+          class="absolute right-0 mt-1 bg-dropdown-background-normal border border-neutral-200 rounded-xl shadow-lg z-[9999] focus:outline-none min-w-full"
           @open="isOpen = true"
           @close="isOpen = false"
         >
           <div class="p-1.5">
             <ListboxOption
               v-for="option in options"
-              :key="option.id"
+              :key="option.value"
               :value="option"
               :disabled="option.unavailable"
               v-slot="{ active, selected }"
@@ -52,7 +53,7 @@
                     option.unavailable ? 'text-neutral-400' : '',
                   ]"
                 >
-                  {{ option.name }}
+                  {{ option.label }}
                 </span>
               </li>
             </ListboxOption>
@@ -97,33 +98,3 @@ const selectedValue = computed({
   set: (value) => emit("update:modelValue", value),
 });
 </script>
-
-<style scoped>
-/* AppDropdown 버튼 스타일 */
-.app-dropdown-button {
-  display: flex;
-  align-items: center;
-  gap: 24px;
-  padding: 7px 20px;
-  background-color: #ffffff;
-  border: 1px solid #efefef;
-  border-radius: 50px;
-  cursor: pointer;
-  height: 48px;
-  transition: background-color 0.2s ease;
-}
-
-.app-dropdown-button:hover {
-  background-color: #f9fafb;
-}
-
-.app-dropdown-text {
-  color: #47484c;
-  font-family: Pretendard, sans-serif;
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 1.4;
-  height: 22px;
-  flex: 1;
-}
-</style>

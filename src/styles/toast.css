@@ -21,7 +21,7 @@
 }
 
 .Toastify__toast-container {
-  border-radius: 16px;
+  border-radius: 1rem;
 }
 .Toastify__close-button {
   display: none;
