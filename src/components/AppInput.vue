@@ -24,9 +24,7 @@
         @focus="handleFocus"
         @blur="handleBlur"
       />
-      <div class="text-error px-1 text-left text-xs leading-none font-medium">
-        sss
-      </div>
+
       <!-- Error Message -->
       <div
         v-if="error"
