@@ -153,14 +153,19 @@
           </span>
         </div>
 
-        <!-- 사용자 아이콘 -->
-        <button>
-          <img
-            src="@/assets/icons/user-profile.svg"
-            alt="사용자"
-            class="w-6 h-6"
-          />
-        </button>
+        <!-- 사용자 프로필 메뉴 -->
+        <AppMenu
+          :menu-items="userMenuItems"
+          :button-class="'relative w-6 h-6 flex items-center justify-center hover:opacity-80 transition-opacity'"
+          :icon-src="userProfileIcon"
+          icon-alt="사용자 프로필"
+          :icon-class="'w-6 h-6'"
+          :menu-class="'absolute right-0 top-full mt-3 px-1.5 pt-1.5 pb-2 w-60 bg-white border border-neutral-200 rounded-xl shadow-lg z-10 focus:outline-none user-profile-menu'"
+          menu-position="right"
+          :menu-style="'box-shadow: 2px 6px 12px 2px rgba(0, 0, 0, 0.04), 0px 2px 2px 0px rgba(0, 0, 0, 0.02);'"
+          menu-title="김한화 / kim@hanwha.com"
+          @item-click="handleUserMenuClick"
+        />
       </div>
     </div>
   </header>
@@ -175,7 +180,11 @@ import {
   ListboxOption,
 } from "@headlessui/vue";
 import AppNotificationMenu from "@/components/AppNotificationMenu.vue";
+import AppMenu from "@/components/AppMenu.vue";
 import notificationBellIcon from "@/assets/icons/notification-bell.svg";
+import userProfileIcon from "@/assets/icons/user-profile.svg";
+import settingIcon from "@/assets/icons/setting-icon.svg";
+import logoutIcon from "@/assets/icons/logout-icon.svg";
 
 import infoIcon from "@/assets/icons/alram/info.svg";
 import successIcon from "@/assets/icons/alram/success.svg";
@@ -229,6 +238,22 @@ const selectedTeam = ref(teams[0]);
 
 // 알림 아이콘
 const notificationIcon = notificationBellIcon;
+
+// 사용자 프로필 메뉴 아이템들
+const userMenuItems = ref([
+  {
+    label: "설정",
+    icon: settingIcon,
+    action: () => handleUserAction("settings"),
+    class: "h-[2.625rem]",
+  },
+  {
+    label: "로그아웃",
+    icon: logoutIcon,
+    action: () => handleUserAction("logout"),
+    class: "h-[2.625rem]",
+  },
+]);
 
 // 알림 데이터
 const notifications = ref([
@@ -295,6 +320,30 @@ const handleNotificationClick = (type) => {
   // eslint-disable-next-line no-console
   console.log(`알림 클릭: ${type}`);
   // 여기에 알림별 액션 처리 로직 추가
+};
+
+// 사용자 메뉴 액션 핸들러
+const handleUserAction = (action) => {
+  switch (action) {
+    case "settings":
+      // eslint-disable-next-line no-console
+      console.log("설정 페이지로 이동");
+      // 설정 페이지로 라우팅 로직 추가
+      break;
+    case "logout":
+      // eslint-disable-next-line no-console
+      console.log("로그아웃 처리");
+      // 로그아웃 로직 추가
+      break;
+    default:
+      break;
+  }
+};
+
+// 사용자 메뉴 클릭 핸들러
+const handleUserMenuClick = (item) => {
+  // eslint-disable-next-line no-console
+  console.log(`사용자 메뉴 클릭: ${item.label}`);
 };
 </script>
 

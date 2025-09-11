@@ -14,13 +14,16 @@
     >
       <MenuItems :class="computedMenuClass" :style="menuStyle">
         <!-- 메뉴 제목이 있는 경우 -->
-        <div v-if="menuTitle" class="px-5 pt-4">
-          <h3 class="text-base font-semibold text-neutral-900">
+        <div v-if="menuTitle" class="h-10 px-4 py-2">
+          <div class="text-sm font-medium text-neutral-700">
             {{ menuTitle }}
-          </h3>
+          </div>
         </div>
 
-        <div class="px-1 py-2">
+        <!-- 구분선 (메뉴 제목이 있을 때만) -->
+        <div v-if="menuTitle" class="mx-4 border-b border-neutral-200"></div>
+
+        <div>
           <MenuItem
             v-for="(item, index) in menuItems"
             :key="index"
@@ -29,13 +32,19 @@
           >
             <button
               :class="[
-                'w-full text-left px-4 py-2 text-sm font-medium text-neutral-700 transition-colors rounded-md',
+                'w-full h-[2.25rem] px-4 py-2 text-left text-sm font-medium text-neutral-700 transition-colors rounded-md flex items-center gap-2',
                 active ? item.activeClass || 'bg-neutral-50' : '',
                 item.class || '',
               ]"
               @click.stop="handleItemClick(item)"
               :disabled="item.disabled"
             >
+              <img
+                v-if="item.icon"
+                :src="item.icon"
+                :alt="item.label"
+                class="w-4 h-4 flex-shrink-0"
+              />
               {{ item.label }}
             </button>
           </MenuItem>
@@ -87,7 +96,7 @@ const props = defineProps({
   menuClass: {
     type: String,
     default:
-      "absolute right-0 top-full mt-1 w-38 bg-white border border-neutral-200 rounded-xl shadow-lg z-10 py-1 focus:outline-none",
+      "absolute right-0 top-full mt-2 px-1.5 pt-1.5 pb-2 w-38 bg-white border border-neutral-200 rounded-xl shadow-lg z-10 py-1 focus:outline-none",
   },
   // 메뉴 추가 스타일
   menuStyle: {
