@@ -1,4 +1,5 @@
 import { toast } from "vue3-toastify";
+import { h } from "vue";
 
 /**
  * Toast 알림을 쉽게 사용할 수 있는 composable
@@ -13,17 +14,25 @@ export function useToast() {
    */
   const showSuccess = (title, message = "", options = {}) => {
     // message가 문자열이 아니고 options 객체인 경우 (기존 호출 방식 호환)
-    if (typeof message === 'object' && message !== null && !Array.isArray(message)) {
+    if (
+      typeof message === "object" &&
+      message !== null &&
+      !Array.isArray(message)
+    ) {
       options = message;
       message = "";
     }
-    
-    const displayMessage = message ? `${title}\n${message}` : title;
-    
-    toast.success(displayMessage, {
+
+    const toastContent = message
+      ? h("div", [
+          h("div", { class: "toast-title" }, title),
+          h("div", { class: "toast-message" }, message),
+        ])
+      : h("div", { class: "toast-title" }, title);
+
+    toast.success(toastContent, {
       autoClose: 300000,
       position: toast.POSITION.TOP_RIGHT,
-      dangerouslySetInnerHTML: true,
       ...options,
     });
   };
@@ -36,17 +45,25 @@ export function useToast() {
    */
   const showError = (title, message = "", options = {}) => {
     // message가 문자열이 아니고 options 객체인 경우 (기존 호출 방식 호환)
-    if (typeof message === 'object' && message !== null && !Array.isArray(message)) {
+    if (
+      typeof message === "object" &&
+      message !== null &&
+      !Array.isArray(message)
+    ) {
       options = message;
       message = "";
     }
-    
-    const displayMessage = message ? `${title}\n${message}` : title;
-    
-    toast.error(displayMessage, {
+
+    const toastContent = message
+      ? h("div", [
+          h("div", { class: "toast-title" }, title),
+          h("div", { class: "toast-message" }, message),
+        ])
+      : h("div", { class: "toast-title" }, title);
+
+    toast.error(toastContent, {
       autoClose: 5000,
       position: toast.POSITION.TOP_RIGHT,
-      dangerouslySetInnerHTML: true,
       ...options,
     });
   };
@@ -59,17 +76,25 @@ export function useToast() {
    */
   const showInfo = (title, message = "", options = {}) => {
     // message가 문자열이 아니고 options 객체인 경우 (기존 호출 방식 호환)
-    if (typeof message === 'object' && message !== null && !Array.isArray(message)) {
+    if (
+      typeof message === "object" &&
+      message !== null &&
+      !Array.isArray(message)
+    ) {
       options = message;
       message = "";
     }
-    
-    const displayMessage = message ? `${title}\n${message}` : title;
-    
-    toast.info(displayMessage, {
+
+    const toastContent = message
+      ? h("div", [
+          h("div", { class: "toast-title" }, title),
+          h("div", { class: "toast-message" }, message),
+        ])
+      : h("div", { class: "toast-title" }, title);
+
+    toast.info(toastContent, {
       autoClose: 4000,
       position: toast.POSITION.TOP_RIGHT,
-      dangerouslySetInnerHTML: true,
       ...options,
     });
   };
@@ -82,17 +107,25 @@ export function useToast() {
    */
   const showWarning = (title, message = "", options = {}) => {
     // message가 문자열이 아니고 options 객체인 경우 (기존 호출 방식 호환)
-    if (typeof message === 'object' && message !== null && !Array.isArray(message)) {
+    if (
+      typeof message === "object" &&
+      message !== null &&
+      !Array.isArray(message)
+    ) {
       options = message;
       message = "";
     }
-    
-    const displayMessage = message ? `${title}\n${message}` : title;
-    
-    toast.warning(displayMessage, {
+
+    const toastContent = message
+      ? h("div", [
+          h("div", { class: "toast-title" }, title),
+          h("div", { class: "toast-message" }, message),
+        ])
+      : h("div", { class: "toast-title" }, title);
+
+    toast.warning(toastContent, {
       autoClose: 4000,
       position: toast.POSITION.TOP_RIGHT,
-      dangerouslySetInnerHTML: true,
       ...options,
     });
   };
