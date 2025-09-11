@@ -22,7 +22,7 @@
 
         <div class="relative">
           <div
-            class="px-1 py-2 max-h-96 overflow-y-auto scrollbar-thin scrollbar-thumb-neutral-300 scrollbar-track-transparent"
+            class="px-1 py-2 max-h-90 overflow-y-auto scrollbar-thin scrollbar-thumb-neutral-300 scrollbar-track-transparent"
           >
             <MenuItem
               v-for="(item, index) in notifications"
@@ -44,9 +44,8 @@
                   <div class="flex-shrink-0 w-5 h-5 mt-0.5">
                     <div
                       class="w-5 h-5 rounded-full flex items-center justify-center"
-                      :class="getNotificationIconBg(item.type)"
                     >
-                      <img :src="item.icon" :alt="item.type" class="w-3 h-3" />
+                      <img :src="item.icon" :alt="item.type" class="w-5 h-5" />
                     </div>
                   </div>
 
@@ -194,16 +193,5 @@ const handleNotificationClick = (notification) => {
 
   // 상위 컴포넌트에 이벤트 전달
   emit("notification-click", notification);
-};
-
-// 알림 타입에 따른 아이콘 배경색 반환
-const getNotificationIconBg = (type) => {
-  const bgClasses = {
-    info: "bg-[#00A889]", // Character/Green/500
-    success: "bg-[#2E81FF]", // Character/Blue/500
-    warning: "bg-[#FFAA00]", // Character/Amber/500
-    error: "bg-[#FF6258]", // Character/Red/500
-  };
-  return bgClasses[type] || "bg-gray-500";
 };
 </script>

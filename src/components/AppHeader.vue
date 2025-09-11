@@ -140,7 +140,7 @@
             :icon-src="notificationIcon"
             icon-alt="알림"
             :icon-class="'w-6 h-6'"
-            :menu-class="'absolute right-0 top-full mt-3 w-96 bg-white border border-neutral-200 rounded-xl shadow-lg z-10 focus:outline-none'"
+            :menu-class="'absolute right-0 top-full mt-3 w-[22.5rem] bg-white border border-neutral-200 rounded-xl shadow-lg z-10 focus:outline-none'"
             menu-position="right"
             menu-title="알림"
             @notification-click="handleNotificationClick"
