@@ -9,9 +9,7 @@
       {{ label }}
       <span v-if="required" class="text-error ml-1">*</span>
     </label>
-
-    <!-- Input Container -->
-    <div class="flex flex-col gap-0.5">
+    <div class="flex flex-col">
       <input
         :id="inputId"
         ref="inputRef"
@@ -26,7 +24,9 @@
         @focus="handleFocus"
         @blur="handleBlur"
       />
-
+      <div class="text-error px-1 text-left text-xs leading-none font-medium">
+        sss
+      </div>
       <!-- Error Message -->
       <div
         v-if="error"
@@ -97,7 +97,7 @@ const inputId = computed(() => {
 // Input 클래스 계산
 const inputClasses = computed(() => {
   const baseClasses = [
-    "flex-1 outline-none",
+    "outline-none",
     "placeholder:text-assistive",
     "text-normal text-[0.9375rem] leading-tight font-normal",
     "h-12 w-full rounded-lg border-[0.09rem] p-3",
