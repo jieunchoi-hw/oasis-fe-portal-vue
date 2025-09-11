@@ -34,7 +34,7 @@
                 class="w-4.5 h-4.5"
               />
             </button>
-            <ContextMenu
+            <AppMenu
               :menu-items="menuItems"
               @item-click="handleMenuItemClick"
             />

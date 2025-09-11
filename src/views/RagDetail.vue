@@ -171,7 +171,7 @@ import {
   createColumnHelper,
   getSortedRowModel,
 } from "@tanstack/vue-table";
-import ContextMenu from "@/components/ContextMenu.vue";
+import AppMenu from "@/components/AppMenu.vue";
 import FileDetailPanel from "@/components/FileDetailPanel.vue";
 import CreateFolderModal from "@/components/CreateFolderModal.vue";
 import AppTable from "@/components/AppTable.vue";
@@ -461,7 +461,7 @@ const columns = [
             info.getValue()
           ),
         ]),
-        h(ContextMenu, {
+        h(AppMenu, {
           menuItems: [
             {
               label: "이름바꾸기",
