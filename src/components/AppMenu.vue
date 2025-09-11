@@ -13,24 +13,92 @@
       leave-to-class="transform scale-95 opacity-0"
     >
       <MenuItems :class="computedMenuClass" :style="menuStyle">
-        <div class="px-1 py-2">
-          <MenuItem
-            v-for="(item, index) in menuItems"
-            :key="index"
-            v-slot="{ active }"
+        <!-- 메뉴 제목이 있는 경우 -->
+        <div v-if="menuTitle" class="px-5 pt-4">
+          <h3 class="text-base font-semibold text-neutral-900">
+            {{ menuTitle }}
+          </h3>
+        </div>
+
+        <div class="relative">
+          <div
+            class="px-1 py-2 max-h-96 overflow-y-auto scrollbar-thin scrollbar-thumb-neutral-300 scrollbar-track-transparent"
           >
-            <button
-              :class="[
-                'w-full text-left px-4 py-2 text-sm font-medium text-neutral-700 transition-colors rounded-md',
-                active ? item.activeClass || 'bg-neutral-50' : '',
-                item.class || '',
-              ]"
-              @click.stop="handleItemClick(item)"
-              :disabled="item.disabled"
+            <MenuItem
+              v-for="(item, index) in menuItems"
+              :key="index"
+              v-slot="{ active }"
+              as="div"
             >
-              {{ item.label }}
-            </button>
-          </MenuItem>
+              <!-- 기본 메뉴 아이템 (텍스트만) -->
+              <button
+                v-if="!item.isNotification"
+                :class="[
+                  'w-full text-left px-4 py-2 text-sm font-medium text-neutral-700 transition-colors rounded-md',
+                  active ? item.activeClass || 'bg-neutral-50' : '',
+                  item.class || '',
+                ]"
+                @click.stop="handleItemClick(item)"
+                :disabled="item.disabled"
+              >
+                {{ item.label }}
+              </button>
+
+              <!-- 알림 메뉴 아이템 (복잡한 구조) -->
+              <div v-else>
+                <button
+                  :class="[
+                    'w-full text-left px-5 py-3 transition-colors rounded-md',
+                    active ? 'bg-neutral-50' : '',
+                    item.class || '',
+                  ]"
+                  @click.stop="handleItemClick(item)"
+                  :disabled="item.disabled"
+                >
+                  <div class="flex items-start gap-4">
+                    <!-- 알림 아이콘 -->
+                    <div class="flex-shrink-0 w-5 h-5 mt-0.5">
+                      <div
+                        class="w-5 h-5 rounded-full flex items-center justify-center"
+                        :class="getNotificationIconBg(item.type)"
+                      >
+                        <img
+                          :src="item.icon"
+                          :alt="item.type"
+                          class="w-3 h-3"
+                        />
+                      </div>
+                    </div>
+
+                    <!-- 알림 내용 -->
+                    <div class="flex-1 min-w-0">
+                      <div class="flex items-start justify-between mb-1">
+                        <h4 class="text-sm font-bold text-neutral-700">
+                          {{ item.label }}
+                        </h4>
+                        <span
+                          class="text-xs font-medium text-neutral-400 ml-2 flex-shrink-0"
+                          >{{ item.time }}</span
+                        >
+                      </div>
+                      <p class="text-sm text-neutral-700 leading-relaxed">
+                        {{ item.message }}
+                      </p>
+                      <p class="text-assistive text-xs font-mediumleading-none">
+                        {{ item.time }}
+                      </p>
+                    </div>
+                  </div>
+                </button>
+              </div>
+            </MenuItem>
+          </div>
+
+          <!-- 하단 그라데이션 -->
+          <div
+            v-if="menuItems.length > 0 && menuItems[0].isNotification"
+            class="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-white via-white/80 to-transparent pointer-events-none rounded-b-xl"
+          ></div>
         </div>
       </MenuItems>
     </transition>
@@ -97,12 +165,22 @@ const props = defineProps({
       );
     },
   },
+  // 메뉴 제목
+  menuTitle: {
+    type: String,
+    default: "",
+  },
 });
 
 const emit = defineEmits(["item-click"]);
 
 // 계산된 메뉴 클래스 (위치에 따라 다름)
 const computedMenuClass = computed(() => {
+  // menuClass prop이 제공되면 그것을 사용, 아니면 기본 클래스 사용
+  if (props.menuClass) {
+    return props.menuClass;
+  }
+
   const baseClass =
     "absolute w-38 bg-white border border-neutral-200 rounded-xl shadow-lg z-10 py-1 focus:outline-none";
 
@@ -138,5 +216,16 @@ const handleItemClick = (item) => {
 
   // 상위 컴포넌트에 이벤트 전달
   emit("item-click", item);
+};
+
+// 알림 타입에 따른 아이콘 배경색 반환 (피그마 디자인 색상)
+const getNotificationIconBg = (type) => {
+  const bgClasses = {
+    info: "bg-[#00A889]", // Character/Green/500
+    success: "bg-[#2E81FF]", // Character/Blue/500
+    warning: "bg-[#FFAA00]", // Character/Amber/500
+    error: "bg-[#FF6258]", // Character/Red/500
+  };
+  return bgClasses[type] || "bg-gray-500";
 };
 </script>

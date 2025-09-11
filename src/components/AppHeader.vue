@@ -132,19 +132,25 @@
 
       <!-- 알림 및 사용자 아이콘 -->
       <div class="flex items-center gap-4">
-        <button class="relative" @click="alrmClick">
-          <img
-            src="@/assets/icons/notification-bell.svg"
-            alt="알림"
-            class="w-6 h-6"
+        <!-- 알림 메뉴 -->
+        <div class="relative">
+          <AppMenu
+            :menu-items="notificationMenuItems"
+            :button-class="'relative w-6 h-6 flex items-center justify-center hover:opacity-80 transition-opacity'"
+            :icon-src="notificationIcon"
+            icon-alt="알림"
+            :icon-class="'w-6 h-6'"
+            :menu-class="'absolute right-0 top-full mt-3 w-96 bg-white border border-neutral-200 rounded-xl shadow-lg z-10 focus:outline-none'"
+            menu-position="right"
+            menu-title="알림"
           />
           <!-- 알림 배지 -->
           <span
-            class="absolute -top-2 -right-2 text-white text-xs font-bold rounded-full w-4 h-4 flex items-center justify-center bg-primary-neutral leading-none"
+            class="absolute -top-2 -right-2 text-white text-xs font-bold rounded-full w-4 h-4 flex items-center justify-center bg-primary-neutral leading-none pointer-events-none"
           >
-            6
+            {{ notificationMenuItems.length }}
           </span>
-        </button>
+        </div>
 
         <!-- 사용자 아이콘 -->
         <button>
@@ -161,13 +167,19 @@
 
 <script setup>
 import { ref } from "vue";
-import { useToast } from "@/composables/useToast";
 import {
   Listbox,
   ListboxButton,
   ListboxOptions,
   ListboxOption,
 } from "@headlessui/vue";
+import AppMenu from "@/components/AppMenu.vue";
+import notificationBellIcon from "@/assets/icons/notification-bell.svg";
+
+import infoIcon from "@/assets/icons/alram/info.svg";
+import successIcon from "@/assets/icons/alram/success.svg";
+import warningIcon from "@/assets/icons/alram/warning.svg";
+import errorIcon from "@/assets/icons/alram/error.svg";
 
 // 드롭다운 상태 관리
 const isOpen = ref(false);
@@ -213,7 +225,83 @@ const teams = [
 
 // 선택된 팀 (기본값: AI 솔루션팀)
 const selectedTeam = ref(teams[0]);
-const alrmClick = () => {};
+
+// 알림 아이콘
+const notificationIcon = notificationBellIcon;
+
+// 알림 메뉴 아이템들
+const notificationMenuItems = ref([
+  {
+    label: "Info",
+    message: "다른 팀원이 공유한 비서를 활용할 수 있어요.",
+    time: "3일 전",
+    icon: infoIcon,
+    type: "info",
+    isNotification: true,
+    action: () => handleNotificationClick("info"),
+  },
+  {
+    label: "Success",
+    message: "새로운 비서가 성공적으로 생성됐어요!",
+    time: "2시간 전",
+    icon: successIcon,
+    type: "success",
+    isNotification: true,
+    action: () => handleNotificationClick("success"),
+  },
+  {
+    label: "Warning",
+    message:
+      "아직 저장되지 않은 대화가 있어요. 페이지를 나가기 전에 비서와의 대화를 확인해주세요.",
+    time: "2시간 전",
+    icon: warningIcon,
+    type: "warning",
+    isNotification: true,
+    action: () => handleNotificationClick("warning"),
+  },
+  {
+    label: "Error",
+    message: "비서 생성에 실패했어요.",
+    time: "3일 전",
+    icon: errorIcon,
+    type: "error",
+    isNotification: true,
+    action: () => handleNotificationClick("error"),
+  },
+  {
+    label: "Error",
+    message: "비서 생성에 실패했어요.",
+    time: "3일 전",
+    icon: errorIcon,
+    type: "error",
+    isNotification: true,
+    action: () => handleNotificationClick("error"),
+  },
+  {
+    label: "Error",
+    message: "비서 생성에 실패했어요.",
+    time: "3일 전",
+    icon: errorIcon,
+    type: "error",
+    isNotification: true,
+    action: () => handleNotificationClick("error"),
+  },
+  {
+    label: "Error",
+    message: "비서 생성에 실패했어요.",
+    time: "3일 전",
+    icon: errorIcon,
+    type: "error",
+    isNotification: true,
+    action: () => handleNotificationClick("error"),
+  },
+]);
+
+const handleNotificationClick = (type) => {
+  // eslint-disable-next-line no-console
+  console.log(`알림 클릭: ${type}`);
+  // 여기에 알림별 액션 처리 로직 추가
+};
 </script>
 
 <style scoped>
