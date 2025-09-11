@@ -44,16 +44,18 @@
         <!-- 카드 컨텐츠 -->
         <div class="space-y-2">
           <div class="space-y-1">
-            <h3 class="text-15px font-bold leading-tight text-neutral-900">
+            <h3
+              class="text-15px font-bold leading-tight text-neutral-900 truncate"
+            >
               {{ rag.title }}
             </h3>
             <p
-              class="text-xs leading-relaxed h-4.5 overflow-hidden text-neutral-600"
+              class="text-xs leading-relaxed h-4.5 overflow-hidden text-neutral-600 line-clamp-1"
             >
               {{ rag.description }}
             </p>
           </div>
-          <p class="text-xs h-4.25 text-neutral-400">
+          <p class="text-xs h-4.25 text-neutral-400 truncate">
             {{ rag.author }} / {{ rag.date }}
           </p>
         </div>

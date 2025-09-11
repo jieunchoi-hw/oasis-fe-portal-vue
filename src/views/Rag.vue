@@ -27,9 +27,7 @@
 
     <!-- 카드 그리드 -->
     <div class="px-8 pb-8">
-      <div
-        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-6"
-      >
+      <div class="grid grid-cols-4 gap-6">
         <RagCard
           v-for="rag in filteredRags"
           :key="rag.id"
