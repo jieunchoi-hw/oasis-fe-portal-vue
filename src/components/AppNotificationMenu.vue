@@ -52,18 +52,21 @@
 
                   <!-- 알림 내용 -->
                   <div class="flex-1 min-w-0">
-                    <div class="flex items-start justify-between mb-1">
+                    <div
+                      class="flex flex-col items-start justify-between gap-0.5"
+                    >
                       <h4 class="text-sm font-bold text-neutral-700">
                         {{ item.label }}
                       </h4>
-                      <span
-                        class="text-xs font-medium text-neutral-400 ml-2 flex-shrink-0"
-                        >{{ item.time }}</span
+                      <p class="text-sm text-neutral-700 leading-relaxed">
+                        {{ item.message }}
+                      </p>
+                      <p
+                        class="text-xs font-medium text-neutral-400 flex-shrink-0"
                       >
+                        {{ item.time }}
+                      </p>
                     </div>
-                    <p class="text-sm text-neutral-700 leading-relaxed">
-                      {{ item.message }}
-                    </p>
                   </div>
                 </div>
               </button>
