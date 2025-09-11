@@ -169,8 +169,6 @@ import {
   ListboxOption,
 } from "@headlessui/vue";
 
-const { showSuccess, showError } = useToast();
-
 // 드롭다운 상태 관리
 const isOpen = ref(false);
 
@@ -215,9 +213,7 @@ const teams = [
 
 // 선택된 팀 (기본값: AI 솔루션팀)
 const selectedTeam = ref(teams[0]);
-const alrmClick = () => {
-  showSuccess("OASIS TEST", "업로드 완료");
-};
+const alrmClick = () => {};
 </script>
 
 <style scoped>

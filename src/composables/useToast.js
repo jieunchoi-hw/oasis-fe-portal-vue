@@ -1,6 +1,28 @@
 import { toast } from "vue3-toastify";
 import { h } from "vue";
 
+import successIcon from "../assets/icons/toast/success.svg";
+import failIcon from "@/assets/icons/toast/fail.svg";
+import warningIcon from "@/assets/icons/toast/warning.svg";
+
+/**
+ * SVG 아이콘을 Vue 컴포넌트로 변환하는 함수
+ * @param {string} iconUrl - SVG 파일 URL
+ * @param {Object} props - 아이콘 속성 (크기, 색상 등)
+ * @returns {Function} Vue 컴포넌트 함수
+ */
+const createIconComponent = (iconUrl, props = {}) => {
+  return () =>
+    h("img", {
+      src: iconUrl,
+      alt: "toast-icon",
+      style: {
+        ...props.style,
+      },
+      ...props,
+    });
+};
+
 /**
  * Toast 알림을 쉽게 사용할 수 있는 composable
  * @returns {Object} toast 메서드들을 포함한 객체
@@ -31,8 +53,9 @@ export function useToast() {
       : h("div", { class: "toast-title" }, title);
 
     toast.success(toastContent, {
-      autoClose: 300000,
+      autoClose: 3000,
       position: toast.POSITION.TOP_RIGHT,
+      icon: createIconComponent(successIcon),
       ...options,
     });
   };
@@ -64,6 +87,7 @@ export function useToast() {
     toast.error(toastContent, {
       autoClose: 5000,
       position: toast.POSITION.TOP_RIGHT,
+      icon: createIconComponent(failIcon),
       ...options,
     });
   };
@@ -95,6 +119,7 @@ export function useToast() {
     toast.info(toastContent, {
       autoClose: 4000,
       position: toast.POSITION.TOP_RIGHT,
+      icon: createIconComponent(warningIcon),
       ...options,
     });
   };
@@ -126,6 +151,7 @@ export function useToast() {
     toast.warning(toastContent, {
       autoClose: 4000,
       position: toast.POSITION.TOP_RIGHT,
+      icon: createIconComponent(warningIcon),
       ...options,
     });
   };

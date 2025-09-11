@@ -22,7 +22,7 @@
             <!-- 더보기 컨텍스트 메뉴 -->
             <button
               class="w-6.5 h-6.5 border border-neutral-300 rounded-lg flex items-center justify-center hover:bg-neutral-50 transition-colors"
-              @click.stop="handlePin"
+              @click.stop="handlePin()"
               :class="{
                 'bg-indigo-50 rounded-lg border-none hover:!bg-indigo-100':
                   isFavorite,
@@ -95,12 +95,15 @@
 <script setup>
 import { ref, computed, onMounted, nextTick } from "vue";
 import { useRouter } from "vue-router";
+import { useToast } from "@/composables/useToast";
 import { useRagStore } from "@/stores/rag";
 import DeleteBoxModal from "./DeleteBoxModal.vue";
 import AppConfirmDialog from "./AppConfirmDialog.vue";
 
 import unPinIcon from "@/assets/icons/unpin-icon.svg";
 import pinIcon from "@/assets/icons/pin-icon.svg";
+
+const { showSuccess } = useToast();
 
 const router = useRouter();
 
@@ -222,8 +225,9 @@ const confirmPin = () => {
     // 즐겨찾기 업데이트 이벤트 emit
     emit("favorite-updated");
   }
-
   emit("pin", props.document);
+
+  showSuccess(props.document.title + "가 즐겨찾기로 설정되었습니다.");
   closePinConfirmDialog();
 };
 
@@ -259,8 +263,9 @@ const confirmUnpin = () => {
 
   // 즐겨찾기 업데이트 이벤트 emit
   emit("favorite-updated");
-
   emit("pin", props.document);
+
+  showSuccess(props.document.title + "가 즐겨찾기에서 해제되었습니다.");
   closeUnpinConfirmDialog();
 };
 
