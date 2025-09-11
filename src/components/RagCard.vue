@@ -8,7 +8,7 @@
       <!-- 카드 헤더 -->
       <div class="p-6 pb-6.5">
         <div class="flex items-start justify-between mb-7">
-          <!-- 문서 아이콘 -->
+          <!-- Rag 아이콘 -->
           <div class="flex-shrink-0">
             <img
               src="@/assets/icons/document-icon.svg"
@@ -22,7 +22,7 @@
             <!-- 더보기 컨텍스트 메뉴 -->
             <button
               class="w-6.5 h-6.5 border border-neutral-300 rounded-lg flex items-center justify-center hover:bg-neutral-50 transition-colors"
-              @click.stop="handlePin()"
+              @click.stop="handlePin"
               :class="{
                 'bg-indigo-50 rounded-lg border-none hover:!bg-indigo-100':
                   isFavorite,
@@ -45,16 +45,16 @@
         <div class="space-y-2">
           <div class="space-y-1">
             <h3 class="text-15px font-bold leading-tight text-neutral-900">
-              {{ document.title }}
+              {{ rag.title }}
             </h3>
             <p
               class="text-xs leading-relaxed h-4.5 overflow-hidden text-neutral-600"
             >
-              {{ document.description }}
+              {{ rag.description }}
             </p>
           </div>
           <p class="text-xs h-4.25 text-neutral-400">
-            {{ document.author }} / {{ document.date }}
+            {{ rag.author }} / {{ rag.date }}
           </p>
         </div>
       </div>
@@ -63,7 +63,7 @@
     <!-- Delete Box Modal -->
     <DeleteBoxModal
       :is-open="isDeleteModalOpen"
-      :box-name="document.title"
+      :box-name="rag.title"
       @close="closeDeleteModal"
       @delete="confirmDelete"
     />
@@ -108,7 +108,7 @@ const { showSuccess } = useToast();
 const router = useRouter();
 
 const props = defineProps({
-  document: {
+  rag: {
     type: Object,
     required: true,
   },
@@ -151,7 +151,7 @@ const menuItems = computed(() => [
 
 const handleCardClick = async () => {
   // 현재 라우트와 동일한 경우 강제로 새로고침
-  const targetRoute = `/rag/${props.document.id}`;
+  const targetRoute = `/rag/${props.rag.id}`;
   if (router.currentRoute.value.path === targetRoute) {
     // 같은 라우트인 경우 replace로 강제 업데이트
     await router.replace(targetRoute);
@@ -165,11 +165,11 @@ const handleCardClick = async () => {
 };
 
 const handleEdit = () => {
-  emit("edit", props.document);
+  emit("edit", props.rag);
 };
 
 const handlePrivacySettings = () => {
-  emit("privacy-settings", props.document);
+  emit("privacy-settings", props.rag);
 };
 
 const handlePin = () => {
@@ -191,7 +191,7 @@ const closeDeleteModal = () => {
 };
 
 const confirmDelete = () => {
-  emit("delete", props.document);
+  emit("delete", props.rag);
   closeDeleteModal();
 };
 
@@ -212,11 +212,11 @@ const confirmPin = () => {
 
   // 이미 즐겨찾기에 있는지 확인
   const isAlreadyFavorite = existingFavorites.some(
-    (fav) => fav.id === props.document.id
+    (fav) => fav.id === props.rag.id
   );
 
   if (!isAlreadyFavorite) {
-    existingFavorites.push(props.document);
+    existingFavorites.push(props.rag);
     localStorage.setItem("favoriteRags", JSON.stringify(existingFavorites));
 
     // 즐겨찾기 상태 업데이트
@@ -225,9 +225,9 @@ const confirmPin = () => {
     // 즐겨찾기 업데이트 이벤트 emit
     emit("favorite-updated");
   }
-  emit("pin", props.document);
+  emit("pin", props.rag);
 
-  showSuccess(props.document.title + "가 즐겨찾기로 설정되었습니다.");
+  showSuccess(props.rag.title + "가 즐겨찾기로 설정되었습니다.");
   closePinConfirmDialog();
 };
 
@@ -236,9 +236,7 @@ const checkFavoriteStatus = () => {
   const existingFavorites = JSON.parse(
     localStorage.getItem("favoriteRags") || "[]"
   );
-  isFavorite.value = existingFavorites.some(
-    (fav) => fav.id === props.document.id
-  );
+  isFavorite.value = existingFavorites.some((fav) => fav.id === props.rag.id);
 };
 
 // Unpin confirm dialog handlers
@@ -253,7 +251,7 @@ const confirmUnpin = () => {
   );
 
   const updatedFavorites = existingFavorites.filter(
-    (fav) => fav.id !== props.document.id
+    (fav) => fav.id !== props.rag.id
   );
 
   localStorage.setItem("favoriteRags", JSON.stringify(updatedFavorites));
@@ -263,9 +261,9 @@ const confirmUnpin = () => {
 
   // 즐겨찾기 업데이트 이벤트 emit
   emit("favorite-updated");
-  emit("pin", props.document);
+  emit("pin", props.rag);
 
-  showSuccess(props.document.title + "가 즐겨찾기에서 해제되었습니다.");
+  showSuccess(props.rag.title + "가 즐겨찾기에서 해제되었습니다.");
   closeUnpinConfirmDialog();
 };
 

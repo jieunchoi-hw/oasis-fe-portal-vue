@@ -31,9 +31,9 @@
         class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-6"
       >
         <RagCard
-          v-for="document in filteredRags"
-          :key="document.id"
-          :document="document"
+          v-for="rag in filteredRags"
+          :key="rag.id"
+          :rag="rag"
           @favorite-updated="handleFavoriteUpdated"
         />
       </div>
@@ -122,9 +122,9 @@ const handleScroll = () => {
     const scrollHeight = el.scrollHeight;
     bottomDistance = scrollHeight - (scrollTop + clientHeight);
   } else {
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const scrollTop = window.pageYOffset || document.ragElement.scrollTop;
     const clientHeight = window.innerHeight;
-    const scrollHeight = document.documentElement.scrollHeight;
+    const scrollHeight = document.ragElement.scrollHeight;
     bottomDistance = scrollHeight - (scrollTop + clientHeight);
   }
 
