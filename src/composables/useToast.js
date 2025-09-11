@@ -7,52 +7,92 @@ import { toast } from "vue3-toastify";
 export function useToast() {
   /**
    * 성공 메시지 표시
-   * @param {string} message - 표시할 메시지
+   * @param {string} title - 제목 메시지
+   * @param {string} message - 상세 메시지 (선택사항)
    * @param {Object} options - 추가 옵션
    */
-  const showSuccess = (message, options = {}) => {
-    toast.success(message, {
+  const showSuccess = (title, message = "", options = {}) => {
+    // message가 문자열이 아니고 options 객체인 경우 (기존 호출 방식 호환)
+    if (typeof message === 'object' && message !== null && !Array.isArray(message)) {
+      options = message;
+      message = "";
+    }
+    
+    const displayMessage = message ? `${title}\n${message}` : title;
+    
+    toast.success(displayMessage, {
       autoClose: 300000,
       position: toast.POSITION.TOP_RIGHT,
+      dangerouslySetInnerHTML: true,
       ...options,
     });
   };
 
   /**
    * 에러 메시지 표시
-   * @param {string} message - 표시할 메시지
+   * @param {string} title - 제목 메시지
+   * @param {string} message - 상세 메시지 (선택사항)
    * @param {Object} options - 추가 옵션
    */
-  const showError = (message, options = {}) => {
-    toast.error(message, {
+  const showError = (title, message = "", options = {}) => {
+    // message가 문자열이 아니고 options 객체인 경우 (기존 호출 방식 호환)
+    if (typeof message === 'object' && message !== null && !Array.isArray(message)) {
+      options = message;
+      message = "";
+    }
+    
+    const displayMessage = message ? `${title}\n${message}` : title;
+    
+    toast.error(displayMessage, {
       autoClose: 5000,
       position: toast.POSITION.TOP_RIGHT,
+      dangerouslySetInnerHTML: true,
       ...options,
     });
   };
 
   /**
    * 정보 메시지 표시
-   * @param {string} message - 표시할 메시지
+   * @param {string} title - 제목 메시지
+   * @param {string} message - 상세 메시지 (선택사항)
    * @param {Object} options - 추가 옵션
    */
-  const showInfo = (message, options = {}) => {
-    toast.info(message, {
+  const showInfo = (title, message = "", options = {}) => {
+    // message가 문자열이 아니고 options 객체인 경우 (기존 호출 방식 호환)
+    if (typeof message === 'object' && message !== null && !Array.isArray(message)) {
+      options = message;
+      message = "";
+    }
+    
+    const displayMessage = message ? `${title}\n${message}` : title;
+    
+    toast.info(displayMessage, {
       autoClose: 4000,
       position: toast.POSITION.TOP_RIGHT,
+      dangerouslySetInnerHTML: true,
       ...options,
     });
   };
 
   /**
    * 경고 메시지 표시
-   * @param {string} message - 표시할 메시지
+   * @param {string} title - 제목 메시지
+   * @param {string} message - 상세 메시지 (선택사항)
    * @param {Object} options - 추가 옵션
    */
-  const showWarning = (message, options = {}) => {
-    toast.warning(message, {
+  const showWarning = (title, message = "", options = {}) => {
+    // message가 문자열이 아니고 options 객체인 경우 (기존 호출 방식 호환)
+    if (typeof message === 'object' && message !== null && !Array.isArray(message)) {
+      options = message;
+      message = "";
+    }
+    
+    const displayMessage = message ? `${title}\n${message}` : title;
+    
+    toast.warning(displayMessage, {
       autoClose: 4000,
       position: toast.POSITION.TOP_RIGHT,
+      dangerouslySetInnerHTML: true,
       ...options,
     });
   };
