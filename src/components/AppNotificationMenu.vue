@@ -22,6 +22,7 @@
 
         <div class="relative">
           <div
+            ref="scrollContainer"
             class="px-1 py-2 max-h-90 overflow-y-auto scrollbar-thin scrollbar-thumb-neutral-300 scrollbar-track-transparent"
           >
             <MenuItem
@@ -71,8 +72,9 @@
 
           <!-- 하단 그라데이션 -->
           <div
+            ref="overlay"
             v-if="notifications.length > 0"
-            class="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-white via-white/80 to-transparent pointer-events-none rounded-b-xl"
+            class="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-white via-white/80 to-transparent pointer-events-none rounded-b-xl transition-opacity duration-300"
           ></div>
         </div>
       </MenuItems>
@@ -81,7 +83,7 @@
 </template>
 
 <script setup>
-import { computed } from "vue";
+import { computed, ref, onUnmounted, watch } from "vue";
 import { Menu, MenuButton, MenuItems, MenuItem } from "@headlessui/vue";
 import notificationBellIcon from "@/assets/icons/notification-bell.svg";
 
@@ -151,9 +153,55 @@ const props = defineProps({
 
 const emit = defineEmits(["notification-click"]);
 
+const overlay = ref(null);
+const scrollContainer = ref(null);
+
+// 스크롤 이벤트 핸들러
+const FADE_THRESHOLD = 100;
+
+const handleScroll = () => {
+  if (!overlay.value || !scrollContainer.value) return;
+
+  const el = scrollContainer.value;
+  const scrollTop = el.scrollTop;
+  const clientHeight = el.clientHeight;
+  const scrollHeight = el.scrollHeight;
+  const bottomDistance = scrollHeight - (scrollTop + clientHeight);
+
+  const targetOpacity =
+    bottomDistance <= FADE_THRESHOLD
+      ? Math.max(0, bottomDistance / FADE_THRESHOLD)
+      : 1;
+
+  overlay.value.style.opacity = String(targetOpacity);
+};
+
+let scrollListenerAdded = false;
+
+// 스크롤 컨테이너가 준비되었을 때 이벤트 리스너 추가
+const setupScrollListener = () => {
+  if (scrollContainer.value && !scrollListenerAdded) {
+    scrollContainer.value.addEventListener("scroll", handleScroll, {
+      passive: true,
+    });
+    scrollListenerAdded = true;
+  }
+};
+
+watch(scrollContainer, (newValue) => {
+  if (newValue) {
+    setupScrollListener();
+  }
+});
+
+onUnmounted(() => {
+  if (scrollContainer.value && scrollListenerAdded) {
+    scrollContainer.value.removeEventListener("scroll", handleScroll);
+  }
+});
+
 // 계산된 메뉴 클래스 (위치에 따라 다름)
 const computedMenuClass = computed(() => {
-  // menuClass prop이 제공되면 그것을 사용
   if (props.menuClass) {
     return props.menuClass;
   }
