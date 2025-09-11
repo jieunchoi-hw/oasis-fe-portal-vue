@@ -134,8 +134,8 @@
       <div class="flex items-center gap-4">
         <!-- 알림 메뉴 -->
         <div class="relative">
-          <AppMenu
-            :menu-items="notificationMenuItems"
+          <AppNotificationMenu
+            :notifications="notifications"
             :button-class="'relative w-6 h-6 flex items-center justify-center hover:opacity-80 transition-opacity'"
             :icon-src="notificationIcon"
             icon-alt="알림"
@@ -143,12 +143,13 @@
             :menu-class="'absolute right-0 top-full mt-3 w-96 bg-white border border-neutral-200 rounded-xl shadow-lg z-10 focus:outline-none'"
             menu-position="right"
             menu-title="알림"
+            @notification-click="handleNotificationClick"
           />
           <!-- 알림 배지 -->
           <span
             class="absolute -top-2 -right-2 text-white text-xs font-bold rounded-full w-4 h-4 flex items-center justify-center bg-primary-neutral leading-none pointer-events-none"
           >
-            {{ notificationMenuItems.length }}
+            {{ notifications.length }}
           </span>
         </div>
 
@@ -173,7 +174,7 @@ import {
   ListboxOptions,
   ListboxOption,
 } from "@headlessui/vue";
-import AppMenu from "@/components/AppMenu.vue";
+import AppNotificationMenu from "@/components/AppNotificationMenu.vue";
 import notificationBellIcon from "@/assets/icons/notification-bell.svg";
 
 import infoIcon from "@/assets/icons/alram/info.svg";
@@ -229,15 +230,14 @@ const selectedTeam = ref(teams[0]);
 // 알림 아이콘
 const notificationIcon = notificationBellIcon;
 
-// 알림 메뉴 아이템들
-const notificationMenuItems = ref([
+// 알림 데이터
+const notifications = ref([
   {
     label: "Info",
     message: "다른 팀원이 공유한 비서를 활용할 수 있어요.",
     time: "3일 전",
     icon: infoIcon,
     type: "info",
-    isNotification: true,
     action: () => handleNotificationClick("info"),
   },
   {
@@ -246,7 +246,6 @@ const notificationMenuItems = ref([
     time: "2시간 전",
     icon: successIcon,
     type: "success",
-    isNotification: true,
     action: () => handleNotificationClick("success"),
   },
   {
@@ -256,7 +255,6 @@ const notificationMenuItems = ref([
     time: "2시간 전",
     icon: warningIcon,
     type: "warning",
-    isNotification: true,
     action: () => handleNotificationClick("warning"),
   },
   {
@@ -265,7 +263,6 @@ const notificationMenuItems = ref([
     time: "3일 전",
     icon: errorIcon,
     type: "error",
-    isNotification: true,
     action: () => handleNotificationClick("error"),
   },
   {
@@ -274,7 +271,6 @@ const notificationMenuItems = ref([
     time: "3일 전",
     icon: errorIcon,
     type: "error",
-    isNotification: true,
     action: () => handleNotificationClick("error"),
   },
   {
@@ -283,7 +279,6 @@ const notificationMenuItems = ref([
     time: "3일 전",
     icon: errorIcon,
     type: "error",
-    isNotification: true,
     action: () => handleNotificationClick("error"),
   },
   {
@@ -292,7 +287,6 @@ const notificationMenuItems = ref([
     time: "3일 전",
     icon: errorIcon,
     type: "error",
-    isNotification: true,
     action: () => handleNotificationClick("error"),
   },
 ]);
