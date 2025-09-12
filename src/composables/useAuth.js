@@ -58,7 +58,7 @@ export function useAuth() {
 
   // 앱 초기화 (토큰 설정 후 사용자 정보 가져오기)
   async function initializeApp(
-    tokenValue = "choijieun:046eaed6-adeb-4283-8e30-d5fc077520d4"
+    tokenValue = "choijieun:59973834-ca1b-4432-90f3-dcf9a0551a92"
   ) {
     try {
       // 토큰 설정

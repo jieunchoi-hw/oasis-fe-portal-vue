@@ -21,7 +21,10 @@
         </div>
 
         <!-- 구분선 (메뉴 제목이 있을 때만) -->
-        <div v-if="menuTitle" class="mx-4 border-b border-neutral-200"></div>
+        <div
+          v-if="menuTitle"
+          class="mx-4 border-b border-neutral-200 whitespace-nowrap"
+        ></div>
 
         <div>
           <MenuItem
