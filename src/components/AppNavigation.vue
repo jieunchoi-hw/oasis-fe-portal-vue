@@ -7,8 +7,12 @@
       class="space-y-2 mt-6"
       :class="{ 'px-5': !isCollapsed, 'px-2': isCollapsed }"
     >
-      <!-- AI 솔루션팀 -->
-      <div class="flex items-center gap-1.5 px-0 h-11">
+      <!-- workspaces -->
+      <div
+        v-for="workspace in workspaces"
+        :key="workspace.workspace_id"
+        class="flex items-center gap-1.5 px-0 h-11"
+      >
         <div
           v-if="!isCollapsed"
           class="w-6 h-6 bg-gray-100 rounded-full flex items-center justify-center p-1 flex-shrink-0"
@@ -22,9 +26,10 @@
         <span
           v-if="!isCollapsed"
           class="text-base font-medium text-gray-700 flex-1 whitespace-nowrap transition-opacity duration-300"
-          >AI 솔루션팀</span
+          >{{ workspace.workspace_name }}</span
         >
         <button
+          v-if="workspace === workspaces[workspaces.length - 1]"
           @click="toggleSidebar"
           class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center flex-shrink-0 cursor-pointer hover:bg-gray-150 transition-colors duration-200"
           :class="{ 'mx-auto': isCollapsed }"
@@ -38,8 +43,11 @@
         </button>
       </div>
 
-      <!-- 한화시스템/ICT -->
-      <div v-if="!isCollapsed" class="flex items-center gap-1.5 px-0 h-11">
+      <!-- company -->
+      <div
+        v-if="!isCollapsed && companyName"
+        class="flex items-center gap-1.5 px-0 h-11"
+      >
         <div
           class="w-6 h-6 bg-gray-100 rounded-full flex items-center justify-center p-1"
         >
@@ -51,7 +59,7 @@
         </div>
         <span
           class="text-base font-medium text-gray-700 flex-1 whitespace-nowrap"
-          >한화시스템/ICT</span
+          >{{ companyName }}</span
         >
       </div>
     </div>
@@ -124,15 +132,20 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { useRouter } from "vue-router";
+import { useUserStore } from "@/stores/user";
 
 const router = useRouter();
+const userStore = useUserStore();
 
 // 이벤트 emit 정의
 const emit = defineEmits(["toggle-sidebar"]);
 
 const isCollapsed = ref(false);
+
+const workspaces = computed(() => userStore.workspaces);
+const companyName = computed(() => userStore.companyName);
 
 const isAccordionOpen = ref(true);
 
