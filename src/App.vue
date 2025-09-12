@@ -28,6 +28,9 @@
         <router-view />
       </main>
     </div>
+
+    <!-- 로그인 모달 -->
+    <LoginModal />
   </div>
 </template>
 
@@ -35,6 +38,7 @@
 import { ref, provide } from "vue";
 import AppNavigation from "@/components/AppNavigation.vue";
 import AppHeader from "@/components/AppHeader.vue";
+import LoginModal from "@/components/LoginModal.vue";
 
 // 사이드바 접힘 상태 관리
 const isSidebarCollapsed = ref(false);

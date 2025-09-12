@@ -163,7 +163,7 @@
           :menu-class="'absolute right-0 top-full mt-3 px-1.5 pt-1.5 pb-2 w-60 bg-white border border-neutral-200 rounded-xl shadow-lg z-10 focus:outline-none user-profile-menu'"
           menu-position="right"
           :menu-style="'box-shadow: 2px 6px 12px 2px rgba(0, 0, 0, 0.04), 0px 2px 2px 0px rgba(0, 0, 0, 0.02);'"
-          :menu-title="menuTitle"
+          :menu-title="userInfo"
           @item-click="handleUserMenuClick"
         />
       </div>
@@ -181,7 +181,7 @@ import {
 } from "@headlessui/vue";
 import AppNotificationMenu from "@/components/AppNotificationMenu.vue";
 import AppMenu from "@/components/AppMenu.vue";
-import { useAuthStore } from "@/stores/auth.js";
+
 import notificationBellIcon from "@/assets/icons/notification-bell.svg";
 import userProfileIcon from "@/assets/icons/user-profile.svg";
 import settingIcon from "@/assets/icons/setting-icon.svg";
@@ -192,18 +192,9 @@ import successIcon from "@/assets/icons/alram/success.svg";
 import warningIcon from "@/assets/icons/alram/warning.svg";
 import errorIcon from "@/assets/icons/alram/error.svg";
 
-// Auth store 사용
-const authStore = useAuthStore();
-const userDisplayName = computed(() => authStore.user?.user_name || "사용자");
-const userDisplayEmail = computed(() => authStore.user?.user_email || "");
-const menuTitle = computed(() => {
-  const name = userDisplayName.value;
-  const email = userDisplayEmail.value;
-  return email ? `${name} / ${email}` : name;
-});
 // 드롭다운 상태 관리
 const isOpen = ref(false);
-
+const userInfo = ref("최지은");
 // 팀 데이터 (피그마 디자인 기준)
 const teams = [
   {
@@ -339,32 +330,18 @@ const handleNotificationClick = (type) => {
 const handleUserAction = (action) => {
   switch (action) {
     case "settings":
+      // eslint-disable-next-line no-console
+      console.log("설정 페이지로 이동");
       // 설정 페이지로 라우팅 로직 추가
       break;
     case "logout":
-      handleLogout();
+      // eslint-disable-next-line no-console
+      console.log("로그아웃 처리");
+
       break;
     default:
       break;
   }
-};
-
-// 로그아웃 처리
-const handleLogout = () => {
-  // 토큰 및 사용자 정보 초기화
-  authStore.user = null;
-  authStore.token = null;
-
-  // 로컬스토리지 정리
-  localStorage.removeItem("token");
-  localStorage.removeItem("user");
-
-  // 쿠키 정리 (OASIS_TOKEN)
-  document.cookie =
-    "OASIS_TOKEN=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-
-  // 홈페이지로 리다이렉트 또는 로그인 페이지로 이동
-  window.location.href = "/";
 };
 
 // 사용자 메뉴 클릭 핸들러

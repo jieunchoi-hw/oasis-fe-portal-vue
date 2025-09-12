@@ -15,7 +15,7 @@
       <MenuItems :class="computedMenuClass" :style="menuStyle">
         <!-- 메뉴 제목이 있는 경우 -->
         <div v-if="menuTitle" class="h-10 px-4 py-2">
-          <div class="text-sm font-medium text-neutral-700">
+          <div class="text-sm font-medium text-neutral-700 whitespace-nowrap">
             {{ menuTitle }}
           </div>
         </div>
