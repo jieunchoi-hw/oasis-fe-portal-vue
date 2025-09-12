@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="showModal"
-    class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+    class="fixed inset-0 bg-black/80 bg-opacity-80 flex items-center justify-center z-50"
     @click="closeModal"
   >
     <div class="bg-white rounded-lg p-8 w-96 max-w-md mx-4" @click.stop>
@@ -100,6 +100,10 @@ const handleLogin = async () => {
       formData.value.password
     );
 
+    // 로그인 응답 데이터 콘솔 출력
+    console.log("로그인 응답 데이터:", result.data);
+
+    // 로그인 성공 시 모달 닫기
     showModal.value = false;
   } catch (error) {
     errorMessage.value = "로그인 중 오류가 발생했습니다.";

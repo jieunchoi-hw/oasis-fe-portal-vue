@@ -30,12 +30,13 @@
     </div>
 
     <!-- 로그인 모달 -->
-    <LoginModal />
+    <LoginModal v-if="isLoginModal" />
   </div>
 </template>
 
 <script setup>
-import { ref, provide } from "vue";
+import { getUserInfo } from "@/api/index.js";
+import { ref, provide, onMounted } from "vue";
 import AppNavigation from "@/components/AppNavigation.vue";
 import AppHeader from "@/components/AppHeader.vue";
 import LoginModal from "@/components/LoginModal.vue";
@@ -63,6 +64,17 @@ const refreshFavorites = () => {
 };
 
 provide("refreshFavorites", refreshFavorites);
+
+const isLoginModal = ref(false);
+
+onMounted(async () => {
+  try {
+    const result = await getUserInfo();
+  } catch (error) {
+    console.error("사용자 정보 조회 오류:", error);
+    isLoginModal.value = true;
+  }
+});
 </script>
 
 <style scoped>
