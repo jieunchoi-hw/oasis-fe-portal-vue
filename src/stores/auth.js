@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import { ref, computed } from "vue";
+import { getUserInfo } from "../api/index.js";
 
 export const useAuthStore = defineStore("auth", () => {
   // State
@@ -58,6 +59,22 @@ export const useAuthStore = defineStore("auth", () => {
     localStorage.setItem("user", JSON.stringify(user.value));
   };
 
+  // 사용자 정보 가져오기
+  const fetchUserInfo = async () => {
+    isLoading.value = true;
+    try {
+      const userData = await getUserInfo();
+      user.value = userData;
+      localStorage.setItem("user", JSON.stringify(userData));
+      return { success: true, data: userData };
+    } catch (error) {
+      console.error("사용자 정보를 가져오는 중 오류 발생:", error);
+      return { success: false, error: error.message };
+    } finally {
+      isLoading.value = false;
+    }
+  };
+
   return {
     // State
     user,
@@ -74,6 +91,7 @@ export const useAuthStore = defineStore("auth", () => {
     logout,
     initializeAuth,
     updateUser,
+    fetchUserInfo,
   };
 });
 

@@ -11,7 +11,13 @@ export default defineConfig({
     },
   },
   server: {
-    port: 3000,
-    open: true,
+    proxy: {
+      "/api": {
+        // target: 'http://172.16.57.60:31800',
+        target: "http://localhost:51800",
+        changeOrigin: true,
+        secure: false,
+      },
+    },
   },
 });
