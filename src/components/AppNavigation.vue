@@ -85,7 +85,7 @@
 
       <!-- 문서 목록 -->
       <div
-        class="overflow-hidden transition-all duration-500 ease-in-out"
+        class="transition-all duration-500 ease-in-out"
         :style="{
           maxHeight: isAccordionOpen ? `${favoriteRags.length * 42}px` : '0px',
           opacity: isAccordionOpen ? '1' : '0',
