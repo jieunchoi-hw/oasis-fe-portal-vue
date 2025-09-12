@@ -68,6 +68,11 @@ export const useUserStore = defineStore("user", () => {
       const decodedCompanyName = decodeBase64UTF8(rawUserData.company_name);
       const decodedUserName = decodeBase64UTF8(rawUserData.user_name);
       const decodedPositionTitle = decodeBase64UTF8(rawUserData.position_title);
+      const decodedWorkspaces =
+        rawUserData.workspaces?.map((workspace) => ({
+          ...workspace,
+          workspace_name: decodeBase64UTF8(workspace.workspace_name),
+        })) || [];
 
       // 최종 사용자 데이터 생성
       const finalUserData = {
@@ -75,6 +80,7 @@ export const useUserStore = defineStore("user", () => {
         company_name: decodedCompanyName,
         user_name: decodedUserName,
         position_title: decodedPositionTitle,
+        workspaces: decodedWorkspaces,
         time: new Date().getTime(),
       };
 
