@@ -37,6 +37,7 @@
 <script setup>
 import { getUserInfo } from "@/api/index.js";
 import { ref, provide, onMounted } from "vue";
+import { useUserStore } from "@/stores/user.js";
 import AppNavigation from "@/components/AppNavigation.vue";
 import AppHeader from "@/components/AppHeader.vue";
 import LoginModal from "@/components/LoginModal.vue";
@@ -67,11 +68,15 @@ provide("refreshFavorites", refreshFavorites);
 
 const isLoginModal = ref(false);
 
+// User store 사용
+const userStore = useUserStore();
+
 onMounted(async () => {
   try {
     const result = await getUserInfo();
+    // 사용자 정보 조회 성공 시 user 스토어에 저장
+    userStore.setUser(result);
   } catch (error) {
-    console.error("사용자 정보 조회 오류:", error);
     isLoginModal.value = true;
   }
 });

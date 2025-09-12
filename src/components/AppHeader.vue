@@ -179,6 +179,7 @@ import {
   ListboxOptions,
   ListboxOption,
 } from "@headlessui/vue";
+import { useUserStore } from "@/stores/user.js";
 import AppNotificationMenu from "@/components/AppNotificationMenu.vue";
 import AppMenu from "@/components/AppMenu.vue";
 
@@ -194,7 +195,17 @@ import errorIcon from "@/assets/icons/alram/error.svg";
 
 // 드롭다운 상태 관리
 const isOpen = ref(false);
-const userInfo = ref("최지은");
+
+const userStore = useUserStore();
+const userInfo = computed(() => {
+  const userName = userStore.userName || "사용자";
+  const userEmail = userStore.userEmail || "";
+
+  if (userEmail) {
+    return `${userName} / ${userEmail}`;
+  }
+  return userName;
+});
 // 팀 데이터 (피그마 디자인 기준)
 const teams = [
   {
