@@ -2,24 +2,57 @@
 @import "./scrollbar.css";
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* 폰트 설정 - 단일화 */
+@font-face {
+  font-family: "Pretendard";
+  src: url("https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Thin.woff")
+    format("woff");
+  font-weight: 400;
+  font-display: swap;
+}
+
 @layer base {
   /* 버튼 기본 스타일 */
   button {
     @apply cursor-pointer;
   }
-  
+
   /* 비활성화된 버튼은 제외 */
   button:disabled {
     @apply cursor-not-allowed;
   }
-}
 
-@font-face {
-  font-family: "Pretendard Variable";
-  font-weight: 45 920;
-  font-style: normal;
-  font-display: swap;
-  src: url("/fonts/PretendardVariable.woff2") format("woff2-variations");
+  /* rem 배율 정의: base 레이어에서 잡아주기 */
+  /* 일반 */
+  @media (-webkit-min-device-pixel-ratio: 1) {
+    :root {
+      font-size: 16px;
+    }
+  }
+
+  /* 레티나 디스플레이(Mac)  */
+  @media (-webkit-min-device-pixel-ratio: 2) {
+    :root {
+      font-size: 14px;
+    }
+  }
+
+  /* 초고해상도 모바일/모니터  */
+  @media (-webkit-min-device-pixel-ratio: 3) {
+    :root {
+      font-size: 12px;
+    }
+  }
+
+  /* 전역 폰트 설정 */
+  body {
+    font-family: "Pretendard";
+    font-feature-settings: "tnum" 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background: var(--background);
+    color: var(--foreground);
+  }
 }
 
 :root {
@@ -129,7 +162,6 @@
   /* Card Color System - Light Theme (Default) */
   --card-icon-normal: var(--gray-500);
   --card-assistive: var(--gray-450);
-
   --card-text-assistive: var(--gray-450);
 
   /* Slider Color System - Light Theme (Default) */
@@ -142,41 +174,10 @@
   --context-background-alternative: var(--gray-50);
 }
 
-/* rem 배율 정의: base 레이어에서 잡아주기 */
-@layer base {
-  /* 일반 */
-  @media (-webkit-min-device-pixel-ratio: 1) {
-    :root {
-      font-size: 16px;
-    }
-  }
-
-  /* 레티나 디스플레이(Mac)  */
-  @media (-webkit-min-device-pixel-ratio: 2) {
-    :root {
-      font-size: 14px;
-    }
-  }
-
-  /* 초고해상도 모바일/모니터  */
-  @media (-webkit-min-device-pixel-ratio: 3) {
-    :root {
-      font-size: 12px;
-    }
-  }
-}
-
 @theme {
   /* Base Theme Variables */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans:
-    "Pretendard", -apple-system, BlinkMacSystemFont, system-ui, Roboto,
-    "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR",
-    "Malgun Gothic", sans-serif;
-  --font-mono:
-    "Pretendard", ui-monospace, SFMono-Regular, "SF Mono", Consolas,
-    "Liberation Mono", Menlo, monospace;
 
   /* Color System */
   --color-common-0: var(--common-0);
@@ -265,6 +266,7 @@
   --color-card-icon-normal: var(--card-icon-normal);
   --color-card-assistive: var(--card-assistive);
   --color-card-text-assistive: var(--card-text-assistive);
+
   /* Slider Color System */
   --color-slider-line-normal: var(--slider-line-normal);
   --color-slider-background-normal: var(--slider-background-normal);
@@ -332,7 +334,6 @@
   /* Card Color System - Dark Theme Override */
   --card-icon-normal: var(--gray-300);
   --card-assistive: var(--gray-300);
-
   --card-text-assistive: var(--gray-300);
 
   /* Slider Color System - Dark Theme Override */
@@ -343,27 +344,4 @@
 
   --context-background-normal: var(--gray-550);
   --context-background-alternative: var(--gray-500);
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family:
-    "Pretendard",
-    -apple-system,
-    BlinkMacSystemFont,
-    system-ui,
-    Roboto,
-    "Helvetica Neue",
-    "Segoe UI",
-    "Apple SD Gothic Neo",
-    "Noto Sans KR",
-    "Malgun Gothic",
-    "Apple Color Emoji",
-    "Segoe UI Emoji",
-    "Segoe UI Symbol",
-    sans-serif;
-  font-feature-settings: "tnum" 1;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
